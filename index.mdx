@@ -1,97 +1,227 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: "BMad Method Documentation"
+description: "AI-driven agile development framework with specialized agents and guided workflows"
+mode: "custom"
 ---
 
-## Setting up
+<div className="relative overflow-hidden dark:bg-[#0f1117] bg-white py-20">
+  <div className="max-w-6xl mx-auto px-6">
+    <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <h1 className="text-5xl lg:text-6xl font-bold dark:text-white text-gray-900 mb-6">
+          Build More Architect Dreams
+        </h1>
+        <p className="text-xl dark:text-gray-300 text-gray-700 mb-8 max-w-2xl">
+          An AI-driven agile development framework with specialized agents, guided workflows, and scale-adaptive intelligence for building software from ideation to implementation.
+        </p>
+        <div className="flex flex-wrap gap-4">
+          <a 
+            href="/quickstart" 
+            className="inline-flex items-center px-6 py-3 rounded-lg font-semibold transition-colors bg-[#6366f1] hover:bg-[#4f46e5] text-white"
+          >
+            Get Started
+            <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+          <a 
+            href="/reference/cli-commands" 
+            className="inline-flex items-center px-6 py-3 rounded-lg font-semibold transition-colors border dark:border-white/30 border-gray-300 dark:bg-white/10 bg-gray-50 dark:hover:bg-white/20 hover:bg-gray-100 dark:text-white text-gray-900"
+          >
+            View CLI Reference
+          </a>
+        </div>
+      </div>
+      <div className="hidden lg:block">
+        <div className="dark:bg-[#1a1d27] bg-gray-50 rounded-2xl p-6 dark:border-[#27272a] border-gray-200 border">
+          <div className="font-mono text-sm">
+            <div className="dark:text-gray-400 text-gray-600">$ npx bmad-method install</div>
+            <div className="mt-4 dark:text-green-400 text-green-600">✓ BMad Method installed successfully</div>
+            <div className="mt-2 dark:text-gray-300 text-gray-700">Run /bmad-help to get started</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-Get your documentation site up and running in minutes.
+<div className="mt-16 mb-16 max-w-5xl mx-auto px-6">
+  <h2 className="text-3xl font-bold dark:text-white text-gray-900 mb-4">Quick Start</h2>
+  <p className="text-base dark:text-gray-400 text-gray-600 mb-8">Get up and running with BMad Method in minutes</p>
+  
+  <Steps>
+    <Step title="Install BMad Method">
+      Install BMad Method in your project using npx:
+      
+      ```bash
+      npx bmad-method install
+      ```
+      
+      Follow the interactive prompts to configure your installation. For non-interactive installation, see the [installation guide](/guides/non-interactive-installation).
+    </Step>
+    
+    <Step title="Get context-aware help">
+      Open your AI IDE (Claude Code, Cursor, etc.) in your project and run:
+      
+      ```bash
+      /bmad-help
+      ```
+      
+      BMad Help analyzes your project and tells you exactly what to do next based on your current state.
+    </Step>
+    
+    <Step title="Start with a workflow">
+      Choose a workflow based on your needs:
+      
+      - **New project**: Start with brainstorming or PRD creation
+      - **Existing project**: Use Quick Flow for features and fixes
+      - **Documentation**: Run the document-project workflow
+      
+      All agents guide you through structured, proven processes.
+    </Step>
+  </Steps>
+</div>
 
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
-
-## Make it yours
-
-Design a docs site that looks great and empowers your users.
-
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
-  </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
-  </Card>
+<div className="mt-16 mb-16 max-w-5xl mx-auto px-6">
+  <h2 className="text-3xl font-bold dark:text-white text-gray-900 mb-4">Explore by Topic</h2>
+  <p className="text-base dark:text-gray-400 text-gray-600 mb-8">Learn about BMad Method's core capabilities</p>
+  
+  <CardGroup cols={3}>
     <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
-  </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
-  </Card>
-</Columns>
+      title="Specialized Agents"
+      icon="users"
+      href="/concepts/agents"
+    >
+      12+ expert AI agents including Product Manager, Architect, Developer, QA, and more
+    </Card>
+    <Card
+      title="Guided Workflows"
+      icon="diagram-project"
+      href="/concepts/workflows"
+    >
+      34+ structured workflows across Analysis, Planning, Solutioning, and Implementation phases
+    </Card>
+    <Card
+      title="Module Ecosystem"
+      icon="puzzle-piece"
+      href="/concepts/modules"
+    >
+      Extend with official modules like BMad Builder, Test Architect, and Game Dev Studio
+    </Card>
+    <Card
+      title="Party Mode"
+      icon="comments"
+      href="/concepts/party-mode"
+    >
+      Bring multiple agent personas into one session for collaborative discussion
+    </Card>
+    <Card
+      title="Scale-Adaptive Planning"
+      icon="chart-line"
+      href="/concepts/scale-adaptive-planning"
+    >
+      Intelligence that adjusts from bug fixes to enterprise systems automatically
+    </Card>
+    <Card
+      title="CLI Commands"
+      icon="terminal"
+      href="/reference/cli-commands"
+    >
+      Complete command reference for install, uninstall, and status operations
+    </Card>
+  </CardGroup>
+</div>
 
-## Create beautiful pages
+<div className="mt-16 mb-16 max-w-5xl mx-auto px-6">
+  <h2 className="text-3xl font-bold dark:text-white text-gray-900 mb-4">Development Workflows</h2>
+  <p className="text-base dark:text-gray-400 text-gray-600 mb-8">Structured processes for every stage of development</p>
+  
+  <div className="grid md:grid-cols-2 gap-6">
+    <a href="/workflows/phase-1-analysis" className="group block rounded-2xl border dark:border-[#27272a] border-gray-200 dark:hover:border-[#6366f1] hover:border-[#6366f1] overflow-hidden no-underline transition-colors dark:bg-[#1a1d27] bg-gray-50">
+      <div className="p-6">
+        <h3 className="text-base font-semibold dark:text-white text-gray-900 mb-2">Phase 1: Analysis</h3>
+        <p className="text-sm dark:text-gray-400 text-gray-600 mb-4">Brainstorming, user research, competitive analysis, and requirements discovery</p>
+        <span className="text-sm dark:text-gray-400 text-gray-600 dark:group-hover:text-[#6366f1] group-hover:text-[#6366f1] transition-colors">
+          Explore workflows →
+        </span>
+      </div>
+    </a>
+    
+    <a href="/workflows/phase-2-planning" className="group block rounded-2xl border dark:border-[#27272a] border-gray-200 dark:hover:border-[#6366f1] hover:border-[#6366f1] overflow-hidden no-underline transition-colors dark:bg-[#1a1d27] bg-gray-50">
+      <div className="p-6">
+        <h3 className="text-base font-semibold dark:text-white text-gray-900 mb-2">Phase 2: Planning</h3>
+        <p className="text-sm dark:text-gray-400 text-gray-600 mb-4">PRD creation, UX design, architecture definition, and technical planning</p>
+        <span className="text-sm dark:text-gray-400 text-gray-600 dark:group-hover:text-[#6366f1] group-hover:text-[#6366f1] transition-colors">
+          Explore workflows →
+        </span>
+      </div>
+    </a>
+    
+    <a href="/workflows/phase-3-solutioning" className="group block rounded-2xl border dark:border-[#27272a] border-gray-200 dark:hover:border-[#6366f1] hover:border-[#6366f1] overflow-hidden no-underline transition-colors dark:bg-[#1a1d27] bg-gray-50">
+      <div className="p-6">
+        <h3 className="text-base font-semibold dark:text-white text-gray-900 mb-2">Phase 3: Solutioning</h3>
+        <p className="text-sm dark:text-gray-400 text-gray-600 mb-4">Epic and story creation, implementation readiness checks, and sprint preparation</p>
+        <span className="text-sm dark:text-gray-400 text-gray-600 dark:group-hover:text-[#6366f1] group-hover:text-[#6366f1] transition-colors">
+          Explore workflows →
+        </span>
+      </div>
+    </a>
+    
+    <a href="/workflows/phase-4-implementation" className="group block rounded-2xl border dark:border-[#27272a] border-gray-200 dark:hover:border-[#6366f1] hover:border-[#6366f1] overflow-hidden no-underline transition-colors dark:bg-[#1a1d27] bg-gray-50">
+      <div className="p-6">
+        <h3 className="text-base font-semibold dark:text-white text-gray-900 mb-2">Phase 4: Implementation</h3>
+        <p className="text-sm dark:text-gray-400 text-gray-600 mb-4">Sprint execution, reviews, retrospectives, and continuous delivery</p>
+        <span className="text-sm dark:text-gray-400 text-gray-600 dark:group-hover:text-[#6366f1] group-hover:text-[#6366f1] transition-colors">
+          Explore workflows →
+        </span>
+      </div>
+    </a>
+  </div>
+</div>
 
-Everything you need to create world-class documentation.
+<div className="mt-16 mb-16 max-w-5xl mx-auto px-6">
+  <h2 className="text-3xl font-bold dark:text-white text-gray-900 mb-4">Community & Support</h2>
+  <p className="text-base dark:text-gray-400 text-gray-600 mb-8">Get help and connect with the BMad community</p>
+  
+  <CardGroup cols={3}>
+    <Card
+      title="Discord Community"
+      icon="discord"
+      href="https://discord.gg/gk8jAdXWmj"
+    >
+      Join our Discord server to chat with other users and get help
+    </Card>
+    <Card
+      title="GitHub Repository"
+      icon="github"
+      href="https://github.com/bmad-code-org/BMAD-METHOD"
+    >
+      View source code, report issues, and contribute to development
+    </Card>
+    <Card
+      title="YouTube Channel"
+      icon="youtube"
+      href="https://www.youtube.com/@BMadCode"
+    >
+      Watch tutorials, master classes, and podcasts about BMad Method
+    </Card>
+  </CardGroup>
+</div>
 
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
-
-## Need inspiration?
-
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+<div className="mt-16 mb-16 max-w-5xl mx-auto px-6">
+  <div className="dark:bg-[#1a1d27] bg-gray-50 rounded-2xl p-8 dark:border-[#27272a] border-gray-200 border">
+    <h2 className="text-2xl font-bold dark:text-white text-gray-900 mb-4">Ready to get started?</h2>
+    <p className="text-base dark:text-gray-400 text-gray-600 mb-6 max-w-2xl">
+      Install BMad Method in your project and start building with AI-driven workflows and specialized agents. It's free and open source.
+    </p>
+    <a 
+      href="/quickstart" 
+      className="inline-flex items-center px-6 py-3 rounded-lg font-semibold transition-colors bg-[#6366f1] hover:bg-[#4f46e5] text-white"
+    >
+      Get Started Now
+      <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+      </svg>
+    </a>
+  </div>
+</div>

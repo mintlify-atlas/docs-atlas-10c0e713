@@ -1,0 +1,366 @@
+---
+title: "Phase 3: Solutioning"
+description: "Transform requirements into architecture, epics, and implementation-ready stories"
+icon: "lightbulb"
+---
+
+# Phase 3: Solutioning Workflows
+
+The Solutioning phase bridges planning and implementation. These workflows transform your requirements and UX design into technical architecture decisions and actionable development stories.
+
+## Available Workflows
+
+<CardGroup cols={2}>
+  <Card title="Create Architecture" icon="diagram-project" href="#create-architecture-workflow">
+    Define technical architecture and solution design
+  </Card>
+  <Card title="Create Epics & Stories" icon="list-check" href="#create-epics-and-stories-workflow">
+    Break requirements into epics and user stories
+  </Card>
+  <Card title="Implementation Readiness" icon="clipboard-check" href="#check-implementation-readiness-workflow">
+    Validate readiness to begin development
+  </Card>
+</CardGroup>
+
+---
+
+## Create Architecture Workflow
+
+### Purpose
+
+Create comprehensive architecture solution design decisions to ensure AI agents implement consistently. This workflow produces architecture decision records (ADRs) that prevent implementation conflicts.
+
+### Trigger Commands
+
+```bash
+"Let's create architecture"
+"Create technical architecture"
+"Create a solution design"
+```
+
+### Your Role
+
+The AI acts as an architectural facilitator collaborating with you as peers. This is a partnership where:
+- AI brings structured architectural thinking and knowledge
+- You bring domain expertise and product vision
+
+Work together to make decisions that prevent implementation conflicts.
+
+### Workflow Steps
+
+1. **Initialization** - Load PRD, UX design, and research
+2. **Context Gathering** - Understand requirements and constraints
+3. **Starter Selection** - Choose starter template or framework
+4. **Architecture Decisions** - Make key technical decisions
+5. **Pattern Selection** - Choose architectural patterns
+6. **Structure Definition** - Define folder structure and organization
+7. **Validation** - Review for completeness and consistency
+8. **Completion** - Finalize architecture document
+
+### Inputs
+
+- PRD (requirements)
+- UX Design (UI/UX requirements)
+- Technical Research (if exists)
+- User's technical preferences and constraints
+
+### Outputs
+
+**File Location**: `{planning_artifacts}/architecture-decisions.md`
+
+**Document Includes**:
+- Architecture Decision Records (ADRs)
+- Technology stack decisions
+- Framework and starter choices
+- Architectural patterns (layering, state management, etc.)
+- Folder structure and organization
+- Data models and schemas
+- API design decisions
+- Security architecture
+- Performance considerations
+- Deployment architecture
+
+### Architecture Decision Template
+
+Each decision follows this format:
+
+```markdown
+## Decision: [Title]
+
+**Status**: Accepted | Proposed | Deprecated
+**Date**: YYYY-MM-DD
+**Decision Makers**: [Names/Roles]
+
+### Context
+[What is the issue we're facing? What factors are at play?]
+
+### Decision
+[What are we doing? What is the change?]
+
+### Consequences
+[What becomes easier or more difficult?]
+
+### Alternatives Considered
+[What other options did we evaluate?]
+```
+
+### Example Invocation
+
+```text
+User: "Let's create architecture"
+
+AI: "I'll help you create comprehensive architecture decisions.
+
+I found your PRD and UX design. Let me analyze the requirements...
+
+Based on your requirements, I see you need:
+- User authentication
+- Real-time updates
+- File uploads
+- Mobile responsive UI
+
+Let's start by choosing a starter template. Are you building:
+1. Web application
+2. Mobile app
+3. API service
+4. Full-stack application"
+```
+
+### Source Files
+
+- Workflow: `src/bmm/workflows/3-solutioning/create-architecture/workflow.md`
+- Template: `src/bmm/workflows/3-solutioning/create-architecture/architecture-decision-template.md`
+- Steps: `src/bmm/workflows/3-solutioning/create-architecture/steps/`
+- Data: `src/bmm/workflows/3-solutioning/create-architecture/data/`
+
+---
+
+## Create Epics and Stories Workflow
+
+### Purpose
+
+Transform PRD requirements and Architecture decisions into comprehensive epics organized by user value, with detailed, actionable user stories and complete acceptance criteria for development teams.
+
+### Trigger Commands
+
+```bash
+"Create the epics and stories list"
+"Generate epics and user stories"
+"Break down the requirements into stories"
+```
+
+### Your Role
+
+The AI acts as a product strategist and technical specifications writer, bringing:
+- Expertise in requirements decomposition
+- Technical implementation context
+- Acceptance criteria writing skills
+
+You bring product vision, user needs, and business requirements.
+
+### Workflow Steps
+
+1. **Validate Prerequisites** - Ensure PRD and Architecture exist
+2. **Design Epics** - Organize requirements into value-based epics
+3. **Create Stories** - Break epics into implementable stories
+4. **Final Validation** - Review for completeness and implementability
+
+### Inputs
+
+- **Required**: PRD (product requirements)
+- **Required**: Architecture (technical decisions)
+- **Optional**: UX Design (for UI stories)
+- **Optional**: Research reports (for context)
+
+### Outputs
+
+**File Location**: `{planning_artifacts}/epics.md` or `{planning_artifacts}/epics/index.md`
+
+**Document Structure**:
+
+```markdown
+# Epic 1: [Epic Title]
+
+**Goal**: [User value and business goal]
+**Priority**: High | Medium | Low
+**Estimated Effort**: [Story points or time]
+
+## Stories
+
+### Story 1.1: [Story Title]
+
+**As a** [user type]
+**I want** [capability]
+**So that** [benefit]
+
+**Acceptance Criteria**:
+- Given [context]
+  When [action]
+  Then [outcome]
+- Given [context]
+  When [action]
+  Then [outcome]
+
+**Technical Notes**:
+- [Implementation guidance]
+- [Architecture references]
+
+**Dependencies**:
+- [Other stories or systems]
+```
+
+### Story Quality Standards
+
+Each story must have:
+
+- Clear user story format (As a... I want... So that...)
+- Complete acceptance criteria (Given/When/Then format)
+- Technical implementation notes
+- Dependencies identified
+- Testable outcomes
+- Appropriate sizing (can be completed in one sprint)
+
+### Example Invocation
+
+```text
+User: "Create the epics and stories list"
+
+AI: "I'll create comprehensive epics and user stories.
+
+Validating prerequisites...
+✓ Found PRD with 15 functional requirements
+✓ Found Architecture with 12 decision records
+✓ Found UX Design with 8 user journeys
+
+Analyzing requirements to design epics...
+
+I've identified 4 major epics based on user value:
+
+1. User Authentication & Profile Management
+2. Core Content Creation & Management
+3. Collaboration & Sharing
+4. Search & Discovery
+
+Shall I proceed with creating detailed stories? [Y/n]"
+```
+
+### Source Files
+
+- Workflow: `src/bmm/workflows/3-solutioning/create-epics-and-stories/workflow.md`
+- Template: `src/bmm/workflows/3-solutioning/create-epics-and-stories/templates/epics-template.md`
+- Steps: `src/bmm/workflows/3-solutioning/create-epics-and-stories/steps/`
+
+---
+
+## Check Implementation Readiness Workflow
+
+### Purpose
+
+Validate that all planning artifacts are complete, consistent, and ready for implementation. This workflow performs a comprehensive review before development begins.
+
+### Trigger Commands
+
+```bash
+"Check implementation readiness"
+"Are we ready to start development?"
+"Validate planning artifacts"
+```
+
+### Validation Scope
+
+Checks:
+
+1. **Document Discovery** - All required documents exist
+2. **PRD Analysis** - Requirements are complete and clear
+3. **Epic Coverage Validation** - All requirements have stories
+4. **UX Alignment** - Stories match UX design
+5. **Epic Quality Review** - Stories are well-formed
+6. **Final Assessment** - Overall readiness score
+
+### Workflow Steps
+
+1. **Document Discovery** - Locate all planning artifacts
+2. **PRD Analysis** - Validate requirements quality
+3. **Epic Coverage Validation** - Ensure complete coverage
+4. **UX Alignment** - Check design consistency
+5. **Epic Quality Review** - Review story quality
+6. **Final Assessment** - Generate readiness report
+
+### Inputs
+
+- PRD
+- Architecture decisions
+- Epics and stories
+- UX Design (if exists)
+- Research reports (if exist)
+
+### Outputs
+
+**File Location**: `{planning_artifacts}/readiness-report-{date}.md`
+
+**Report Includes**:
+- Overall readiness score (0-100%)
+- Document completeness checklist
+- Requirement coverage analysis
+- Story quality assessment
+- Identified gaps and risks
+- Recommendations
+- Go/No-Go decision
+
+### Readiness Criteria
+
+**Ready to implement if**:
+
+- ✅ PRD exists and is complete (100% of sections)
+- ✅ Architecture exists with key decisions
+- ✅ All PRD requirements have corresponding stories
+- ✅ All stories have acceptance criteria
+- ✅ No blocking gaps or contradictions
+- ✅ Overall score >= 80%
+
+**Not ready if**:
+
+- ❌ Missing critical documents
+- ❌ Requirements coverage < 80%
+- ❌ Stories missing acceptance criteria
+- ❌ Contradictions between documents
+- ❌ Overall score < 80%
+
+### Example Invocation
+
+```text
+User: "Check implementation readiness"
+
+AI: "Starting implementation readiness check...
+
+Document Discovery:
+✓ PRD found: {planning_artifacts}/prd.md
+✓ Architecture found: {planning_artifacts}/architecture-decisions.md
+✓ Epics found: {planning_artifacts}/epics.md
+✓ UX Design found: {planning_artifacts}/ux-design-specification.md
+
+Analyzing PRD...
+✓ All required sections present
+✓ 15 functional requirements
+✓ 8 non-functional requirements
+
+Validating epic coverage...
+✓ 15/15 requirements mapped to stories (100%)
+
+Generating detailed readiness report..."
+```
+
+### Source Files
+
+- Workflow: `src/bmm/workflows/3-solutioning/check-implementation-readiness/workflow.md`
+- Template: `src/bmm/workflows/3-solutioning/check-implementation-readiness/templates/readiness-report-template.md`
+- Steps: `src/bmm/workflows/3-solutioning/check-implementation-readiness/steps/`
+
+---
+
+## Next Steps
+
+After completing Solutioning phase and validating readiness:
+
+- [Phase 4: Implementation](/workflows/phase-4-implementation) - Execute sprints and develop stories
+- [Quick Flow](/workflows/quick-flow) - Use for small changes during implementation

@@ -1,0 +1,474 @@
+---
+title: CLI Commands
+description: Complete reference for bmad-method CLI commands and options
+---
+
+The BMad Method CLI provides commands for installing, managing, and monitoring your BMad installation. All commands are available through the `bmad` or `bmad-method` executables.
+
+## Installation
+
+Install the BMad Method CLI globally or use it directly with npx:
+
+```bash
+npm install -g bmad-method
+# or
+npx bmad-method <command>
+```
+
+## Global Options
+
+All commands support the following global options:
+
+<ParamField path="--help" type="flag">
+  Display help information for the command
+</ParamField>
+
+<ParamField path="--version" type="flag">
+  Display the current version of bmad-method
+</ParamField>
+
+## Commands
+
+### install
+
+Install BMAD Core agents and tools into your project.
+
+```bash
+bmad install [options]
+```
+
+#### Options
+
+<ParamField path="-d, --debug" type="flag">
+  Enable debug output for manifest generation. Sets `BMAD_DEBUG_MANIFEST=true` for detailed logging during installation.
+</ParamField>
+
+<ParamField path="--directory" type="string">
+  Installation directory path. Defaults to the current working directory.
+  
+  **Example:**
+  ```bash
+  bmad install --directory /path/to/project
+  ```
+</ParamField>
+
+<ParamField path="--modules" type="string">
+  Comma-separated list of module IDs to install. Available modules include:
+  - `bmm` - BMad Method Agile-AI Driven Development (default)
+  - `bmb` - Builder module
+  - `tea` - Test Architect
+  - `cis` - Creative Intelligence
+  - `gds` - Game Dev Studio
+  
+  **Example:**
+  ```bash
+  bmad install --modules bmm,bmb
+  ```
+</ParamField>
+
+<ParamField path="--tools" type="string">
+  Comma-separated list of tool/IDE IDs to configure. Use "none" to skip tool configuration.
+  
+  Supported tools:
+  - `claude-code` - Claude Code IDE
+  - `cursor` - Cursor IDE
+  - `windsurf` - Windsurf IDE
+  - `none` - Skip IDE integration
+  
+  **Example:**
+  ```bash
+  bmad install --tools claude-code,cursor
+  bmad install --tools none
+  ```
+</ParamField>
+
+<ParamField path="--custom-content" type="string">
+  Comma-separated list of paths to custom modules, agents, or workflows to include in the installation.
+  
+  **Example:**
+  ```bash
+  bmad install --custom-content ./custom-agents,./my-workflows
+  ```
+</ParamField>
+
+<ParamField path="--action" type="string">
+  Action type for existing installations. Options:
+  - `install` - Fresh installation
+  - `update` - Full update with prompts
+  - `quick-update` - Update modules preserving existing settings
+  - `compile-agents` - Recompile agents with customizations
+  
+  **Example:**
+  ```bash
+  bmad install --action quick-update
+  ```
+</ParamField>
+
+<ParamField path="--user-name" type="string">
+  Name for agents to use when addressing you. Defaults to system username.
+  
+  **Example:**
+  ```bash
+  bmad install --user-name "Alex"
+  ```
+</ParamField>
+
+<ParamField path="--communication-language" type="string">
+  Language for agent communication. Defaults to English.
+  
+  **Example:**
+  ```bash
+  bmad install --communication-language "Spanish"
+  ```
+</ParamField>
+
+<ParamField path="--document-output-language" type="string">
+  Language for document output. Defaults to English.
+  
+  **Example:**
+  ```bash
+  bmad install --document-output-language "French"
+  ```
+</ParamField>
+
+<ParamField path="--output-folder" type="string">
+  Output folder path relative to project root. Defaults to `_bmad-output`.
+  
+  **Example:**
+  ```bash
+  bmad install --output-folder "docs/bmad"
+  ```
+</ParamField>
+
+<ParamField path="-y, --yes" type="flag">
+  Accept all defaults and skip prompts where possible. Useful for automated installations.
+  
+  **Example:**
+  ```bash
+  bmad install -y --modules bmm --tools claude-code
+  ```
+</ParamField>
+
+#### Examples
+
+**Interactive installation (recommended for first-time users):**
+
+```bash
+bmad install
+```
+
+The installer will guide you through:
+1. Module selection
+2. IDE/tool configuration
+3. User preferences (name, languages)
+4. Output folder locations
+
+**Non-interactive installation with defaults:**
+
+```bash
+bmad install -y --modules bmm --tools claude-code
+```
+
+**Update existing installation:**
+
+```bash
+bmad install --action quick-update
+```
+
+**Debug installation issues:**
+
+```bash
+bmad install --debug
+```
+
+#### Expected Output
+
+Successful installation:
+
+```
+✔ Installation directory: /path/to/project
+✔ Selected modules: bmm
+✔ Installing BMad Method Agile-AI Driven Development
+✔ Configured IDE: claude-code
+✔ Generated 47 command files in .claude/commands/
+✓ Installation complete!
+```
+
+Quick update:
+
+```
+✔ Quick update complete!
+ℹ Updated 1 modules with preserved settings (bmm)
+```
+
+---
+
+### status
+
+Display BMAD installation status and module versions.
+
+```bash
+bmad status
+```
+
+#### Options
+
+This command has no additional options.
+
+#### Examples
+
+**Check installation status:**
+
+```bash
+bmad status
+```
+
+#### Expected Output
+
+When BMAD is installed:
+
+```
+╭─────────────────────────────────────────╮
+│ BMAD Installation Status                │
+├─────────────────────────────────────────┤
+│ Version:     6.0.4                      │
+│ Directory:   /path/to/project/_bmad     │
+│ Installed:   2026-03-04                 │
+├─────────────────────────────────────────┤
+│ Modules:                                │
+│  • bmm (v6.0.4) - BMad Method           │
+├─────────────────────────────────────────┤
+│ IDE Integrations:                       │
+│  • Claude Code (.claude/commands/)      │
+│  • 47 commands available                │
+╰─────────────────────────────────────────╯
+```
+
+When BMAD is not installed:
+
+```
+⚠ No BMAD installation found in the current directory.
+Expected location: /path/to/project/_bmad
+Run "bmad install" to set up a new installation.
+```
+
+---
+
+### uninstall
+
+Remove BMAD installation from the current project.
+
+```bash
+bmad uninstall [options]
+```
+
+<Tip>
+  The uninstall command preserves user artifacts (output folder contents) by default. You can explicitly choose to remove them during the interactive flow.
+</Tip>
+
+#### Options
+
+<ParamField path="-y, --yes" type="flag">
+  Remove all BMAD components without prompting. User artifacts are always preserved in non-interactive mode.
+  
+  **Example:**
+  ```bash
+  bmad uninstall -y
+  ```
+</ParamField>
+
+<ParamField path="--directory" type="string">
+  Project directory to uninstall from. Defaults to current directory in non-interactive mode, or prompts in interactive mode.
+  
+  **Example:**
+  ```bash
+  bmad uninstall --directory /path/to/project
+  ```
+</ParamField>
+
+#### Examples
+
+**Interactive uninstall (recommended):**
+
+```bash
+bmad uninstall
+```
+
+The uninstaller will:
+1. Show current installation details
+2. Let you select which components to remove:
+   - BMAD Modules & data (`_bmad/`)
+   - IDE integrations (command files)
+   - User artifacts (output folder) - **WARNING: Contains your work**
+3. Confirm before proceeding
+
+**Non-interactive uninstall:**
+
+```bash
+bmad uninstall -y
+```
+
+Removes:
+- BMAD modules and data
+- IDE integrations
+- **Preserves** user artifacts
+
+**Uninstall from specific directory:**
+
+```bash
+bmad uninstall --directory /path/to/old-project
+```
+
+#### Expected Output
+
+Interactive uninstall:
+
+```
+╭ BMAD Uninstall ────────────────────────────────╮
+│                                                │
+│ Current Installation                           │
+│ Version: 6.0.4                                 │
+│ Modules: bmm                                   │
+│ IDE integrations: claude-code                  │
+│                                                │
+╰────────────────────────────────────────────────╯
+
+? Select components to remove:
+  ✓ BMAD Modules & data (_bmad/)
+  ✓ IDE integrations
+  ☐ User artifacts (_bmad-output/)
+
+╭ !! DESTRUCTIVE ACTION !! ──────────────────────╮
+│ 💀 This action is IRREVERSIBLE!                │
+│ 💀 IDE configurations and modules will need    │
+│    to be reinstalled.                          │
+│ 💀 User artifacts are preserved unless         │
+│    explicitly selected.                        │
+╰────────────────────────────────────────────────╯
+
+? Proceed with uninstall? (y/N)
+
+✔ Removed IDE integrations (claude-code)
+✔ Modules & data removed
+
+╭ Summary ───────────────────────────────────────╮
+│ IDE integrations cleaned                       │
+│ Modules & data removed                         │
+│ User artifacts preserved in _bmad-output/      │
+╰────────────────────────────────────────────────╯
+
+◇ To reinstall, run: npx bmad-method install
+```
+
+Non-interactive uninstall:
+
+```
+✔ Removed IDE integrations (claude-code)
+✔ Modules & data removed
+
+╭ Summary ───────────────────────────────────────╮
+│ IDE integrations cleaned                       │
+│ Modules & data removed                         │
+│ User artifacts preserved in _bmad-output/      │
+╰────────────────────────────────────────────────╯
+```
+
+---
+
+## Version Management
+
+### Checking for Updates
+
+The CLI automatically checks for updates on startup and displays a notification if a newer version is available:
+
+```
+╭ Update Available ──────────────────────────────╮
+│ You are using version 6.0.3 but 6.0.4 is      │
+│ available.                                     │
+│                                                │
+│ To update, exit and first run:                │
+│   npm cache clean --force &&                   │
+│   npx bmad-method@latest install              │
+╰────────────────────────────────────────────────╯
+```
+
+### Beta Versions
+
+To install beta versions, use the beta tag:
+
+```bash
+npx bmad-method@beta install
+```
+
+---
+
+## Exit Codes
+
+All commands use standard exit codes:
+
+- `0` - Success
+- `1` - Error or failure
+
+---
+
+## Environment Variables
+
+<ParamField path="BMAD_DEBUG_MANIFEST" type="boolean">
+  Enable debug output for manifest generation. Set automatically by the `--debug` flag.
+  
+  **Example:**
+  ```bash
+  export BMAD_DEBUG_MANIFEST=true
+  bmad install
+  ```
+</ParamField>
+
+<ParamField path="BMAD_DEBUG" type="boolean">
+  Enable general debug output including error stack traces.
+  
+  **Example:**
+  ```bash
+  export BMAD_DEBUG=true
+  bmad status
+  ```
+</ParamField>
+
+---
+
+## Troubleshooting
+
+### Installation fails with permission errors
+
+Ensure you have write permissions to the target directory:
+
+```bash
+bmad install --directory ~/my-project
+```
+
+### Commands not found after installation
+
+Restart your IDE or reload the window. Most IDEs cache command files and require a refresh.
+
+### Update not working
+
+Clear npm cache and reinstall:
+
+```bash
+npm cache clean --force
+npx bmad-method@latest install
+```
+
+### Debug installation issues
+
+Run with debug flag to see detailed output:
+
+```bash
+bmad install --debug
+```
+
+For status command errors:
+
+```bash
+export BMAD_DEBUG=true
+bmad status
+```

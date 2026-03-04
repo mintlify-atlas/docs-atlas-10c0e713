@@ -1,0 +1,119 @@
+---
+title: Module System Overview
+description: Understanding BMad Method's modular architecture and how to use modules
+---
+
+## Overview
+
+The BMad Method uses a modular architecture that allows you to install and configure only the capabilities you need. Each module provides specialized workflows, agents, and tooling for specific development domains.
+
+## Core Architecture
+
+The BMad ecosystem consists of:
+
+- **Core Module** - Foundation configuration shared across all modules
+- **BMad Method Module (BMM)** - The primary agile AI-driven development framework
+- **External Modules** - Specialized extensions for specific domains
+
+## Available Modules
+
+<CardGroup cols={2}>
+  <Card title="BMad Method (BMM)" icon="brain" href="/reference/modules/bmad-method">
+    Core framework with 34+ workflows for agile AI-driven development
+  </Card>
+  
+  <Card title="BMad Builder (BMB)" icon="hammer" href="/reference/modules/bmad-builder">
+    Create custom BMad agents, workflows, and modules
+  </Card>
+  
+  <Card title="Test Architect (TEA)" icon="flask" href="/reference/modules/test-architect">
+    Enterprise test strategy, automation, and quality gates
+  </Card>
+  
+  <Card title="Game Dev Studio (BMGD)" icon="gamepad" href="/reference/modules/game-dev-studio">
+    Game development workflows for Unity, Unreal, and Godot
+  </Card>
+  
+  <Card title="Creative Intelligence Suite (CIS)" icon="lightbulb" href="/reference/modules/creative-intelligence">
+    Innovation, brainstorming, and design thinking tools
+  </Card>
+</CardGroup>
+
+## Module Installation
+
+Modules can be installed during initial setup or added later:
+
+### During Installation
+
+```bash
+npx bmad-method install
+```
+
+The installer will prompt you to select which modules to install.
+
+### Non-Interactive Installation
+
+```bash
+npx bmad-method install --directory /path/to/project --modules bmm,tea,bmb --yes
+```
+
+### Module Codes
+
+Use these codes when installing modules:
+
+| Code | Module Name |
+|------|-------------|
+| `bmm` | BMad Method Module |
+| `bmb` | BMad Builder |
+| `tea` | Test Architect Enterprise |
+| `gds` | Game Dev Studio |
+| `cis` | Creative Intelligence Suite |
+
+## Module Configuration
+
+Each module can define:
+
+- **Configuration Variables** - Customizable settings for paths, preferences, and behavior
+- **Workflows** - Structured agent-facilitated processes
+- **Agents** - Specialized AI personas with domain expertise
+- **Skills** - Reusable capabilities that agents can invoke
+- **Directory Structure** - Auto-created folders for artifacts and outputs
+
+### Core Configuration
+
+All modules inherit these core settings:
+
+- `user_name` - What agents call you (or your team name)
+- `communication_language` - Language for agent chat interactions
+- `document_output_language` - Language for generated documentation
+- `output_folder` - Base directory for all BMad outputs
+- `tool_supports_subagents` - Whether your AI tool supports subagent patterns
+- `tool_supports_agent_teams` - Whether your AI tool supports agent team collaboration
+
+## Module Types
+
+### Official Modules
+
+Maintained by the BMad core team under the `bmad-code-org` GitHub organization. These modules follow strict quality standards and are tested with each BMad release.
+
+### Community Modules
+
+Community-contributed modules that extend BMad for specific use cases. Coming soon!
+
+## Module Development
+
+Want to create your own module? Use the [BMad Builder module](/reference/modules/bmad-builder) to scaffold and develop custom modules.
+
+See the [Module Development Guide](/guides/module-development) for detailed instructions.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Install Modules" icon="download" href="/how-to/install-modules">
+    Learn how to add modules to your project
+  </Card>
+  
+  <Card title="BMM Reference" icon="book" href="/reference/modules/bmad-method">
+    Explore the core BMad Method module
+  </Card>
+</CardGroup>

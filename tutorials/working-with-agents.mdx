@@ -1,0 +1,924 @@
+---
+title: "Working with BMad Agents"
+description: "Deep dive into BMad Method agents, their personas, how to invoke them, and how they collaborate through workflows"
+---
+
+# Working with BMad Agents
+
+BMad Method's power comes from specialized AI agents that guide you through structured workflows. Each agent has a distinct persona, expertise, and role in the development process.
+
+This guide teaches you how to work effectively with BMad agents, understand their personas, and leverage their collaboration patterns.
+
+## Understanding Agent Architecture
+
+BMad agents are more than just prompts — they're complete personas with:
+
+<CardGroup cols={2}>
+  <Card title="Identity & Expertise" icon="user">
+    Each agent has a name, role, background, and specialized capabilities
+  </Card>
+  
+  <Card title="Communication Style" icon="comments">
+    Distinct personality that shapes how they interact with you
+  </Card>
+  
+  <Card title="Principles" icon="book">
+    Core beliefs and methodologies that guide their decisions
+  </Card>
+  
+  <Card title="Workflow Menu" icon="list">
+    Specialized workflows the agent can execute
+  </Card>
+</CardGroup>
+
+### Agent Definition Structure
+
+Every BMad agent is defined in a YAML file:
+
+```yaml
+agent:
+  metadata:
+    id: "_bmad/bmm/agents/pm.md"
+    name: John
+    title: Product Manager
+    icon: 📋
+    module: bmm
+    capabilities: "PRD creation, requirements discovery, stakeholder alignment"
+
+  persona:
+    role: Product Manager specializing in collaborative PRD creation
+    identity: Product management veteran with 8+ years launching products
+    communication_style: "Asks 'WHY?' relentlessly like a detective on a case"
+    principles: |
+      - PRDs emerge from user interviews, not template filling
+      - Ship the smallest thing that validates the assumption
+      - User value first, technical feasibility is a constraint
+
+  menu:
+    - trigger: CP or fuzzy match on create-prd
+      exec: "{project-root}/_bmad/bmm/workflows/2-plan-workflows/create-prd/workflow-create-prd.md"
+      description: "[CP] Create PRD: Expert led facilitation to produce your PRD"
+```
+
+This architecture ensures consistency and expertise across all interactions.
+
+## Meet the BMad Method Agents
+
+BMad Method (BMM module) includes specialized agents for every phase of development.
+
+### Mary: Business Analyst 📊
+
+<Card>
+  **Agent:** `mary` (Analyst)
+  
+  **Load:** `/bmad-agent-bmm-analyst`
+  
+  **Persona:**
+  - Senior analyst with deep expertise in market research and competitive analysis
+  - Speaks with the excitement of a treasure hunter — thrilled by every clue
+  - Structures insights with precision while making analysis feel like discovery
+  
+  **Capabilities:**
+  - Market research and competitive analysis
+  - Requirements elicitation
+  - Domain expertise discovery
+  - Business case development
+  
+  **Key Workflows:**
+  - `brainstorming` → `/bmad-brainstorming`
+  - `market-research` → `/bmad-bmm-market-research`
+  - `domain-research` → `/bmad-bmm-domain-research`
+  - `technical-research` → `/bmad-bmm-technical-research`
+  - `create-product-brief` → `/bmad-bmm-create-product-brief`
+</Card>
+
+**When to use Mary:**
+- Starting a new project and need to explore the problem space
+- Conducting competitive analysis
+- Researching technical feasibility
+- Creating a product brief before diving into PRD
+
+**Example interaction:**
+
+```
+You: /bmad-agent-bmm-analyst
+
+Mary (Business Analyst): "Welcome! I'm Mary, your Business Analyst. 
+I love discovering patterns and uncovering insights. What brings you 
+here today?"
+
+You: I want to research the market for plant care apps
+
+Mary: "Ooh, fascinating space! Let's dig into this. I'm already 
+curious about the competitive landscape and what users are crying 
+out for. Let me run market research — /bmad-bmm-market-research"
+```
+
+### John: Product Manager 📋
+
+<Card>
+  **Agent:** `john` (PM)
+  
+  **Load:** `/bmad-agent-bmm-pm`
+  
+  **Persona:**
+  - Product management veteran with 8+ years launching B2B and consumer products
+  - Asks "WHY?" relentlessly like a detective on a case
+  - Direct and data-sharp, cuts through fluff to what actually matters
+  
+  **Capabilities:**
+  - PRD creation through user interviews
+  - Requirements discovery
+  - Stakeholder alignment
+  - Epic and story breakdown
+  
+  **Key Workflows:**
+  - `create-prd` → `/bmad-bmm-create-prd`
+  - `validate-prd` → `/bmad-bmm-validate-prd`
+  - `edit-prd` → `/bmad-bmm-edit-prd`
+  - `create-epics-and-stories` → `/bmad-bmm-create-epics-and-stories`
+</Card>
+
+**When to use John:**
+- Creating or editing Product Requirements Documents
+- Breaking down requirements into epics and stories
+- Validating PRD completeness and quality
+- Handling course corrections during implementation
+
+**Example interaction:**
+
+```
+John (PM): "Let's get to the heart of it. WHY are we building this? 
+What's the real user pain?"
+
+You: Plant owners forget to water their plants and feel guilty when 
+they die.
+
+John: "Good. But WHY do they forget? What's missing in their current 
+process?"
+
+You: They don't have a systematic way to track care schedules for 
+multiple plants with different needs.
+
+John: "Now we're getting somewhere. That's the problem worth solving."
+```
+
+### Sally: UX Designer 🎨
+
+<Card>
+  **Agent:** `sally` (UX Designer)
+  
+  **Load:** `/bmad-agent-bmm-ux-designer`
+  
+  **Persona:**
+  - Senior UX Designer with 7+ years creating intuitive experiences
+  - Paints pictures with words, telling user stories that make you FEEL the problem
+  - Empathetic advocate with creative storytelling flair
+  
+  **Capabilities:**
+  - User research and persona development
+  - Interaction design patterns
+  - UI component strategy
+  - Experience strategy and user journeys
+  
+  **Key Workflows:**
+  - `create-ux-design` → `/bmad-bmm-create-ux-design`
+</Card>
+
+**When to use Sally:**
+- Designing user interfaces and experiences
+- Creating user journey maps
+- Defining component strategies
+- Establishing design systems
+
+**Example interaction:**
+
+```
+Sally (UX Designer): "Let me paint a picture for you. Imagine Sarah, 
+our busy professional, opens the app on her phone during her morning 
+coffee. What does she NEED to see in that moment?"
+
+You: Probably which plants need watering today
+
+Sally: "Exactly! And how should that make her FEEL? Overwhelmed by a 
+list, or empowered by a simple action?"
+
+You: Empowered. Like she's on top of it.
+
+Sally: "Beautiful. So we design the dashboard as a quick daily view, 
+not an inventory list."
+```
+
+### Winston: Architect 🏗️
+
+<Card>
+  **Agent:** `winston` (Architect)
+  
+  **Load:** `/bmad-agent-bmm-architect`
+  
+  **Persona:**
+  - Senior architect with expertise in distributed systems and cloud infrastructure
+  - Speaks in calm, pragmatic tones, balancing "what could be" with "what should be"
+  - Champions boring technology for stability
+  
+  **Capabilities:**
+  - System architecture design
+  - Technology stack selection
+  - API design and patterns
+  - Database schema design
+  - Scalability and performance planning
+  
+  **Key Workflows:**
+  - `create-architecture` → `/bmad-bmm-create-architecture`
+  - `check-implementation-readiness` → `/bmad-bmm-check-implementation-readiness`
+</Card>
+
+**When to use Winston:**
+- Designing system architecture
+- Making technology stack decisions
+- Validating implementation readiness
+- Reviewing architectural patterns
+
+**Example interaction:**
+
+```
+Winston (Architect): "Let's talk about your database choice. You 
+mentioned PostgreSQL. That's solid, boring technology — I approve. 
+Now, let's think about your data model. User has many plants, plant 
+has many care schedules. Simple, clean. Want to complicate it with 
+microservices, or keep it pragmatic?"
+
+You: Let's keep it pragmatic. Monolith for now.
+
+Winston: "Wise choice. Monoliths are underrated. You can always split 
+later if specific scaling needs emerge. Let's design for that future 
+without building it today."
+```
+
+### Bob: Scrum Master 🏃
+
+<Card>
+  **Agent:** `bob` (Scrum Master)
+  
+  **Load:** `/bmad-agent-bmm-sm`
+  
+  **Persona:**
+  - Certified Scrum Master with deep technical background
+  - Crisp and checklist-driven — every word has a purpose
+  - Zero tolerance for ambiguity
+  
+  **Capabilities:**
+  - Sprint planning and tracking
+  - Story preparation with comprehensive context
+  - Agile ceremonies facilitation
+  - Backlog management
+  
+  **Key Workflows:**
+  - `sprint-planning` → `/bmad-bmm-sprint-planning`
+  - `create-story` → `/bmad-bmm-create-story`
+  - `retrospective` → `/bmad-bmm-retrospective`
+  - `correct-course` → `/bmad-bmm-correct-course`
+</Card>
+
+**When to use Bob:**
+- Initializing sprint tracking
+- Creating comprehensive story files for developers
+- Running retrospectives after epic completion
+- Handling course corrections
+
+**Example interaction:**
+
+```
+Bob (Scrum Master): "Sprint planning. Let's get organized. I've loaded 
+your epics. Epic 1: User Authentication. 3 stories. Epic 2: Plant 
+Inventory. 4 stories. Total: 7 stories. Ready to create sprint-status?"
+
+You: Yes, let's do it
+
+Bob: "Done. sprint-status.yaml created. All items in backlog. First 
+story: 1-1-user-registration. Want me to create that story file now?"
+
+You: Yes
+
+Bob: "On it. Loading comprehensive context from PRD, architecture, 
+project context. Building the ultimate story file. Stand by."
+```
+
+### Amelia: Developer 💻
+
+<Card>
+  **Agent:** `amelia` (Developer)
+  
+  **Load:** `/bmad-agent-bmm-dev`
+  
+  **Persona:**
+  - Senior Software Engineer with strict standards
+  - Ultra-succinct — speaks in file paths and AC IDs
+  - Every statement citable, no fluff, all precision
+  
+  **Capabilities:**
+  - Story execution with TDD
+  - Test-driven development (red-green-refactor)
+  - Code implementation following architecture
+  - Code review and quality validation
+  
+  **Critical Actions:**
+  - Read entire story file before implementation
+  - Execute tasks/subtasks in exact order
+  - Mark complete only when tests pass 100%
+  - Never lie about tests or completion status
+  
+  **Key Workflows:**
+  - `dev-story` → `/bmad-bmm-dev-story`
+  - `code-review` → `/bmad-bmm-code-review`
+</Card>
+
+**When to use Amelia:**
+- Implementing stories with TDD approach
+- Conducting code reviews (ideally with different LLM)
+- Addressing code review findings
+
+**Example interaction:**
+
+```
+Amelia (Developer): "Story: 1-1-user-registration. Status: ready-for-dev. 
+Loading..."
+
+[Reads story file]
+
+"Context loaded. 4 tasks, 12 subtasks. AC-1 through AC-7. Starting."
+
+"Task 1: Database schema. Creating prisma/schema.prisma..."
+
+[Creates file]
+
+"✅ Task 1.1 complete: schema.prisma:1-12"
+"✅ Task 1.2 complete: migration generated"
+"✅ Task 1.3 complete: table verified"
+
+"Task 2: Registration endpoint. RED phase: writing tests..."
+
+[Creates test file]
+
+"❌ Tests failing (expected). GREEN phase: implementing..."
+
+[Creates implementation]
+
+"✅ Tests passing. REFACTOR phase: extracting validation..."
+
+[Refactors code]
+
+"✅ Tests still passing. Task 2 complete."
+```
+
+## How to Invoke Agents
+
+There are two ways to work with BMad agents:
+
+### Method 1: Load Agent Directly
+
+Load an agent for general conversation or exploration:
+
+```
+/bmad-agent-bmm-pm
+```
+
+This loads the agent's persona and makes their workflow menu available. You can:
+- Ask questions about their domain
+- Discuss approaches and options
+- Then run a specific workflow
+
+**Example:**
+
+```
+You: /bmad-agent-bmm-architect
+
+Winston (Architect): "Hello! I'm Winston, your system architect. What 
+are we building today?"
+
+You: A plant care tracking app. What database would you recommend?
+
+Winston: "For a plant care app? PostgreSQL is the pragmatic choice. 
+Relational model fits perfectly: users have plants, plants have 
+schedules. JSONB columns give you flexibility for varying plant data. 
+Rock-solid, battle-tested, won't surprise you at 3am. Shall we design 
+the architecture?"
+
+You: Yes, let's run the architecture workflow
+
+Winston: "Excellent. Running /bmad-bmm-create-architecture..."
+```
+
+### Method 2: Run Workflow Directly
+
+Run a workflow command, which automatically loads the appropriate agent:
+
+```
+/bmad-bmm-create-prd
+```
+
+This implicitly loads the PM agent and starts the PRD creation workflow immediately.
+
+**Example:**
+
+```
+You: /bmad-bmm-create-prd
+
+John (PM): "Let's create your PRD. I'm going to ask WHY a lot — it's 
+how we get to the real requirements. Ready?"
+
+You: Ready
+
+John: "First question: What change do you want to see in the world? 
+Give me the vision in one sentence."
+```
+
+<Tip>
+  **Best Practice:** If you're unsure which workflow to run, load the agent first and have a conversation. If you know exactly what you want, run the workflow directly.
+</Tip>
+
+## Understanding Workflows
+
+Workflows are structured processes that agents facilitate. They follow disciplined execution patterns.
+
+### Workflow Architecture Types
+
+BMad uses two main workflow architectures:
+
+#### 1. Step-File Architecture
+
+Used for complex, multi-phase workflows like PRD creation:
+
+```
+workflows/create-prd/
+  workflow-create-prd.md          # Entry point
+  steps-c/
+    step-01-init.md               # Initialization
+    step-02-vision.md             # Vision & goals
+    step-03-user-research.md      # User personas
+    step-04-requirements.md       # Functional requirements
+    step-05-metrics.md            # Success metrics
+    step-06-review.md             # Final review
+```
+
+**Key principles:**
+- One step file loaded at a time
+- Sequential enforcement (no skipping)
+- State tracking in document frontmatter
+- Just-in-time loading prevents context overflow
+
+**Example flow:**
+
+```
+1. User runs: /bmad-bmm-create-prd
+2. Agent loads: workflow-create-prd.md
+3. Workflow directs: Load step-01-init.md
+4. Agent executes step 1 completely
+5. Step 1 directs: Load step-02-vision.md
+6. Agent executes step 2 completely
+7. Continue until all steps complete
+```
+
+#### 2. XML Workflow Architecture
+
+Used for implementation workflows requiring precise execution:
+
+```xml
+<workflow>
+  <step n="1" goal="Find next ready story and load it">
+    <action>Load sprint-status.yaml</action>
+    <action>Find first story with status "ready-for-dev"</action>
+    <check if="no story found">
+      <output>No stories ready. Options: [1] create-story [2] specify path</output>
+      <ask>Choose option:</ask>
+    </check>
+  </step>
+  
+  <step n="2" goal="Load project context">
+    <action>Load project-context.md if exists</action>
+    <action>Load story file completely</action>
+  </step>
+  
+  <!-- More steps... -->
+</workflow>
+```
+
+**Key features:**
+- Precise control flow with conditions
+- Halt points for user input
+- Validation gates
+- Error handling
+
+### Workflow Execution Patterns
+
+#### Red-Green-Refactor (TDD)
+
+Dev agent follows strict TDD cycle:
+
+```
+🔴 RED: Write failing test
+  ↓
+  Write test for feature that doesn't exist yet
+  Run test → ❌ Fails (expected)
+  ↓
+🟢 GREEN: Make test pass
+  ↓
+  Write minimal code to make test pass
+  Run test → ✅ Passes
+  ↓
+🔵 REFACTOR: Improve code
+  ↓
+  Clean up code while keeping tests green
+  Run test → ✅ Still passes
+  ↓
+✅ MARK COMPLETE: Task done
+```
+
+#### Ultimate Context Engine (Story Creation)
+
+Scrum Master agent uses comprehensive analysis:
+
+```
+📊 DISCOVER: Load all artifacts
+  ↓
+  - Read epics file for story requirements
+  - Load PRD for business context
+  - Load architecture for technical constraints
+  - Read previous stories for learnings
+  - Analyze recent commits for patterns
+  ↓
+🔬 ANALYZE: Extract critical context
+  ↓
+  - Epic objectives and business value
+  - Story acceptance criteria
+  - Architecture requirements
+  - Previous story learnings
+  - Technical specifications
+  ↓
+🌐 RESEARCH: Get latest information
+  ↓
+  - Library versions and APIs
+  - Security considerations
+  - Best practices
+  ↓
+📝 CREATE: Build ultimate story file
+  ↓
+  - User story and acceptance criteria
+  - Detailed tasks and subtasks
+  - Comprehensive dev notes
+  - Architecture compliance checklist
+  - Previous learnings summary
+  ↓
+✅ VALIDATE: Ready for dev
+```
+
+## Party Mode: Multi-Agent Collaboration
+
+Some workflows (like retrospective) use **Party Mode** — multiple agent personas collaborate in a single session.
+
+### How Party Mode Works
+
+<Steps>
+  <Step title="Workflow activates Party Mode">
+    Certain workflows are designated as Party Mode workflows
+  </Step>
+  
+  <Step title="Multiple personas load">
+    The AI embodies multiple agent personas simultaneously
+  </Step>
+  
+  <Step title="Structured dialogue format">
+    All dialogue uses format: `Name (Role): dialogue`
+  </Step>
+  
+  <Step title="Natural collaboration">
+    Agents interact naturally, with disagreements and diverse perspectives
+  </Step>
+  
+  <Step title="User participates">
+    You join as "Project Lead" in the conversation
+  </Step>
+</Steps>
+
+### Example: Retrospective in Party Mode
+
+```
+Bob (Scrum Master): "Welcome to the Epic 1 retrospective! We've 
+completed all authentication stories. Let's reflect on what went well. 
+Amelia, let's start with you."
+
+Amelia (Developer): "The TDD approach worked perfectly. Red-green-refactor 
+caught edge cases early. The story files had excellent context — I knew 
+exactly what to implement."
+
+Winston (Architect): "I'm pleased we stuck with the architecture as 
+specified. The separation between auth service and controller is clean. 
+No deviations from the plan."
+
+John (PM): "From a product perspective, we delivered all acceptance 
+criteria. Users can register, login, and reset passwords. That's the 
+MVP for Epic 1."
+
+Bob: "Great points. Now, what could we improve? Winston, you look 
+thoughtful."
+
+Winston: "The registration endpoint needs rate limiting. It wasn't in 
+the original architecture, but it should be. Security oversight."
+
+John: "Good catch. We can add a security enhancement story to Epic 2. 
+It'll apply to all endpoints, not just registration."
+
+You: The dev notes in story files were incredibly helpful. Can we make 
+sure Bob keeps including those?
+
+Bob: "Noted. I'll ensure every story file has comprehensive dev notes 
+with architecture requirements, previous learnings, and technical 
+specifications."
+
+Amelia: "Also, code review in a different LLM was valuable. Fresh 
+eyes caught things I missed. Let's keep that pattern."
+
+Bob: "Excellent insights. Action items for Epic 2: [1] Add rate 
+limiting story, [2] Continue comprehensive dev notes, [3] Code review 
+with different LLM. Anything else?"
+
+Sally (UX Designer): "Can I jump in? The registration form works, but 
+we should add a password strength indicator. Users need that feedback."
+
+John: "Great idea. I'll add that to the UX enhancement backlog."
+
+Bob: "Perfect. That's a productive retrospective. Let's carry these 
+learnings into Epic 2: Plant Inventory Management."
+```
+
+**Benefits of Party Mode:**
+
+<CardGroup cols={2}>
+  <Card title="Diverse Perspectives" icon="users">
+    Multiple expert viewpoints surface insights you might miss alone
+  </Card>
+  
+  <Card title="Natural Dialogue" icon="comments">
+    Conversation flows naturally, mimicking real team discussions
+  </Card>
+  
+  <Card title="Expertise Integration" icon="puzzle-piece">
+    Technical, product, and process concerns all get addressed
+  </Card>
+  
+  <Card title="Learning Capture" icon="book-open">
+    Insights are documented as action items for future work
+  </Card>
+</CardGroup>
+
+## Agent Best Practices
+
+### 1. Always Use Fresh Chats
+
+<Warning>
+  Start a new chat for each workflow to avoid context limitations and ensure optimal agent performance.
+</Warning>
+
+**Why this matters:**
+- AI models have context windows (token limits)
+- Long conversations reduce available context for the agent
+- Fresh chats give agents maximum context for the workflow
+- Previous conversations can bias or confuse the agent
+
+**Example of chat management:**
+
+```
+Chat 1: Create Product Brief
+  /bmad-agent-bmm-analyst
+  /bmad-bmm-create-product-brief
+  [Complete]
+
+Chat 2: Create PRD (Fresh chat)
+  /bmad-agent-bmm-pm
+  /bmad-bmm-create-prd
+  [Complete]
+
+Chat 3: Create Architecture (Fresh chat)
+  /bmad-agent-bmm-architect
+  /bmad-bmm-create-architecture
+  [Complete]
+```
+
+### 2. Let Agents Guide You
+
+<Tip>
+  Trust the agent's expertise and follow their guided process. They're designed with best practices built in.
+</Tip>
+
+Agents will:
+- Ask clarifying questions
+- Challenge assumptions
+- Guide you through structured processes
+- Ensure completeness
+
+**Don't:**
+- Skip steps or rush through questions
+- Provide vague answers hoping the agent will "figure it out"
+- Override the agent's process without good reason
+
+**Do:**
+- Answer questions thoughtfully
+- Ask the agent to explain their reasoning
+- Trust the structured process
+
+### 3. Use BMad-Help Liberally
+
+```
+/bmad-help
+```
+
+BMad-Help is your meta-agent that:
+- Inspects your project state
+- Recommends next steps
+- Answers questions about which agent to use
+- Guides you when stuck
+
+**Ask BMad-Help questions like:**
+- "What should I do after installing?"
+- "I just finished the architecture, what's next?"
+- "Which planning track should I use?"
+- "How do I fix this error in my workflow?"
+
+### 4. Understand Agent Handoffs
+
+Workflows often involve agent handoffs:
+
+```
+John (PM) creates PRD
+  ↓
+  PRD complete, suggests next step
+  ↓
+Sally (UX Designer) creates UX design
+  ↓
+  UX complete, suggests next step
+  ↓
+Winston (Architect) creates architecture
+  ↓
+  Architecture complete, suggests next step
+  ↓
+John (PM) creates epics and stories
+  ↓
+  Stories ready, suggests next step
+  ↓
+Bob (SM) initializes sprint planning
+  ↓
+  Sprint ready, suggests next step
+  ↓
+Bob (SM) creates first story
+  ↓
+  Story ready for dev, suggests next step
+  ↓
+Amelia (Dev) implements story
+```
+
+Each agent ends their workflow by suggesting the next logical step.
+
+### 5. Use Different LLMs for Code Review
+
+<Tip>
+  For code review, use a different LLM than the one that implemented the story. This provides fresh perspective and catches more issues.
+</Tip>
+
+**Example approach:**
+
+```
+Implementation (Claude Code with Claude 3.5 Sonnet):
+  Chat 1: /bmad-bmm-dev-story
+  [Implement story]
+
+Code Review (Cursor with GPT-4):
+  Chat 2: /bmad-bmm-code-review
+  [Review implementation]
+
+Fixes (Back to Claude Code):
+  Chat 3: /bmad-bmm-dev-story
+  [Address review findings]
+```
+
+## Advanced Agent Patterns
+
+### Pattern 1: Iterative Refinement
+
+Agents support iterative workflows:
+
+```
+1. Create PRD: /bmad-bmm-create-prd
+2. Review and identify gaps
+3. Edit PRD: /bmad-bmm-edit-prd
+4. Validate PRD: /bmad-bmm-validate-prd
+5. Repeat until satisfied
+```
+
+### Pattern 2: Course Correction
+
+When plans change during implementation:
+
+```
+1. Discover need for scope change during story implementation
+2. Load PM or SM agent
+3. Run: /bmad-bmm-correct-course
+4. Agent guides through options:
+   - Add new stories to current epic
+   - Create new epic
+   - Modify existing stories
+   - Reprioritize backlog
+5. Update artifacts as needed
+6. Continue implementation
+```
+
+### Pattern 3: Parallel Story Development
+
+With team capacity:
+
+```
+Developer 1:
+  Chat: /bmad-bmm-dev-story
+  Story: 2-1-add-plant
+
+Developer 2 (parallel):
+  Chat: /bmad-bmm-dev-story
+  Story: 2-3-edit-plant
+
+Both stories marked "in-progress" in sprint-status.yaml
+```
+
+## Troubleshooting Agent Issues
+
+<AccordionGroup>
+  <Accordion title="Agent not following instructions">
+    **Cause:** Context overflow or incorrect agent loaded
+    
+    **Solution:**
+    1. Start a completely fresh chat
+    2. Verify you loaded the correct agent: `/bmad-agent-bmm-[name]`
+    3. Ensure you're running the intended workflow
+    4. Check your IDE agent configuration
+  </Accordion>
+  
+  <Accordion title="Agent provides incomplete output">
+    **Cause:** Token limits or early stopping
+    
+    **Solution:**
+    1. Use fresh chat with clean context
+    2. Tell agent explicitly: "Continue from where you stopped"
+    3. For long documents, workflows handle incremental writing
+    4. Check your LLM's token limits
+  </Accordion>
+  
+  <Accordion title="Agent skips workflow steps">
+    **Cause:** Not following step-file architecture discipline
+    
+    **Solution:**
+    1. Restart workflow in fresh chat
+    2. Remind agent: "Follow step-file architecture strictly"
+    3. If issue persists, report on Discord or GitHub
+  </Accordion>
+  
+  <Accordion title="Agent contradicts previous agent's work">
+    **Cause:** Missing context or artifact not loaded
+    
+    **Solution:**
+    1. Verify all planning artifacts exist in correct locations
+    2. Check that discovery protocol loaded files (agents mention this)
+    3. Explicitly tell agent: "Load the PRD at [path]"
+    4. Re-run workflow in fresh chat with proper context
+  </Accordion>
+</AccordionGroup>
+
+## Agent Quick Reference
+
+| Agent | Load Command | Primary Workflows | Best For |
+|-------|-------------|-------------------|----------|
+| **Mary** (Analyst) | `/bmad-agent-bmm-analyst` | brainstorming, research, product-brief | Analysis phase, market research |
+| **John** (PM) | `/bmad-agent-bmm-pm` | create-prd, edit-prd, create-epics-and-stories | Planning phase, requirements |
+| **Sally** (UX Designer) | `/bmad-agent-bmm-ux-designer` | create-ux-design | User experience and interface design |
+| **Winston** (Architect) | `/bmad-agent-bmm-architect` | create-architecture, implementation-readiness | Technical architecture, system design |
+| **Bob** (Scrum Master) | `/bmad-agent-bmm-sm` | sprint-planning, create-story, retrospective | Sprint management, story preparation |
+| **Amelia** (Developer) | `/bmad-agent-bmm-dev` | dev-story, code-review | Implementation, code review |
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Build Your First Project" icon="rocket" href="./first-project">
+    Put agents to work in a complete project walkthrough
+  </Card>
+  
+  <Card title="Explore Workflow Map" icon="map" href="../reference/workflow-map">
+    See all workflows and when to use each agent
+  </Card>
+  
+  <Card title="Project Context Guide" icon="file-code" href="../explanation/project-context">
+    Learn how to give agents project-wide context
+  </Card>
+  
+  <Card title="Join Discord Community" icon="discord" href="https://discord.gg/gk8jAdXWmj">
+    Share your agent experiences and get help
+  </Card>
+</CardGroup>
+
+You now understand how BMad agents work, their personas, and how to collaborate with them effectively. Time to put this knowledge into practice! 🚀

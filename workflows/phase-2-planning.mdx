@@ -1,0 +1,327 @@
+---
+title: "Phase 2: Planning"
+description: "Define requirements and UX design through structured planning workflows"
+icon: "clipboard-list"
+---
+
+# Phase 2: Planning Workflows
+
+The Planning phase transforms your analysis and vision into actionable requirements and design specifications. These workflows create the foundation for architecture and implementation.
+
+## Available Workflows
+
+<CardGroup cols={2}>
+  <Card title="Create PRD" icon="file-contract" href="#create-prd-workflow">
+    Create Product Requirements Documents from scratch
+  </Card>
+  <Card title="Edit PRD" icon="pen-to-square" href="#edit-prd-workflow">
+    Update and refine existing PRDs
+  </Card>
+  <Card title="Validate PRD" icon="check-circle" href="#validate-prd-workflow">
+    Review and validate PRD completeness
+  </Card>
+  <Card title="UX Design" icon="palette" href="#ux-design-workflow">
+    Plan UX patterns and design specifications
+  </Card>
+</CardGroup>
+
+---
+
+## Create PRD Workflow
+
+### Purpose
+
+Create comprehensive Product Requirements Documents through structured workflow facilitation. This workflow guides you from initial concept to complete, implementation-ready requirements.
+
+### Trigger Commands
+
+```bash
+"Let's create a product requirements document"
+"I want to create a new PRD"
+"Create a PRD"
+```
+
+### Your Role
+
+The AI acts as a product-focused PM facilitator collaborating with you as an expert peer, bringing structured thinking while you provide domain expertise and product vision.
+
+### Workflow Architecture
+
+Uses **step-file architecture** with three main workflow modes:
+
+- **Create Mode** (`steps-c/`) - Building a new PRD from scratch
+- **Edit Mode** (`steps-e/`) - Updating existing PRDs
+- **Validate Mode** (`steps-v/`) - Reviewing PRD quality
+
+### Create Mode Steps
+
+1. **Initialization** - Load config, discover input documents
+2. **Problem Definition** - Define the problem being solved
+3. **Solution Overview** - Outline the proposed solution
+4. **Requirements Specification** - Detail functional requirements
+5. **Non-Functional Requirements** - Define performance, security, etc.
+6. **User Flows** - Map key user journeys
+7. **Success Criteria** - Define acceptance criteria
+8. **Completion** - Review and finalize
+
+### Inputs
+
+- Project configuration
+- Product brief (if exists)
+- Research reports (if exist)
+- User's requirements and vision
+
+### Outputs
+
+**File Location**: `{planning_artifacts}/prd.md` or `{planning_artifacts}/prd/index.md`
+
+**Document Includes**:
+- Problem statement and background
+- Solution overview
+- Functional requirements (organized by feature area)
+- Non-functional requirements
+- User flows and journeys
+- Success criteria and metrics
+- Assumptions and constraints
+
+### Example Invocation
+
+```text
+User: "Let's create a product requirements document"
+
+AI: "Create Mode: Creating a new PRD from scratch.
+
+I found your product brief from [date]. Would you like me to 
+use this as context for the PRD? [Y/n]"
+
+User: "Yes"
+
+AI: "Great! I'll use the product brief to inform our requirements.
+
+Let's start by defining the core problem. Based on your brief, 
+I see you're addressing [problem]. Can you elaborate on..."
+```
+
+### Source Files
+
+- Workflow: `src/bmm/workflows/2-plan-workflows/create-prd/workflow-create-prd.md`
+- Steps: `src/bmm/workflows/2-plan-workflows/create-prd/steps-c/`
+- Templates: `src/bmm/workflows/2-plan-workflows/create-prd/templates/`
+
+---
+
+## Edit PRD Workflow
+
+### Purpose
+
+Update and refine existing PRDs with new requirements, changes, or clarifications while maintaining document consistency.
+
+### Trigger Commands
+
+```bash
+"Edit the PRD"
+"Update the product requirements"
+"Modify the PRD"
+```
+
+### Workflow Steps
+
+1. **Load Existing PRD** - Read current PRD content
+2. **Identify Changes** - Determine what needs updating
+3. **Guided Updates** - Make targeted changes
+4. **Consistency Check** - Ensure coherent updates
+5. **Version Management** - Track changes
+
+### Inputs
+
+- Existing PRD document
+- Requested changes or updates
+- Additional context or research
+
+### Outputs
+
+**Updated PRD** with:
+- Revised sections
+- Updated requirements
+- Change tracking in frontmatter
+- Consistent formatting
+
+### Example Invocation
+
+```text
+User: "Edit the PRD to add offline mode requirements"
+
+AI: "I found your PRD at {planning_artifacts}/prd.md.
+
+Let's add offline mode requirements. Where should this fit?
+1. New feature section
+2. Update existing section
+3. Non-functional requirement"
+```
+
+### Source Files
+
+- Workflow: `src/bmm/workflows/2-plan-workflows/create-prd/workflow-edit-prd.md`
+- Steps: `src/bmm/workflows/2-plan-workflows/create-prd/steps-e/`
+
+---
+
+## Validate PRD Workflow
+
+### Purpose
+
+Review and validate PRD completeness, clarity, and implementation readiness before moving to solutioning phase.
+
+### Trigger Commands
+
+```bash
+"Validate the PRD"
+"Review the product requirements"
+"Check if PRD is complete"
+```
+
+### Validation Criteria
+
+Checks for:
+
+- **Completeness** - All required sections present
+- **Clarity** - Requirements are unambiguous
+- **Testability** - Success criteria are measurable
+- **Consistency** - No contradictions
+- **Feasibility** - Requirements are achievable
+- **Traceability** - Links to business goals
+
+### Workflow Steps
+
+1. **Document Discovery** - Load PRD and related docs
+2. **Section Validation** - Check each section
+3. **Requirement Analysis** - Validate individual requirements
+4. **Gap Identification** - Find missing elements
+5. **Recommendation Report** - Generate validation report
+
+### Inputs
+
+- Existing PRD document
+- Product brief (for alignment check)
+- Architecture (if exists, for feasibility check)
+
+### Outputs
+
+**Validation Report** including:
+- Completeness score
+- Issues found
+- Recommendations
+- Gap analysis
+- Next steps
+
+### Example Invocation
+
+```text
+User: "Validate the PRD"
+
+AI: "Starting PRD validation...
+
+Found PRD at {planning_artifacts}/prd.md
+
+✓ Problem statement: Clear and complete
+✓ Functional requirements: 12 requirements found
+⚠ Non-functional requirements: Missing performance criteria
+⚠ User flows: Only 2 of 5 key flows documented
+
+Generating detailed validation report..."
+```
+
+### Source Files
+
+- Workflow: `src/bmm/workflows/2-plan-workflows/create-prd/workflow-validate-prd.md`
+- Steps: `src/bmm/workflows/2-plan-workflows/create-prd/steps-v/`
+
+---
+
+## UX Design Workflow
+
+### Purpose
+
+Create comprehensive UX design specifications through collaborative visual exploration and informed decision-making. The AI acts as a UX facilitator working with you as the product stakeholder.
+
+### Trigger Commands
+
+```bash
+"Let's create UX design"
+"Create UX specifications"
+"Help me plan the UX"
+```
+
+### Your Role
+
+Collaborative partnership where:
+- AI brings UX methodology and facilitation
+- You bring product vision and user insights
+
+### Workflow Steps
+
+1. **Initialization** - Load PRD and project context
+2. **Design Principles** - Define guiding principles
+3. **Core Experience** - Define primary user experience
+4. **Emotional Response** - Set desired user feelings
+5. **Inspiration** - Explore design references
+6. **Design System** - Choose or define design system
+7. **Visual Foundation** - Set colors, typography, spacing
+8. **Defining Experience** - Detail key interactions
+9. **Design Directions** - Explore design approaches
+10. **User Journeys** - Map detailed user flows
+11. **Component Strategy** - Define UI components
+12. **UX Patterns** - Select interaction patterns
+13. **Responsive & Accessibility** - Define responsive and a11y requirements
+14. **Completion** - Review and finalize
+
+### Inputs
+
+- PRD (requirements context)
+- Product brief (vision context)
+- User's design preferences
+- Reference designs and inspiration
+
+### Outputs
+
+**File Location**: `{planning_artifacts}/ux-design-specification.md`
+
+**Document Includes**:
+- Design principles and philosophy
+- Visual design system (colors, typography, spacing)
+- Component library specifications
+- User journey maps
+- Interaction patterns
+- Responsive design requirements
+- Accessibility requirements
+- Wireframe descriptions
+- Design references and inspiration
+
+### Example Invocation
+
+```text
+User: "Let's create UX design"
+
+AI: "I'll help you create comprehensive UX design specifications.
+
+I found your PRD which includes 5 key user personas. 
+Let's start by defining design principles.
+
+What feeling should users have when using this product?
+(e.g., confident, delighted, efficient, empowered)"
+```
+
+### Source Files
+
+- Workflow: `src/bmm/workflows/2-plan-workflows/create-ux-design/workflow.md`
+- Template: `src/bmm/workflows/2-plan-workflows/create-ux-design/ux-design-template.md`
+- Steps: `src/bmm/workflows/2-plan-workflows/create-ux-design/steps/`
+
+---
+
+## Next Steps
+
+After completing Planning phase workflows, move to:
+
+- [Phase 3: Solutioning](/workflows/phase-3-solutioning) - Create architecture and epics
+- [Phase 4: Implementation](/workflows/phase-4-implementation) - Execute development

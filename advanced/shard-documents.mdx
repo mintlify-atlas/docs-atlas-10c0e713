@@ -1,0 +1,457 @@
+---
+title: "Document Sharding for Large Projects"
+description: "Split large markdown files into smaller organized files for better context management and AI workflow performance"
+---
+
+Document sharding splits large markdown files into smaller, organized files based on section headings for better context management in AI workflows.
+
+<Warning>
+**Deprecated approach:** This is no longer recommended. With updated workflows and modern LLMs supporting larger context windows and subprocesses, sharding will soon be unnecessary.
+</Warning>
+
+## When to Use Document Sharding
+
+Only use sharding if you notice your chosen tool/model combination is failing to load and read all the documents as input when needed.
+
+**Symptoms that might indicate sharding is needed:**
+
+- Workflows fail to load complete PRD or architecture documents
+- Agents reference only partial content from large files
+- Context length errors during workflow execution
+- Inconsistent results when working with 30k+ token documents
+
+**Before sharding, try:**
+
+- Using a model with larger context window (Claude Sonnet 3.5, GPT-4 Turbo)
+- Breaking your content into more focused documents naturally
+- Upgrading to latest workflow versions with better context handling
+
+<Note>
+Most users don't need document sharding. Modern workflows handle large documents effectively.
+</Note>
+
+## What is Document Sharding?
+
+Document sharding takes a single large markdown file and splits it into multiple smaller files organized in a directory structure.
+
+**How it works:**
+
+- Splits on level 2 headings (`## Heading`)
+- Creates a directory with the original filename
+- Generates individual files for each section
+- Creates an index file with table of contents
+
+### Before and After Structure
+
+**Before Sharding:**
+
+```
+_bmad-output/planning-artifacts/
+└── PRD.md (large 50k token file)
+```
+
+**After Sharding:**
+
+```
+_bmad-output/planning-artifacts/
+└── prd/
+    ├── index.md                    # Table of contents
+    ├── overview.md                 # Executive summary
+    ├── user-stories.md             # User stories section
+    ├── functional-requirements.md  # FR section
+    ├── non-functional-requirements.md  # NFR section
+    ├── user-interface.md           # UI/UX section
+    ├── data-model.md               # Data structures
+    ├── api-specifications.md       # API endpoints
+    ├── security.md                 # Security requirements
+    ├── testing.md                  # Testing strategy
+    ├── deployment.md               # Deployment plan
+    └── appendix.md                 # Additional info
+```
+
+### Index File Structure
+
+The generated `index.md` provides navigation:
+
+```markdown
+# Product Requirements Document
+
+This document is sharded into multiple files for better context management.
+
+## Table of Contents
+
+- [Overview](./overview.md) - Executive summary and project goals
+- [User Stories](./user-stories.md) - User personas and stories
+- [Functional Requirements](./functional-requirements.md) - FR-001 through FR-045
+- [Non-Functional Requirements](./non-functional-requirements.md) - Performance, security, scalability
+- [User Interface](./user-interface.md) - UI mockups and navigation
+- [Data Model](./data-model.md) - Database schema and relationships
+- [API Specifications](./api-specifications.md) - Endpoint definitions
+- [Security](./security.md) - Authentication, authorization, compliance
+- [Testing](./testing.md) - Test strategy and coverage requirements
+- [Deployment](./deployment.md) - Deployment process and environments
+- [Appendix](./appendix.md) - Glossary, references, assumptions
+
+## Using This Document
+
+Each section is self-contained but may reference other sections.
+Use the links above to navigate to specific topics.
+```
+
+## How to Shard a Document
+
+### Step 1: Run the Shard-Doc Tool
+
+```bash
+/bmad-shard-doc
+```
+
+### Step 2: Follow Interactive Prompts
+
+The workflow guides you through the process:
+
+```
+Agent: Which document would you like to shard?
+You: _bmad-output/planning-artifacts/PRD.md
+
+Agent: I found PRD.md (47,234 tokens, 1,847 lines)
+       Detected 11 level-2 headings for splitting.
+       
+       Default destination: _bmad-output/planning-artifacts/prd/
+       Accept default destination? [y/n]
+You: y
+
+Agent: Sharding PRD.md into prd/ directory...
+       
+       ✓ Created overview.md (2,145 tokens)
+       ✓ Created user-stories.md (3,892 tokens)
+       ✓ Created functional-requirements.md (8,234 tokens)
+       ✓ Created non-functional-requirements.md (4,123 tokens)
+       ✓ Created user-interface.md (5,678 tokens)
+       ✓ Created data-model.md (3,456 tokens)
+       ✓ Created api-specifications.md (7,890 tokens)
+       ✓ Created security.md (2,987 tokens)
+       ✓ Created testing.md (3,234 tokens)
+       ✓ Created deployment.md (2,876 tokens)
+       ✓ Created appendix.md (1,543 tokens)
+       ✓ Generated index.md with table of contents
+       
+       Sharding complete!
+       - 12 files created
+       - Original file preserved at PRD.md
+       - Sharded version at prd/
+       
+       Next steps:
+       - Review generated files for correctness
+       - Remove original PRD.md if you want workflows to use sharded version
+       - Run workflows as normal (they auto-detect sharded docs)
+```
+
+### Step 3: Verify Results
+
+Check the generated files:
+
+```bash
+ls -lh _bmad-output/planning-artifacts/prd/
+```
+
+Open `index.md` to review table of contents and descriptions.
+
+Spot-check a few section files to ensure splits are clean.
+
+### Step 4: Choose Version Priority
+
+BMad workflows use a **dual discovery system**:
+
+1. **Try whole document first** - Look for `document-name.md`
+2. **Check for sharded version** - Look for `document-name/index.md`
+3. **Priority rule** - Whole document takes precedence if both exist
+
+**To use sharded version:**
+
+```bash
+# Remove or rename the original whole document
+mv _bmad-output/planning-artifacts/PRD.md _bmad-output/planning-artifacts/PRD.md.backup
+```
+
+**To use whole document:**
+
+```bash
+# Keep the original, workflows ignore sharded version
+# PRD.md takes precedence over prd/index.md
+```
+
+<Tip>
+Keep the original file as backup until you've validated that workflows work correctly with the sharded version.
+</Tip>
+
+## How Workflows Use Sharded Documents
+
+All BMad workflows support both formats transparently:
+
+### Workflow Discovery Process
+
+```python
+# Pseudocode for workflow document loading
+def load_prd():
+    # Try whole document first
+    if exists("PRD.md"):
+        return load_file("PRD.md")
+    
+    # Fall back to sharded version
+    if exists("prd/index.md"):
+        return load_sharded_document("prd/")
+    
+    # Document not found
+    raise DocumentNotFoundError("PRD")
+
+def load_sharded_document(directory):
+    # Load index for navigation
+    index = load_file(f"{directory}/index.md")
+    
+    # Load individual sections as needed
+    sections = discover_sections(directory)
+    
+    return ShardedDocument(index, sections)
+```
+
+### Selective Loading
+
+Workflows load only needed sections:
+
+```
+Workflow: implement (FR-012: User Profile Management)
+
+Loading context:
+- prd/index.md (navigation)
+- prd/functional-requirements.md (FR details)
+- prd/data-model.md (user schema)
+- prd/api-specifications.md (profile endpoints)
+
+Skipping:
+- prd/security.md (not needed for this FR)
+- prd/deployment.md (not needed for this FR)
+- prd/testing.md (loaded later during test generation)
+```
+
+This selective loading reduces context consumption and improves performance.
+
+## Best Practices
+
+### Document Structure for Clean Sharding
+
+Organize documents with consistent level 2 headings:
+
+**Good structure:**
+
+```markdown
+# Product Requirements Document
+
+## Overview
+Executive summary content...
+
+## User Stories
+User stories content...
+
+## Functional Requirements
+FR content...
+
+## Non-Functional Requirements
+NFR content...
+```
+
+**Problematic structure:**
+
+```markdown
+# Product Requirements Document
+
+### Overview (level 3, won't split here)
+Content...
+
+## Section 1
+Content...
+### Subsection 1.1 (level 3, stays with Section 1)
+Content...
+### Subsection 1.2
+Content...
+
+## Section 2
+Brief content (very short section, might not be worth splitting)
+```
+
+### Section Size Guidelines
+
+**Ideal section size:** 2k-8k tokens
+
+- **Too small** (less than 1k tokens): Excessive file fragmentation, navigation overhead
+- **Just right** (2k-8k tokens): Good balance between file size and organization
+- **Too large** (greater than 10k tokens): Consider adding more level 2 headings to split further
+
+### Naming Conventions
+
+The shard tool auto-generates filenames from headings:
+
+- `## Functional Requirements` → `functional-requirements.md`
+- `## API Specifications` → `api-specifications.md`
+- `## User Stories` → `user-stories.md`
+
+**Rules:**
+
+- Lowercase
+- Hyphens instead of spaces
+- Special characters removed
+- `.md` extension added
+
+### Maintain Cross-References
+
+Update internal links after sharding:
+
+**Before sharding:**
+
+```markdown
+See [Security Requirements](#security-requirements) for details.
+```
+
+**After sharding:**
+
+```markdown
+See [Security Requirements](./security.md) for details.
+```
+
+The shard tool attempts to update references automatically, but verify correctness.
+
+## Workflow Support
+
+Workflows that support both whole and sharded documents:
+
+| Workflow | Document Support |
+|----------|------------------|
+| `prd-co-write` | ✓ Outputs whole or sharded based on preference |
+| `plan-build` | ✓ Reads and outputs both formats |
+| `implement` | ✓ Loads relevant sections only |
+| `correct-course` | ✓ Updates whole or sharded versions |
+| `adversarial-review` | ✓ Reviews whole or section-by-section |
+| `brainstorming` | ✓ References sharded docs when needed |
+
+## Troubleshooting
+
+### Workflows Don't Find Sharded Document
+
+**Problem:** Workflow says "PRD not found" but `prd/` directory exists.
+
+**Solution:** 
+
+- Ensure `index.md` exists in the sharded directory
+- Check filename matches expected pattern (lowercase, hyphens)
+- Verify original whole document is removed or renamed
+- Check workflow logs for exact path it's looking for
+
+### Sections Split Incorrectly
+
+**Problem:** Content that should be together is split across files.
+
+**Solution:**
+
+- Review original document heading structure
+- Use level 3 headings (`###`) for subsections that should stay together
+- Reserve level 2 headings (`##`) for major sections you want split
+- Re-run sharding after adjusting heading levels
+
+### Cross-References Broken
+
+**Problem:** Links between sections don't work after sharding.
+
+**Solution:**
+
+- Update anchor links to file links: `#section` → `./section.md`
+- Use relative paths: `./data-model.md`, not `/prd/data-model.md`
+- Verify all referenced sections exist as files
+- Test links by opening files in markdown preview
+
+### Sharding Created Too Many Files
+
+**Problem:** 50+ small files make navigation difficult.
+
+**Solution:**
+
+- Consolidate related sections under fewer level 2 headings
+- Use level 3 headings for subsections
+- Aim for 8-15 section files as sweet spot
+- Consider if sharding is actually needed
+
+## Migration Strategy
+
+If you have existing large documents:
+
+### Option 1: Shard Selectively
+
+Only shard documents causing context issues:
+
+```bash
+# Shard only PRD (largest document)
+/bmad-shard-doc
+> _bmad-output/planning-artifacts/PRD.md
+
+# Keep architecture as whole document (not too large)
+# Keep other docs as-is
+```
+
+### Option 2: Shard Everything
+
+Create consistent structure across all documents:
+
+```bash
+# Shard PRD
+/bmad-shard-doc
+> _bmad-output/planning-artifacts/PRD.md
+
+# Shard Architecture
+/bmad-shard-doc
+> _bmad-output/planning-artifacts/Architecture.md
+
+# Shard Technical Spec
+/bmad-shard-doc
+> _bmad-output/planning-artifacts/TechnicalSpec.md
+```
+
+### Option 3: Hybrid Approach
+
+Use whole documents during active development, shard for reference:
+
+```
+Active development:
+- Keep PRD.md whole for easier editing
+- Workflows use whole document
+
+After completion:
+- Shard PRD.md for better reference navigation
+- Teams browse sharded version
+- Workflows load sections as needed
+```
+
+## Future Direction
+
+<Note>
+Document sharding is a temporary workaround for context limitations. Future improvements will eliminate the need:
+</Note>
+
+**Upcoming improvements:**
+
+- **Subprocess agents** - Workflows spawn focused agents with narrower context needs
+- **Dynamic section loading** - Load document sections on-demand rather than upfront
+- **Improved context management** - Better pruning and summarization of large documents
+- **Larger context windows** - Models with 200k+ token windows make sharding unnecessary
+
+**Timeline:** Most users won't need sharding by Q3 2024 as these improvements roll out.
+
+## Summary
+
+Document sharding:
+
+- **Use case:** Large documents causing context issues in older model/tool combinations
+- **Process:** Split on level 2 headings into directory of smaller files
+- **Support:** All BMad workflows support both whole and sharded documents
+- **Best practice:** Only shard if you experience context problems
+- **Future:** Soon unnecessary as workflows and models improve
+
+For most users, keeping documents whole is simpler and works fine with modern models and updated workflows.

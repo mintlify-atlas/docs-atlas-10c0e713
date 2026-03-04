@@ -1,0 +1,557 @@
+---
+title: Workflow Map
+description: Visual reference for BMad Method workflow phases and outputs
+---
+
+The BMad Method (BMM) is a module in the BMad Ecosystem, targeted at following the best practices of context engineering and planning. AI agents work best with clear, structured context. The BMM system builds that context progressively across 4 distinct phases - each phase, and multiple workflows optionally within each phase, produce documents that inform the next, so agents always know what to build and why.
+
+The rationale and concepts come from agile methodologies that have been used across the industry with great success as a mental framework.
+
+If at any time you are unsure what to do, the `/bmad-help` command will help you stay on track or know what to do next. You can always refer to this for reference also - but /bmad-help is fully interactive and much quicker if you have already installed the BMad Method. Additionally, if you are using different modules that have extended the BMad Method or added other complementary non-extension modules - the /bmad-help evolves to know all that is available to give you the best in-the-moment advice.
+
+Final important note: Every workflow below can be run directly with your tool of choice via slash command or by loading an agent first and using the entry from the agents menu.
+
+<iframe src="/workflow-map-diagram.html" title="BMad Method Workflow Map Diagram" width="100%" height="100%" style="border-radius: 8px; border: 1px solid #334155; min-height: 900px;"></iframe>
+
+<p style="font-size: 0.8rem; text-align: right; margin-top: -0.5rem; margin-bottom: 1rem;">
+  <a href="/workflow-map-diagram.html" target="_blank" rel="noopener noreferrer">Open diagram in new tab ↗</a>
+</p>
+
+## Phase 1: Analysis (Optional)
+
+Explore the problem space and validate ideas before committing to planning.
+
+| Workflow | Purpose | Produces |
+|----------|---------|----------|
+| `bmad-brainstorming` | Brainstorm Project Ideas with guided facilitation of a brainstorming coach | `brainstorming-report.md` |
+| `bmad-bmm-research` | Validate market, technical, or domain assumptions | Research findings |
+| `bmad-bmm-create-product-brief` | Capture strategic vision | `product-brief.md` |
+
+## Phase 2: Planning
+
+Define what to build and for whom.
+
+| Workflow | Purpose | Produces |
+|----------|---------|----------|
+| `bmad-bmm-create-prd` | Define requirements (FRs/NFRs) | `PRD.md` |
+| `bmad-bmm-create-ux-design` | Design user experience (when UX matters) | `ux-spec.md` |
+
+## Phase 3: Solutioning
+
+Decide how to build it and break work into stories.
+
+| Workflow | Purpose | Produces |
+|----------|---------|----------|
+| `bmad-bmm-create-architecture` | Make technical decisions explicit | `architecture.md` with ADRs |
+| `bmad-bmm-create-epics-and-stories` | Break requirements into implementable work | Epic files with stories |
+| `bmad-bmm-check-implementation-readiness` | Gate check before implementation | PASS/CONCERNS/FAIL decision |
+
+## Phase 4: Implementation
+
+Build it, one story at a time. Coming soon, full phase 4 automation!
+
+| Workflow | Purpose | Produces |
+|----------|---------|----------|
+| `bmad-bmm-sprint-planning` | Initialize tracking (once per project to sequence the dev cycle) | `sprint-status.yaml` |
+| `bmad-bmm-create-story` | Prepare next story for implementation | `story-[slug].md` |
+| `bmad-bmm-dev-story` | Implement the story | Working code + tests |
+| `bmad-bmm-code-review` | Validate implementation quality | Approved or changes requested |
+| `bmad-bmm-correct-course` | Handle significant mid-sprint changes | Updated plan or re-routing |
+| `bmad-bmm-automate` | Generate tests for existing features - Use after a full epic is complete | End to End UI Focused Test suite |
+| `bmad-bmm-retrospective` | Review after epic completion | Lessons learned |
+
+## Quick Flow (Parallel Track)
+
+Skip phases 1-3 for small, well-understood work.
+
+| Workflow | Purpose | Produces |
+|----------|---------|----------|
+| `bmad-bmm-quick-spec` | Define an ad-hoc change | `tech-spec.md` (story file for small changes) |
+| `bmad-bmm-quick-dev` | Implement from spec or direct instructions | Working code + tests |
+
+## Context Management
+
+Each document becomes context for the next phase. The PRD tells the architect what constraints matter. The architecture tells the dev agent which patterns to follow. Story files give focused, complete context for implementation. Without this structure, agents make inconsistent decisions.
+
+### Project Context
+
+<Tip>
+  Create `project-context.md` to ensure AI agents follow your project's rules and preferences. This file works like a constitution for your project — it guides implementation decisions across all workflows. This optional file can be generated at the end of Architecture Creation, or in an existing project it can be generated also to capture whats important to keep aligned with current conventions.
+</Tip>
+
+**How to create it:**
+
+- **Manually** — Create `_bmad-output/project-context.md` with your technology stack and implementation rules
+- **Generate it** — Run `/bmad-bmm-generate-project-context` to auto-generate from your architecture or codebase
+
+[**Learn more about project-context.md**](../explanation/project-context.md)
+
+---
+
+## Workflow Details
+
+### Phase 1: Analysis
+
+#### bmad-brainstorming
+
+**Purpose:** Facilitate structured brainstorming sessions to explore and validate project ideas.
+
+**When to use:**
+- Starting a new project without a clear direction
+- Exploring multiple solution approaches
+- Team ideation sessions
+
+**Inputs:**
+- General problem statement or domain
+- Optional: Constraints or requirements
+
+**Outputs:**
+- `brainstorming-report.md` - Organized ideas, themes, and recommendations
+
+**Agent:** Brainstorming Coach
+
+---
+
+#### bmad-bmm-research
+
+**Purpose:** Validate assumptions about market needs, technical feasibility, or domain requirements.
+
+**When to use:**
+- Before creating a PRD
+- When validating technical approaches
+- When market research is needed
+
+**Inputs:**
+- Research questions or hypotheses
+- Optional: Existing documentation or data sources
+
+**Outputs:**
+- Research findings document
+- Validated or invalidated assumptions
+- Recommendations for planning
+
+**Agent:** John (Product Manager)
+
+---
+
+#### bmad-bmm-create-product-brief
+
+**Purpose:** Capture the strategic vision, goals, and high-level scope before detailed planning.
+
+**When to use:**
+- After brainstorming or research
+- To align stakeholders on vision
+- Before investing in detailed PRD
+
+**Inputs:**
+- Vision statement
+- Target audience
+- Key goals and constraints
+
+**Outputs:**
+- `product-brief.md` - Vision, goals, success metrics, constraints
+
+**Agent:** John (Product Manager)
+
+---
+
+### Phase 2: Planning
+
+#### bmad-bmm-create-prd
+
+**Purpose:** Define comprehensive product requirements including functional and non-functional requirements.
+
+**When to use:**
+- After product brief (if created)
+- Before architecture and implementation
+- When requirements need formal documentation
+
+**Inputs:**
+- Product brief (optional)
+- Stakeholder requirements
+- User stories or use cases
+
+**Outputs:**
+- `PRD.md` - Complete requirements specification
+  - Functional Requirements (FRs)
+  - Non-Functional Requirements (NFRs)
+  - User personas
+  - Success metrics
+
+**Agent:** John (Product Manager)
+
+**Menu Trigger:** `PRD`
+
+---
+
+#### bmad-bmm-create-ux-design
+
+**Purpose:** Design user experience flows, wireframes, and interaction patterns.
+
+**When to use:**
+- After PRD creation
+- When UX significantly impacts implementation
+- For user-facing applications
+
+**Inputs:**
+- PRD
+- User personas
+- Design constraints
+
+**Outputs:**
+- `ux-spec.md` - UX specification
+  - User flows
+  - Wireframes (described or linked)
+  - Interaction patterns
+  - Accessibility requirements
+
+**Agent:** UX Designer
+
+**Menu Trigger:** `UX`
+
+---
+
+### Phase 3: Solutioning
+
+#### bmad-bmm-create-architecture
+
+**Purpose:** Make technical decisions explicit through architecture documentation and Architecture Decision Records (ADRs).
+
+**When to use:**
+- After PRD (and UX spec if applicable)
+- Before breaking work into stories
+- When technical decisions need documentation
+
+**Inputs:**
+- PRD
+- UX spec (optional)
+- Existing codebase (for updates)
+
+**Outputs:**
+- `architecture.md` - Architecture documentation
+  - System design
+  - Technology stack
+  - Architecture Decision Records (ADRs)
+  - Component diagrams
+- Optional: `project-context.md` (can be generated at end)
+
+**Agent:** Winston (Architect)
+
+**Menu Trigger:** `ARCH`
+
+---
+
+#### bmad-bmm-create-epics-and-stories
+
+**Purpose:** Break requirements into implementable work units (epics and stories).
+
+**When to use:**
+- After architecture creation
+- Before implementation begins
+- When planning sprints
+
+**Inputs:**
+- PRD
+- Architecture documentation
+- UX spec (optional)
+
+**Outputs:**
+- Epic files with embedded stories
+- Each epic contains:
+  - Epic description and goals
+  - Multiple user stories
+  - Story acceptance criteria
+  - Story dependencies
+
+**Agent:** Bob (Scrum Master)
+
+**Menu Trigger:** `EPIC`
+
+---
+
+#### bmad-bmm-check-implementation-readiness
+
+**Purpose:** Gate check to verify all necessary planning artifacts exist before implementation.
+
+**When to use:**
+- After creating epics and stories
+- Before starting development work
+- When validating planning completeness
+
+**Inputs:**
+- All planning artifacts (PRD, Architecture, Epics)
+
+**Outputs:**
+- Readiness assessment:
+  - **PASS** - Ready for implementation
+  - **CONCERNS** - Minor issues, proceed with caution
+  - **FAIL** - Significant gaps, address before proceeding
+- List of missing or incomplete artifacts
+
+**Agent:** Bob (Scrum Master)
+
+---
+
+### Phase 4: Implementation
+
+#### bmad-bmm-sprint-planning
+
+**Purpose:** Initialize sprint tracking and sequence the development cycle.
+
+**When to use:**
+- Once per project, before first story
+- After implementation readiness check passes
+
+**Inputs:**
+- All epics and stories
+- Team velocity (optional)
+
+**Outputs:**
+- `sprint-status.yaml` - Sprint tracking file
+  - Story queue
+  - Current sprint
+  - Completed stories
+
+**Agent:** Bob (Scrum Master)
+
+**Menu Trigger:** `PLAN`
+
+---
+
+#### bmad-bmm-create-story
+
+**Purpose:** Prepare the next story for implementation by generating a detailed story file.
+
+**When to use:**
+- Before implementing each story
+- After sprint planning
+
+**Inputs:**
+- Epic file containing the story
+- Architecture and PRD
+- Sprint status
+
+**Outputs:**
+- `story-[slug].md` - Detailed implementation story
+  - Story description
+  - Acceptance criteria
+  - Technical notes from architecture
+  - Dependencies
+
+**Agent:** Bob (Scrum Master)
+
+**Menu Trigger:** `STORY`
+
+---
+
+#### bmad-bmm-dev-story
+
+**Purpose:** Implement the story according to specifications.
+
+**When to use:**
+- After creating a story file
+- For each story in the sprint
+
+**Inputs:**
+- Story file
+- Architecture documentation
+- Project context (if exists)
+- Existing codebase
+
+**Outputs:**
+- Working code implementing the story
+- Unit tests
+- Updated documentation (if needed)
+
+**Agent:** Amelia (Developer)
+
+**Menu Trigger:** `DEV`
+
+---
+
+#### bmad-bmm-code-review
+
+**Purpose:** Validate implementation quality against requirements and coding standards.
+
+**When to use:**
+- After story implementation
+- Before merging to main branch
+
+**Inputs:**
+- Implemented code
+- Story file
+- Architecture documentation
+- Project context
+
+**Outputs:**
+- Review decision:
+  - **Approved** - Meets all requirements
+  - **Changes Requested** - Issues to address
+- List of findings and recommendations
+
+**Agent:** Winston (Architect) or Code Reviewer
+
+**Menu Trigger:** `REVIEW`
+
+---
+
+#### bmad-bmm-correct-course
+
+**Purpose:** Handle significant mid-sprint changes or blockers.
+
+**When to use:**
+- When requirements change mid-implementation
+- When encountering major blockers
+- When architecture needs adjustment
+
+**Inputs:**
+- Current story state
+- Change description
+- Affected artifacts
+
+**Outputs:**
+- Updated plan or re-routing decision
+- Modified story files (if needed)
+- Updated architecture (if needed)
+
+**Agent:** Bob (Scrum Master) or Winston (Architect)
+
+---
+
+#### bmad-bmm-automate
+
+**Purpose:** Generate end-to-end UI-focused tests for completed features.
+
+**When to use:**
+- After completing a full epic
+- When test coverage needs improvement
+- For regression testing
+
+**Inputs:**
+- Completed epic
+- Implemented features
+- UX spec (if exists)
+
+**Outputs:**
+- End-to-end test suite
+- Test documentation
+
+**Agent:** Test Architect
+
+---
+
+#### bmad-bmm-retrospective
+
+**Purpose:** Review epic completion, identify lessons learned, and improve process.
+
+**When to use:**
+- After completing an epic
+- At regular intervals (e.g., every 2 weeks)
+
+**Inputs:**
+- Completed epic
+- Sprint history
+- Team feedback
+
+**Outputs:**
+- Retrospective document
+  - What went well
+  - What could improve
+  - Action items
+- Process improvements
+
+**Agent:** Bob (Scrum Master)
+
+**Menu Trigger:** `RETRO`
+
+---
+
+### Quick Flow
+
+#### bmad-bmm-quick-spec
+
+**Purpose:** Define small, ad-hoc changes without full planning overhead.
+
+**When to use:**
+- Bug fixes
+- Small enhancements
+- Well-understood changes
+- Prototyping
+
+**Inputs:**
+- Change description
+- Acceptance criteria
+
+**Outputs:**
+- `tech-spec.md` - Lightweight story file
+  - Change description
+  - Technical approach
+  - Acceptance criteria
+
+**Agent:** Amelia (Developer) or Winston (Architect)
+
+---
+
+#### bmad-bmm-quick-dev
+
+**Purpose:** Implement from quick spec or direct instructions.
+
+**When to use:**
+- After creating quick spec
+- For direct implementation requests
+- Small, isolated changes
+
+**Inputs:**
+- Quick spec OR direct instructions
+- Existing codebase
+
+**Outputs:**
+- Working code + tests
+- Updated documentation (if needed)
+
+**Agent:** Amelia (Developer)
+
+**Menu Trigger:** `QUICK`
+
+---
+
+## Workflow Selection Guide
+
+### When to use full flow (Phases 1-4)
+
+- New projects
+- Major features
+- Complex requirements
+- Multiple stakeholders
+- Need for documentation
+- Team collaboration
+
+### When to use Quick Flow
+
+- Bug fixes
+- Small enhancements
+- Prototypes
+- Well-understood changes
+- Solo development
+- Time-sensitive updates
+
+### Minimum viable flow
+
+For fastest time-to-code while maintaining quality:
+
+1. `bmad-bmm-create-prd` - Define requirements
+2. `bmad-bmm-create-architecture` - Make technical decisions
+3. `bmad-bmm-create-epics-and-stories` - Break into work units
+4. `bmad-bmm-sprint-planning` - Initialize tracking (once)
+5. For each story:
+   - `bmad-bmm-create-story`
+   - `bmad-bmm-dev-story`
+   - `bmad-bmm-code-review`
+
+---
+
+## Related Resources
+
+- [Commands Reference](./commands.mdx) - Complete command reference
+- [Agents Reference](./agents.md) - Agent personas and capabilities
+- [Project Context](../explanation/project-context.md) - Learn about project-context.md

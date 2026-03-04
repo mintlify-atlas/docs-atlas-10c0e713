@@ -1,0 +1,300 @@
+---
+title: "Phase 1: Analysis"
+description: "Understand the problem space through product briefs and research workflows"
+icon: "magnifying-glass"
+---
+
+# Phase 1: Analysis Workflows
+
+The Analysis phase helps you understand the problem space, explore opportunities, and gather critical information before diving into planning and development.
+
+## Available Workflows
+
+<CardGroup cols={2}>
+  <Card title="Product Brief" icon="file-lines" href="#product-brief-workflow">
+    Create comprehensive product briefs through collaborative discovery
+  </Card>
+  <Card title="Domain Research" icon="building" href="#domain-research-workflow">
+    Conduct domain and industry research with web sources
+  </Card>
+  <Card title="Market Research" icon="chart-line" href="#market-research-workflow">
+    Research competition and customer markets
+  </Card>
+  <Card title="Technical Research" icon="flask" href="#technical-research-workflow">
+    Investigate technologies and architectural options
+  </Card>
+</CardGroup>
+
+---
+
+## Product Brief Workflow
+
+### Purpose
+
+Create comprehensive product briefs through collaborative step-by-step discovery. This workflow acts as your creative Business Analyst, working with you as peers to define the product vision.
+
+### Trigger Commands
+
+```bash
+"Let's create a product brief"
+"Help me create a project brief"
+```
+
+### Your Role
+
+The AI acts as a product-focused Business Analyst collaborating with you as an expert peer. This is a partnership where:
+- AI brings structured thinking and facilitation skills
+- You bring domain expertise and product vision
+
+### Workflow Steps
+
+The product brief workflow guides you through:
+
+1. **Initialization** - Configure project settings and output location
+2. **Vision Definition** - Define the product vision and goals
+3. **User Analysis** - Identify and characterize target users
+4. **Success Metrics** - Define measurable success criteria
+5. **Scope Definition** - Set boundaries and priorities
+6. **Completion** - Review and finalize the brief
+
+### Inputs
+
+- Project configuration from `_bmad/bmm/config.yaml`
+- User's product vision and domain knowledge
+- Interactive responses during facilitated discovery
+
+### Outputs
+
+**File Location**: `{planning_artifacts}/product-brief.md`
+
+**Document Includes**:
+- Product vision statement
+- Target user personas
+- Success metrics and KPIs
+- Scope definition and boundaries
+- Initial requirements outline
+
+### Example Invocation
+
+```text
+User: "Let's create a product brief"
+
+AI: "Welcome! I'll help you create a comprehensive product brief. 
+First, let me load the project configuration...
+
+I see we're working on [project-name]. Let's start by exploring 
+your product vision. What problem are you trying to solve?"
+```
+
+### Source Files
+
+- Workflow: `src/bmm/workflows/1-analysis/create-product-brief/workflow.md`
+- Template: `src/bmm/workflows/1-analysis/create-product-brief/product-brief.template.md`
+- Steps: `src/bmm/workflows/1-analysis/create-product-brief/steps/`
+
+---
+
+## Domain Research Workflow
+
+### Purpose
+
+Conduct comprehensive domain/industry research using current web data and verified sources to produce complete research documents with compelling narratives and proper citations.
+
+### Trigger Commands
+
+```bash
+"Let's create a research report on [domain or industry]"
+"Conduct domain research on healthcare technology"
+```
+
+### Prerequisites
+
+**⛔ Web search required.** This workflow requires web search capabilities. If unavailable, the workflow will abort.
+
+### Your Role
+
+The AI acts as a domain research facilitator, bringing research methodology and web search capabilities while you bring domain knowledge and research direction.
+
+### Workflow Steps
+
+1. **Quick Topic Discovery** - Clarify research topic and goals
+2. **Initialization** - Set up research scope and parameters
+3. **Domain Analysis** - Investigate industry landscape
+4. **Competitive Landscape** - Analyze key players and trends
+5. **Regulatory Focus** - Research compliance and regulations
+6. **Technical Trends** - Explore technological developments
+7. **Research Synthesis** - Compile findings into comprehensive report
+
+### Inputs
+
+- Research topic and goals from initial conversation
+- Web search results and verified sources
+- User's domain expertise and guidance
+
+### Outputs
+
+**File Location**: `{planning_artifacts}/research/domain-{topic}-research-{date}.md`
+
+**Document Includes**:
+- Executive summary
+- Industry landscape analysis
+- Competitive analysis
+- Regulatory considerations
+- Technical trends
+- Cited sources and references
+
+### Example Invocation
+
+```text
+User: "Let's create a research report on sustainable packaging"
+
+AI: "Welcome! Let's get started with your domain research.
+
+I understand you want to research sustainable packaging. 
+What specific aspect are you most interested in? 
+(e.g., materials, regulations, market adoption)"
+```
+
+### Source Files
+
+- Workflow: `src/bmm/workflows/1-analysis/research/workflow-domain-research.md`
+- Template: `src/bmm/workflows/1-analysis/research/research.template.md`
+- Steps: `src/bmm/workflows/1-analysis/research/domain-steps/`
+
+---
+
+## Market Research Workflow
+
+### Purpose
+
+Conduct comprehensive market research on competition and customers using current web data to understand market dynamics, customer needs, and competitive positioning.
+
+### Trigger Commands
+
+```bash
+"Create a market research report about [business idea]"
+"Research the electric vehicle market in Europe"
+```
+
+### Prerequisites
+
+**⛔ Web search required.** This workflow requires web search capabilities.
+
+### Workflow Steps
+
+1. **Quick Topic Discovery** - Define research scope
+2. **Initialization** - Configure research parameters
+3. **Customer Behavior** - Analyze target customer patterns
+4. **Customer Pain Points** - Identify problems and needs
+5. **Customer Decisions** - Understand buying criteria
+6. **Competitive Analysis** - Research competitors and positioning
+7. **Research Completion** - Synthesize findings
+
+### Inputs
+
+- Market topic and business idea
+- Web search results
+- User's market knowledge
+
+### Outputs
+
+**File Location**: `{planning_artifacts}/research/market-{topic}-research-{date}.md`
+
+**Document Includes**:
+- Market size and trends
+- Customer behavior analysis
+- Pain points and opportunities
+- Competitive landscape
+- Market positioning recommendations
+- Citations and sources
+
+### Example Invocation
+
+```text
+User: "Create a market research report about plant-based food alternatives"
+
+AI: "Great! Let's dive into market research for plant-based food alternatives.
+
+What do you hope to achieve with this research? 
+(e.g., market entry, product positioning, investment decision)"
+```
+
+### Source Files
+
+- Workflow: `src/bmm/workflows/1-analysis/research/workflow-market-research.md`
+- Template: `src/bmm/workflows/1-analysis/research/research.template.md`
+- Steps: `src/bmm/workflows/1-analysis/research/market-steps/`
+
+---
+
+## Technical Research Workflow
+
+### Purpose
+
+Conduct comprehensive technical research on technologies, tools, and architectural patterns to inform technology decisions and architecture planning.
+
+### Trigger Commands
+
+```bash
+"Create a technical research report on [topic]"
+"Research GraphQL vs REST API architectures"
+```
+
+### Prerequisites
+
+**⛔ Web search required.** This workflow requires web search capabilities.
+
+### Workflow Steps
+
+1. **Quick Topic Discovery** - Define technical scope
+2. **Initialization** - Set research parameters
+3. **Technical Overview** - Investigate core technologies
+4. **Integration Patterns** - Research integration approaches
+5. **Architectural Patterns** - Explore architectural options
+6. **Implementation Research** - Analyze implementation considerations
+7. **Research Synthesis** - Compile technical recommendations
+
+### Inputs
+
+- Technical topic and technology options
+- Web search results on technologies
+- User's technical requirements
+
+### Outputs
+
+**File Location**: `{planning_artifacts}/research/technical-{topic}-research-{date}.md`
+
+**Document Includes**:
+- Technology comparison matrix
+- Integration patterns
+- Architectural recommendations
+- Implementation considerations
+- Performance and scalability analysis
+- Technology stack recommendations
+- Citations and sources
+
+### Example Invocation
+
+```text
+User: "Research serverless deployment options for Node.js"
+
+AI: "Let's research serverless deployment options for Node.js.
+
+What's your primary goal for this research?
+(e.g., cost optimization, scalability, developer experience)"
+```
+
+### Source Files
+
+- Workflow: `src/bmm/workflows/1-analysis/research/workflow-technical-research.md`
+- Template: `src/bmm/workflows/1-analysis/research/research.template.md`
+- Steps: `src/bmm/workflows/1-analysis/research/technical-steps/`
+
+---
+
+## Next Steps
+
+After completing Analysis phase workflows, you're ready to move to:
+
+- [Phase 2: Planning](/workflows/phase-2-planning) - Create PRD, UX Design
+- [Phase 3: Solutioning](/workflows/phase-3-solutioning) - Define architecture and epics

@@ -1,0 +1,115 @@
+---
+title: "Workflows Overview"
+description: "Comprehensive overview of all BMad Method workflows and execution phases"
+icon: "workflow"
+---
+
+# Workflows Overview
+
+The BMad Method provides a comprehensive set of AI-powered workflows that guide you through the complete product development lifecycle. Each workflow is designed for human-AI collaboration, with structured step-by-step processes that ensure consistency and quality.
+
+## Workflow Architecture
+
+All BMad workflows use a **step-file architecture** for disciplined execution:
+
+- **Micro-file Design**: Each step is a self-contained instruction file
+- **Just-In-Time Loading**: Only the current step file is loaded
+- **Sequential Enforcement**: Steps must be completed in order
+- **State Tracking**: Progress tracked in document frontmatter
+- **Append-Only Building**: Documents built incrementally through conversation
+
+## Development Phases
+
+The BMad Method organizes workflows into four main phases:
+
+<CardGroup cols={2}>
+  <Card title="Phase 1: Analysis" icon="magnifying-glass" href="/workflows/phase-1-analysis">
+    Understand the problem space through brainstorming and research
+  </Card>
+  <Card title="Phase 2: Planning" icon="clipboard-list" href="/workflows/phase-2-planning">
+    Define requirements, UX design, and product specifications
+  </Card>
+  <Card title="Phase 3: Solutioning" icon="lightbulb" href="/workflows/phase-3-solutioning">
+    Create architecture, epics, and implementation-ready stories
+  </Card>
+  <Card title="Phase 4: Implementation" icon="code" href="/workflows/phase-4-implementation">
+    Execute sprints, implement stories, and conduct reviews
+  </Card>
+</CardGroup>
+
+## Special Workflows
+
+In addition to the phase-based workflows, BMad provides specialized workflows:
+
+<CardGroup cols={2}>
+  <Card title="Quick Flow" icon="bolt" href="/workflows/quick-flow">
+    Rapid development workflow for small features and changes
+  </Card>
+  <Card title="Document Project" icon="book" href="/workflows/document-project">
+    Generate comprehensive documentation for brownfield projects
+  </Card>
+</CardGroup>
+
+## Workflow Invocation
+
+Workflows are triggered through natural language commands to your AI agent:
+
+```bash
+# Example invocations
+"Let's create a product brief"
+"Help me create a PRD"
+"Create the architecture"
+"Run sprint planning"
+"Document this project"
+```
+
+Each workflow is triggered by specific phrases defined in its configuration. The AI agent recognizes these triggers and loads the appropriate workflow.
+
+## Key Principles
+
+### Step Processing Rules
+
+1. **READ COMPLETELY**: Always read the entire step file before taking action
+2. **FOLLOW SEQUENCE**: Execute all numbered sections in order
+3. **WAIT FOR INPUT**: Halt at menus and wait for user selection
+4. **CHECK CONTINUATION**: Only proceed when user confirms
+5. **SAVE STATE**: Update progress before loading next step
+6. **LOAD NEXT**: Read fully and follow the next step file when directed
+
+### Critical Rules
+
+- 🛑 **NEVER** load multiple step files simultaneously
+- 📖 **ALWAYS** read entire step file before execution
+- 🚫 **NEVER** skip steps or optimize the sequence
+- 💾 **ALWAYS** update frontmatter when writing outputs
+- 🎯 **ALWAYS** follow exact instructions in step files
+- ⏸️ **ALWAYS** halt at menus and wait for user input
+- 📋 **NEVER** create mental todo lists from future steps
+
+## Configuration
+
+All workflows load their configuration from `{project-root}/_bmad/bmm/config.yaml`, which includes:
+
+- Project metadata (name, folders, artifacts locations)
+- User preferences (name, language, skill level)
+- Communication settings (language, document output language)
+- Workflow-specific settings
+
+## Output Artifacts
+
+Workflows generate structured documents in designated folders:
+
+- **Planning Artifacts**: Product briefs, research reports, PRDs, UX designs, architecture
+- **Implementation Artifacts**: Sprint status, stories, retrospectives
+- **Project Knowledge**: Brownfield project documentation
+
+## Next Steps
+
+Explore the specific workflow phases to understand each workflow in detail:
+
+- [Phase 1: Analysis](/workflows/phase-1-analysis) - Brainstorming and research
+- [Phase 2: Planning](/workflows/phase-2-planning) - Requirements and design
+- [Phase 3: Solutioning](/workflows/phase-3-solutioning) - Architecture and epics
+- [Phase 4: Implementation](/workflows/phase-4-implementation) - Development and reviews
+- [Quick Flow](/workflows/quick-flow) - Rapid development
+- [Document Project](/workflows/document-project) - Documentation generation

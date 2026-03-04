@@ -1,0 +1,1179 @@
+---
+title: "Building Your First Project"
+description: "Complete walkthrough of creating a new project with BMad Method from initial idea to working implementation"
+---
+
+# Building Your First Project with BMad Method
+
+This tutorial walks you through creating a complete project using BMad Method, from initial concept to working code. You'll experience the full workflow: analysis, planning, architecture, and implementation.
+
+## Tutorial Project: Plant Care Tracker
+
+We'll build a simple web application that helps users track their houseplants and care schedules. This project is complex enough to showcase BMad's capabilities while remaining approachable for learning.
+
+**Features we'll implement:**
+- User authentication
+- Plant inventory management
+- Care schedule tracking
+- Watering reminders
+
+<Note>
+  This tutorial uses the **BMad Method** track (full PRD + Architecture). If you're working on a simpler project, you can use the **Quick Flow** track instead.
+</Note>
+
+## Prerequisites
+
+<Steps>
+  <Step title="Complete Getting Started">
+    Follow the [Getting Started guide](./getting-started) to install BMad Method
+  </Step>
+  
+  <Step title="Create project directory">
+    ```bash
+    mkdir plant-care-tracker
+    cd plant-care-tracker
+    git init
+    ```
+  </Step>
+  
+  <Step title="Install BMad Method">
+    ```bash
+    npx bmad-method install
+    ```
+    
+    Select **BMad Method** module when prompted.
+  </Step>
+</Steps>
+
+## Phase 1: Analysis
+
+Let's start by clarifying our product concept through optional but valuable analysis workflows.
+
+### Create a Product Brief
+
+<Steps>
+  <Step title="Open your AI IDE">
+    Launch Claude Code, Cursor, or your preferred AI IDE in the project directory.
+  </Step>
+  
+  <Step title="Start a fresh chat">
+    Create a new chat session to begin.
+  </Step>
+  
+  <Step title="Load the Analyst agent">
+    ```
+    /bmad-agent-bmm-analyst
+    ```
+    
+    You'll meet **Mary**, the Business Analyst agent.
+  </Step>
+  
+  <Step title="Run the product brief workflow">
+    ```
+    /bmad-bmm-create-product-brief
+    ```
+    
+    Mary will guide you through questions about:
+    - Your target users (plant owners who struggle with care schedules)
+    - Core problem (forgetting to water plants, over/under watering)
+    - Key features (inventory, schedules, reminders)
+    - Success metrics (user retention, plants saved)
+  </Step>
+</Steps>
+
+**Example interaction:**
+
+```
+Mary (Business Analyst): "Let's discover what makes this product special! 
+Who are your target users?"
+
+You: Plant owners who have killed plants by forgetting to water them or 
+watering on inconsistent schedules.
+
+Mary: "Fascinating! What's the core problem they face that keeps them 
+up at night?"
+
+You: They don't have a system to remember care tasks, and different 
+plants need different schedules.
+```
+
+<Accordion title="View example output">
+  ```markdown
+  # Product Brief: Plant Care Tracker
+  
+  ## Problem Statement
+  Plant owners struggle to maintain consistent care schedules, leading to 
+  plant death from neglect or over-watering.
+  
+  ## Target Users
+  - Houseplant enthusiasts (3-15 plants)
+  - New plant owners learning care routines
+  - Busy professionals who want plants but lack time
+  
+  ## Core Features
+  1. Plant inventory with species information
+  2. Customizable care schedules per plant
+  3. Reminder notifications
+  4. Care history tracking
+  
+  ## Success Criteria
+  - 70% user retention after 30 days
+  - Average 5+ plants per active user
+  - 80% of scheduled tasks completed
+  ```
+</Accordion>
+
+**Output:** `_bmad-output/planning-artifacts/product-brief.md`
+
+<Tip>
+  BMad-Help will automatically run at the end, telling you the recommended next step (creating your PRD).
+</Tip>
+
+## Phase 2: Planning
+
+Now let's create our comprehensive Product Requirements Document.
+
+### Create the PRD
+
+<Steps>
+  <Step title="Start a fresh chat">
+    <Warning>
+      Always start fresh chats for each workflow to avoid context limitations.
+    </Warning>
+  </Step>
+  
+  <Step title="Load the PM agent">
+    ```
+    /bmad-agent-bmm-pm
+    ```
+    
+    Meet **John**, your Product Manager agent who asks "WHY?" relentlessly.
+  </Step>
+  
+  <Step title="Run the PRD creation workflow">
+    ```
+    /bmad-bmm-create-prd
+    ```
+    
+    John will facilitate a structured interview covering:
+    - Product vision and goals
+    - User personas and scenarios
+    - Functional requirements
+    - Non-functional requirements
+    - Success metrics
+  </Step>
+</Steps>
+
+**The PRD workflow uses step-file architecture:**
+
+John will guide you through steps sequentially:
+1. **Initialization** - Load context and understand your starting point
+2. **Vision & Goals** - Define the "why" behind your product
+3. **User Research** - Identify personas and scenarios
+4. **Requirements Discovery** - Functional and non-functional needs
+5. **Success Metrics** - How you'll measure success
+6. **Validation** - Ensure completeness and cohesion
+
+**Example interaction:**
+
+```
+John (PM): "Let's nail down the vision. In one sentence, what change 
+do you want to see in the world?"
+
+You: Plant owners confidently care for their plants with consistent 
+routines, leading to healthier plants and happier owners.
+
+John: "Perfect. Now, WHY is this problem worth solving? What's the 
+real pain?"
+
+You: People feel guilty when plants die, and it discourages them from 
+trying again. A simple system would keep them engaged and successful.
+```
+
+<Accordion title="View example PRD structure">
+  ```markdown
+  # Product Requirements Document: Plant Care Tracker
+  
+  ## 1. Product Vision
+  Enable plant owners to maintain healthy plants through 
+  systematic care tracking and intelligent reminders.
+  
+  ## 2. User Personas
+  
+  ### Persona 1: Busy Professional
+  - Name: Sarah
+  - Age: 28-35
+  - Context: Works full-time, has 5-8 houseplants
+  - Pain: Forgets watering schedules, plants die
+  - Goal: Automated reminders, minimal effort tracking
+  
+  ## 3. Functional Requirements
+  
+  ### FR-1: User Authentication
+  Users must be able to create accounts and log in securely.
+  
+  **Acceptance Criteria:**
+  - Users can register with email and password
+  - Passwords are hashed and secure
+  - Users can log in and log out
+  - Password reset functionality
+  
+  ### FR-2: Plant Inventory Management
+  Users can add, edit, and remove plants from their collection.
+  
+  **Acceptance Criteria:**
+  - Add plant with species, location, acquisition date
+  - Upload plant photo (optional)
+  - Edit plant details
+  - Archive or delete plants
+  - View all plants in grid or list view
+  
+  ## 4. Non-Functional Requirements
+  
+  ### NFR-1: Performance
+  - Page load time < 2 seconds
+  - Plant list renders in < 500ms for up to 100 plants
+  
+  ### NFR-2: Security
+  - All passwords hashed with bcrypt
+  - HTTPS for all communications
+  - JWT tokens expire after 24 hours
+  ```
+</Accordion>
+
+**Output:** `_bmad-output/planning-artifacts/PRD.md`
+
+### Optional: Create UX Design
+
+If your project has a user interface (like ours does), create a UX design document:
+
+<Steps>
+  <Step title="Start a fresh chat" />
+  
+  <Step title="Load the UX Designer agent">
+    ```
+    /bmad-agent-bmm-ux-designer
+    ```
+    
+    Meet **Sally**, who paints pictures with words and advocates for users.
+  </Step>
+  
+  <Step title="Run the UX design workflow">
+    ```
+    /bmad-bmm-create-ux-design
+    ```
+    
+    Sally will guide you through:
+    - User journey mapping
+    - Visual foundation (colors, typography)
+    - Component strategy
+    - UX patterns and interactions
+    - Responsive design considerations
+  </Step>
+</Steps>
+
+**Output:** `_bmad-output/planning-artifacts/ux-design.md`
+
+## Phase 3: Solutioning
+
+Now we'll make technical decisions and break down the work into actionable stories.
+
+### Create Architecture
+
+<Steps>
+  <Step title="Start a fresh chat" />
+  
+  <Step title="Load the Architect agent">
+    ```
+    /bmad-agent-bmm-architect
+    ```
+    
+    Meet **Winston**, who speaks in calm, pragmatic tones and balances "what could be" with "what should be."
+  </Step>
+  
+  <Step title="Run the architecture workflow">
+    ```
+    /bmad-bmm-create-architecture
+    ```
+    
+    Winston will guide you through:
+    - Technology stack selection
+    - System architecture patterns
+    - Database design
+    - API structure
+    - Security approach
+    - Deployment strategy
+  </Step>
+</Steps>
+
+**Example decisions for our Plant Care Tracker:**
+
+<CodeGroup>
+```yaml Tech Stack
+Frontend:
+  - React 18 with TypeScript
+  - Vite for build tooling
+  - TailwindCSS for styling
+  - React Query for data fetching
+
+Backend:
+  - Node.js with Express
+  - TypeScript
+  - PostgreSQL database
+  - Prisma ORM
+
+Authentication:
+  - JWT tokens
+  - bcrypt for password hashing
+```
+
+```sql Database Schema
+CREATE TABLE users (
+  id UUID PRIMARY KEY,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  password_hash VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE plants (
+  id UUID PRIMARY KEY,
+  user_id UUID REFERENCES users(id),
+  name VARCHAR(255) NOT NULL,
+  species VARCHAR(255),
+  location VARCHAR(255),
+  photo_url TEXT,
+  acquired_date DATE,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE care_schedules (
+  id UUID PRIMARY KEY,
+  plant_id UUID REFERENCES plants(id),
+  task_type VARCHAR(50), -- 'water', 'fertilize', 'prune'
+  frequency_days INTEGER,
+  last_completed TIMESTAMP,
+  next_due TIMESTAMP
+);
+```
+
+```typescript API Structure
+// Authentication endpoints
+POST /api/auth/register
+POST /api/auth/login
+POST /api/auth/logout
+POST /api/auth/reset-password
+
+// Plant endpoints
+GET    /api/plants
+POST   /api/plants
+GET    /api/plants/:id
+PUT    /api/plants/:id
+DELETE /api/plants/:id
+
+// Care schedule endpoints
+GET  /api/plants/:id/schedules
+POST /api/plants/:id/schedules
+PUT  /api/schedules/:id
+POST /api/schedules/:id/complete
+```
+</CodeGroup>
+
+**Output:** `_bmad-output/planning-artifacts/architecture.md`
+
+### Create Epics and Stories
+
+<Tip>
+  **V6 Improvement:** This workflow now runs *after* architecture, creating better quality stories informed by technical decisions.
+</Tip>
+
+<Steps>
+  <Step title="Start a fresh chat" />
+  
+  <Step title="Load the PM agent">
+    ```
+    /bmad-agent-bmm-pm
+    ```
+  </Step>
+  
+  <Step title="Run create epics and stories">
+    ```
+    /bmad-bmm-create-epics-and-stories
+    ```
+    
+    John will analyze both your PRD and Architecture to create:
+    - Logical epics grouping related functionality
+    - Detailed user stories with acceptance criteria
+    - Technically-informed implementation notes
+  </Step>
+</Steps>
+
+**Example output structure:**
+
+<Accordion title="View example epics and stories">
+  ```markdown
+  # Epics and Stories: Plant Care Tracker
+  
+  ## Epic 1: User Authentication & Account Management
+  
+  **Goal:** Enable users to securely create accounts and manage their profiles.
+  
+  ### Story 1.1: User Registration
+  
+  **As a** new user  
+  **I want to** register with my email and password  
+  **So that** I can create a personal plant tracking account
+  
+  **Acceptance Criteria:**
+  - [ ] User can submit registration form with email and password
+  - [ ] Email is validated for proper format
+  - [ ] Password requires minimum 8 characters with complexity rules
+  - [ ] Passwords are hashed using bcrypt before storage
+  - [ ] Duplicate email addresses are rejected with clear error
+  - [ ] Successful registration creates user record in database
+  - [ ] User receives confirmation and is logged in automatically
+  
+  **Technical Notes:**
+  - Use Prisma to create user record
+  - Return JWT token on successful registration
+  - Frontend validation with backend validation enforcement
+  
+  ### Story 1.2: User Login
+  
+  **As a** registered user  
+  **I want to** log in with my credentials  
+  **So that** I can access my plant collection
+  
+  **Acceptance Criteria:**
+  - [ ] User can submit login form with email and password
+  - [ ] System validates credentials against database
+  - [ ] Failed login shows generic error (security best practice)
+  - [ ] Successful login returns JWT token
+  - [ ] Token is stored securely in httpOnly cookie
+  - [ ] User is redirected to plant dashboard
+  
+  ## Epic 2: Plant Inventory Management
+  
+  **Goal:** Allow users to add, view, edit, and remove plants from their collection.
+  
+  ### Story 2.1: Add New Plant
+  
+  **As a** logged-in user  
+  **I want to** add a new plant to my collection  
+  **So that** I can start tracking its care
+  
+  **Acceptance Criteria:**
+  - [ ] User can access "Add Plant" form
+  - [ ] Form includes: name, species, location, acquisition date
+  - [ ] Optional photo upload with preview
+  - [ ] Form validation prevents empty required fields
+  - [ ] Plant is saved to database associated with user
+  - [ ] User sees confirmation and new plant appears in list
+  
+  ### Story 2.2: View Plant List
+  
+  **As a** logged-in user  
+  **I want to** see all my plants at a glance  
+  **So that** I can access their details quickly
+  
+  **Acceptance Criteria:**
+  - [ ] Dashboard shows all user's plants in grid layout
+  - [ ] Each plant card shows: photo, name, species, next care due
+  - [ ] Grid is responsive (3 cols desktop, 2 tablet, 1 mobile)
+  - [ ] Loading state while fetching plants
+  - [ ] Empty state with "Add Your First Plant" CTA
+  - [ ] Click on plant card navigates to detail view
+  ```
+</Accordion>
+
+**Output:** `_bmad-output/planning-artifacts/epics.md`
+
+### Implementation Readiness Check
+
+<Steps>
+  <Step title="Start a fresh chat" />
+  
+  <Step title="Load the Architect agent">
+    ```
+    /bmad-agent-bmm-architect
+    ```
+  </Step>
+  
+  <Step title="Run readiness check">
+    ```
+    /bmad-bmm-check-implementation-readiness
+    ```
+    
+    Winston will validate:
+    - PRD requirements are covered by stories
+    - Architecture supports all story requirements
+    - UX design aligns with functional requirements
+    - No gaps or contradictions exist
+  </Step>
+</Steps>
+
+<Check>
+  Your planning phase is now complete! All documents are cohesive and ready for implementation.
+</Check>
+
+## Phase 4: Implementation
+
+Now the exciting part — building the actual application!
+
+### Initialize Sprint Planning
+
+<Steps>
+  <Step title="Start a fresh chat" />
+  
+  <Step title="Load the Scrum Master agent">
+    ```
+    /bmad-agent-bmm-sm
+    ```
+    
+    Meet **Bob**, your crisp and checklist-driven Scrum Master.
+  </Step>
+  
+  <Step title="Run sprint planning">
+    ```
+    /bmad-bmm-sprint-planning
+    ```
+    
+    Bob will:
+    - Load all epics and stories
+    - Create `sprint-status.yaml` tracking file
+    - Set initial status for all work items
+  </Step>
+</Steps>
+
+**Example sprint-status.yaml:**
+
+```yaml
+# generated: 2026-03-04
+# project: Plant Care Tracker
+# tracking_system: bmad-method
+
+development_status:
+  epic-1: backlog
+  1-1-user-registration: backlog
+  1-2-user-login: backlog
+  1-3-password-reset: backlog
+  epic-1-retrospective: optional
+  epic-2: backlog
+  2-1-add-plant: backlog
+  2-2-view-plant-list: backlog
+  2-3-edit-plant: backlog
+  2-4-delete-plant: backlog
+  epic-2-retrospective: optional
+  # ... more epics
+```
+
+### The Build Cycle: Story by Story
+
+Let's implement our first story: **User Registration (1.1)**
+
+#### Step 1: Create Story File
+
+<Steps>
+  <Step title="Start a fresh chat" />
+  
+  <Step title="Load the Scrum Master agent">
+    ```
+    /bmad-agent-bmm-sm
+    ```
+  </Step>
+  
+  <Step title="Run create-story">
+    ```
+    /bmad-bmm-create-story
+    ```
+    
+    Bob will:
+    - Find the first "backlog" story from sprint-status
+    - Load comprehensive context (PRD, Architecture, previous stories)
+    - Create detailed story file with tasks/subtasks
+    - Include dev notes with architecture requirements
+    - Mark story as "ready-for-dev"
+  </Step>
+</Steps>
+
+**What's in the story file:**
+
+<Accordion title="View example story file">
+
+```markdown
+---
+story_key: 1-1-user-registration
+epic: 1
+status: ready-for-dev
+---
+
+# Story 1.1: User Registration
+
+## Story
+
+**As a** new user  
+**I want to** register with my email and password  
+**So that** I can create a personal plant tracking account
+
+## Acceptance Criteria
+
+- AC-1: User can submit registration form with email and password
+- AC-2: Email is validated for proper format
+- AC-3: Password requires minimum 8 characters with complexity
+- AC-4: Passwords are hashed using bcrypt before storage
+- AC-5: Duplicate emails rejected with clear error message
+- AC-6: Successful registration creates user record
+- AC-7: User receives JWT token and is logged in automatically
+
+## Tasks/Subtasks
+
+- Task 1: Set up database schema for users
+  - Create Prisma schema for users table
+  - Run migration to create table
+  - Verify table structure in database
+
+- Task 2: Create registration API endpoint
+  - POST /api/auth/register endpoint
+  - Request validation (email format, password strength)
+  - Check for duplicate email
+  - Hash password with bcrypt (salt rounds: 10)
+  - Create user record via Prisma
+  - Generate JWT token with 24h expiry
+  - Return token and user data (exclude password)
+
+- Task 3: Write comprehensive tests
+  - Unit test: email validation
+  - Unit test: password validation
+  - Unit test: password hashing
+  - Integration test: successful registration
+  - Integration test: duplicate email rejection
+  - Integration test: invalid input handling
+
+- Task 4: Create frontend registration form
+  - Registration form component with React Hook Form
+  - Email and password input fields
+  - Client-side validation with error messages
+  - Submit handler calling API
+  - Loading state during submission
+  - Error handling and display
+  - Success redirect to dashboard
+
+## Dev Notes
+
+### Architecture Requirements
+
+**Backend:**
+- Framework: Express with TypeScript
+- Database: PostgreSQL via Prisma ORM
+- Password hashing: bcrypt (salt rounds: 10)
+- JWT: jsonwebtoken library, 24h expiry
+- Validation: express-validator middleware
+
+**Frontend:**
+- React 18 with TypeScript
+- Form handling: React Hook Form + Zod validation
+- API calls: React Query
+- Store token in httpOnly cookie
+
+### Security Considerations
+
+- Never log passwords or hashes
+- Use parameterized queries (Prisma handles this)
+- Rate limit registration endpoint (future enhancement)
+- Validate on both client and server
+
+## Status
+
+ready-for-dev
+```
+
+</Accordion>
+
+**Output:** `_bmad-output/implementation-artifacts/1-1-user-registration.md`
+
+<Note>
+  Story file created! Bob updates sprint-status.yaml automatically:
+  ```yaml
+  1-1-user-registration: ready-for-dev
+  ```
+</Note>
+
+#### Step 2: Develop the Story
+
+<Steps>
+  <Step title="Start a fresh chat" />
+  
+  <Step title="Load the Developer agent">
+    ```
+    /bmad-agent-bmm-dev
+    ```
+    
+    Meet **Amelia**, who speaks in file paths and AC IDs with ultra-succinct precision.
+  </Step>
+  
+  <Step title="Run dev-story">
+    ```
+    /bmad-bmm-dev-story
+    ```
+    
+    Amelia will:
+    - Load the story file and all context
+    - Execute tasks sequentially following red-green-refactor
+    - Write failing tests first, then implementation
+    - Mark each task complete only when tests pass
+    - Update File List with all changes
+    - Mark story as "review" when complete
+  </Step>
+</Steps>
+
+**What happens during development:**
+
+<Accordion title="View example dev execution">
+  ```
+  Amelia (Developer): "Loading story 1-1-user-registration..."
+  
+  ✅ Context Loaded
+  Story and project context available for implementation
+  
+  🚀 Starting work on story 1-1-user-registration
+  Status updated: ready-for-dev → in-progress
+  
+  ---
+  
+  Task 1: Set up database schema for users
+  
+  📝 Creating Prisma schema...
+  
+  [Creates prisma/schema.prisma with User model]
+  
+  ✅ Task 1.1 complete: Prisma schema created
+  ✅ Task 1.2 complete: Migration generated
+  ✅ Task 1.3 complete: Database table verified
+  
+  ✅ Task 1 complete - marked [x]
+  
+  ---
+  
+  Task 2: Create registration API endpoint
+  
+  🔴 RED: Writing failing tests...
+  
+  [Creates src/auth/auth.test.ts with registration tests]
+  
+  ❌ Tests failing as expected (no implementation yet)
+  
+  🟢 GREEN: Implementing minimal code...
+  
+  [Creates src/auth/auth.controller.ts]
+  [Creates src/auth/auth.service.ts]
+  [Creates src/middleware/validation.ts]
+  
+  ✅ All tests passing
+  
+  🔵 REFACTOR: Improving structure...
+  
+  [Extracts validation logic, adds error handling]
+  
+  ✅ Tests still passing after refactor
+  ✅ Task 2 complete - marked [x]
+  
+  ---
+  
+  Task 3: Write comprehensive tests
+  
+  [Adds unit tests for validation functions]
+  [Adds integration tests for API endpoint]
+  [Adds edge case tests]
+  
+  ✅ 15 tests written, all passing
+  ✅ Task 3 complete - marked [x]
+  
+  ---
+  
+  Task 4: Create frontend registration form
+  
+  🔴 RED: Writing component tests...
+  
+  [Creates src/components/RegistrationForm.test.tsx]
+  
+  ❌ Tests failing (component doesn't exist)
+  
+  🟢 GREEN: Implementing component...
+  
+  [Creates src/components/RegistrationForm.tsx]
+  [Creates src/hooks/useRegister.ts with React Query]
+  
+  ✅ All tests passing
+  ✅ Task 4 complete - marked [x]
+  
+  ---
+  
+  ✅ All tasks complete!
+  
+  Validating definition of done:
+  - [x] All tasks marked complete
+  - [x] All acceptance criteria satisfied
+  - [x] Unit tests added (12 tests)
+  - [x] Integration tests added (8 tests)
+  - [x] All tests passing (20/20)
+  - [x] Code quality checks pass
+  - [x] File List updated
+  
+  Story status updated to "review" in sprint-status.yaml
+  
+  ---
+  
+  💡 **Implementation Complete**
+  
+  **Story:** 1-1-user-registration  
+  **Status:** review  
+  **Files Changed:** 12 files
+  
+  **Key Changes:**
+  - Created user database schema with Prisma
+  - Implemented registration API endpoint with validation
+  - Added comprehensive test coverage (20 tests, 100% passing)
+  - Built registration form component with React Hook Form
+  
+  **Next Steps:**
+  1. Review the implementation in the story file
+  2. Test the registration flow manually
+  3. Run code-review workflow (recommended: use different LLM)
+  
+  💡 **Tip:** For best results, run `code-review` using a **different** 
+  LLM than the one that implemented this story.
+  ```
+</Accordion>
+
+**Files created/modified:**
+
+```text
+prisma/
+  schema.prisma
+  migrations/...
+
+src/
+  auth/
+    auth.controller.ts
+    auth.service.ts
+    auth.test.ts
+  middleware/
+    validation.ts
+  components/
+    RegistrationForm.tsx
+    RegistrationForm.test.tsx
+  hooks/
+    useRegister.ts
+  types/
+    auth.types.ts
+```
+
+<Check>
+  Story implemented! Sprint status automatically updated:
+  ```yaml
+  1-1-user-registration: review
+  ```
+</Check>
+
+#### Step 3: Code Review
+
+<Tip>
+  For best results, use a **different LLM** for code review than the one that implemented the story. This provides fresh perspective.
+</Tip>
+
+<Steps>
+  <Step title="Start a fresh chat (in different LLM if possible)" />
+  
+  <Step title="Load the Developer agent">
+    ```
+    /bmad-agent-bmm-dev
+    ```
+  </Step>
+  
+  <Step title="Run code review">
+    ```
+    /bmad-bmm-code-review
+    ```
+    
+    Amelia (now acting as senior reviewer) will:
+    - Load the story and review all changed files
+    - Analyze code quality, patterns, security
+    - Check test coverage and quality
+    - Validate architecture compliance
+    - Create action items for any issues found
+  </Step>
+</Steps>
+
+**Example review output:**
+
+<Accordion title="View example code review">
+  ```markdown
+  ## Senior Developer Review (AI)
+  
+  **Reviewed:** 2026-03-04  
+  **Reviewer:** Amelia (Senior Developer - AI)  
+  **Outcome:** ✅ Approved with minor suggestions
+  
+  ### Action Items
+  
+  #### High Priority
+  - [ ] None
+  
+  #### Medium Priority
+  - [x] Add rate limiting to registration endpoint (AC-1)
+  - [x] Add integration test for concurrent duplicate registrations (AC-5)
+  
+  #### Low Priority (Optional)
+  - [ ] Consider extracting bcrypt config to environment variable
+  - [ ] Add JSDoc comments to auth service methods
+  
+  ### Detailed Findings
+  
+  **Code Quality:** ✅ Excellent
+  - Clean separation of concerns (controller/service)
+  - Proper error handling throughout
+  - TypeScript types well-defined
+  
+  **Testing:** ✅ Comprehensive
+  - 20 tests covering all acceptance criteria
+  - Good coverage of edge cases
+  - Both unit and integration tests present
+  
+  **Security:** ✅ Strong
+  - Passwords properly hashed with bcrypt
+  - JWT tokens generated correctly
+  - No sensitive data in logs
+  - Input validation on both client and server
+  
+  **Architecture Compliance:** ✅ Full
+  - Follows Express/TypeScript patterns from architecture
+  - Prisma used correctly for database access
+  - React Hook Form implemented as specified
+  
+  **Suggestions:**
+  1. Rate limiting would prevent abuse (see Medium priority items)
+  2. Concurrent registration test would catch race conditions
+  ```
+</Accordion>
+
+If review finds issues, re-run `dev-story` to address them. The Dev agent will automatically detect the review context and prioritize fixing review items.
+
+<Check>
+  Review complete! Once all items are addressed, manually update sprint-status:
+  ```yaml
+  1-1-user-registration: done
+  ```
+</Check>
+
+### Continue Building
+
+Repeat the build cycle for each story:
+
+1. **Create Story** (SM agent + `create-story`)
+2. **Develop Story** (Dev agent + `dev-story`)
+3. **Code Review** (Dev agent + `code-review`)
+
+**Progress tracking:**
+
+```yaml
+development_status:
+  epic-1: in-progress
+  1-1-user-registration: done ✅
+  1-2-user-login: in-progress 🚧
+  1-3-password-reset: backlog
+  # ...
+```
+
+### Complete Epic 1
+
+Once all stories in Epic 1 are done:
+
+<Steps>
+  <Step title="Start a fresh chat" />
+  
+  <Step title="Load the Scrum Master agent">
+    ```
+    /bmad-agent-bmm-sm
+    ```
+  </Step>
+  
+  <Step title="Run retrospective">
+    ```
+    /bmad-bmm-retrospective
+    ```
+    
+    This launches **Party Mode** where multiple agent personas collaborate:
+    - Bob (Scrum Master) facilitates
+    - Amelia (Developer) shares technical insights
+    - Winston (Architect) discusses patterns
+    - John (PM) evaluates business value
+    - **You** participate as project lead
+  </Step>
+</Steps>
+
+**Example Party Mode interaction:**
+
+```
+Bob (Scrum Master): "Welcome to the Epic 1 retrospective! Let's 
+reflect on our authentication implementation. What went well?"
+
+Amelia (Developer): "The TDD approach caught several edge cases early. 
+The Prisma schema migrations worked smoothly."
+
+Winston (Architect): "I'm pleased we stuck with bcrypt and JWT as 
+specified. The separation between auth service and controller is clean."
+
+You: The clear story files with dev notes made implementation 
+straightforward.
+
+Bob: "Excellent. What could we improve for Epic 2?"
+
+Amelia: "Rate limiting came up in code review but wasn't in original 
+stories. We should add that to Epic 2 planning."
+
+John (PM): "Good catch. I'll note that for course correction. We might 
+add a story for security enhancements across all endpoints."
+```
+
+## What You've Built
+
+Congratulations! You've completed your first BMad Method project cycle. You now have:
+
+<CardGroup cols={2}>
+  <Card title="Complete Planning" icon="file-check">
+    Product brief, PRD, UX design, architecture, and epics
+  </Card>
+  
+  <Card title="Working Authentication" icon="shield">
+    Secure registration and login with JWT tokens
+  </Card>
+  
+  <Card title="Comprehensive Tests" icon="vial">
+    Unit and integration tests with 100% passing rate
+  </Card>
+  
+  <Card title="Process Knowledge" icon="graduation-cap">
+    Understanding of the full BMad workflow
+  </Card>
+</CardGroup>
+
+**Your project structure:**
+
+```text
+plant-care-tracker/
+├── _bmad/
+│   └── bmm/                     # BMad configuration
+├── _bmad-output/
+│   ├── planning-artifacts/
+│   │   ├── product-brief.md
+│   │   ├── PRD.md
+│   │   ├── ux-design.md
+│   │   ├── architecture.md
+│   │   └── epics.md
+│   └── implementation-artifacts/
+│       ├── sprint-status.yaml
+│       ├── 1-1-user-registration.md
+│       ├── 1-2-user-login.md
+│       └── ...
+├── prisma/
+│   └── schema.prisma
+├── src/
+│   ├── auth/
+│   ├── components/
+│   ├── hooks/
+│   └── types/
+└── tests/
+```
+
+## Key Learnings
+
+<Steps>
+  <Step title="Fresh chats are essential">
+    Each workflow benefits from clean context to avoid limitations
+  </Step>
+  
+  <Step title="BMad-Help is your guide">
+    Always run `/bmad-help` when unsure what to do next
+  </Step>
+  
+  <Step title="Planning pays off">
+    The comprehensive story files prevent dev mistakes and omissions
+  </Step>
+  
+  <Step title="TDD works with AI">
+    Red-green-refactor cycle catches issues early
+  </Step>
+  
+  <Step title="Code review adds quality">
+    Using a different LLM for review provides valuable perspective
+  </Step>
+  
+  <Step title="Party Mode enables collaboration">
+    Multiple agent perspectives surface insights you might miss
+  </Step>
+</Steps>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Continue Building" icon="code">
+    Complete Epic 2 (Plant Inventory) and Epic 3 (Care Schedules)
+  </Card>
+  
+  <Card title="Explore Advanced Features" icon="wand-magic-sparkles">
+    Add Test Architect module for risk-based testing
+  </Card>
+  
+  <Card title="Learn Agent Deep Dive" icon="users" href="./working-with-agents">
+    Understand agent personas and collaboration patterns
+  </Card>
+  
+  <Card title="Read Best Practices" icon="star" href="../how-to/">
+    Discover optimization techniques and advanced workflows
+  </Card>
+</CardGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Agent doesn't follow instructions">
+    - Start a fresh chat to reset context
+    - Verify you loaded the correct agent with the slash command
+    - Check that you're running the intended workflow
+    - Ensure your IDE is properly configured for agent support
+  </Accordion>
+  
+  <Accordion title="Sprint status not updating">
+    - Verify `sprint-status.yaml` exists in `_bmad-output/implementation-artifacts/`
+    - Check file permissions (must be writable)
+    - Run `sprint-planning` again to regenerate
+    - Manually update if needed (it's just YAML)
+  </Accordion>
+  
+  <Accordion title="Story file missing context">
+    - Re-run `create-story` with fresh chat
+    - Verify PRD and Architecture files exist and are complete
+    - Check that `project-context.md` exists if you created one
+    - Ensure previous story files are in the correct location
+  </Accordion>
+  
+  <Accordion title="Tests failing during dev-story">
+    - Dev agent should stop and fix before continuing
+    - If it doesn't, explicitly tell it to fix failing tests
+    - Check that all dependencies are installed
+    - Verify database is running (for integration tests)
+  </Accordion>
+</AccordionGroup>
+
+## Community & Support
+
+<CardGroup cols={2}>
+  <Card title="Discord Community" icon="discord" href="https://discord.gg/gk8jAdXWmj">
+    Share your progress and get help in #bmad-method-help
+  </Card>
+  
+  <Card title="GitHub Discussions" icon="github" href="https://github.com/bmad-code-org/BMAD-METHOD/discussions">
+    Ask questions and share insights with the community
+  </Card>
+</CardGroup>
+
+You're now ready to build your own projects with BMad Method. Happy building! 🚀

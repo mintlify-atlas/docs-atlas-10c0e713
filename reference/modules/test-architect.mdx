@@ -1,0 +1,298 @@
+---
+title: Test Architect Enterprise (TEA)
+description: Master test architect for quality strategy, test automation, and release gates
+---
+
+## Overview
+
+Test Architect Enterprise (TEA) brings enterprise-grade testing expertise to the BMad Method ecosystem. It provides risk-based test strategy, test automation guidance, quality gates, and release management workflows.
+
+**Module Code:** `tea`
+
+## Key Features
+
+- **Risk-Based Test Strategy** - Prioritize testing efforts based on business and technical risk
+- **Test Automation Architecture** - Design scalable, maintainable test automation frameworks
+- **Quality Gates** - Define and enforce quality criteria at each stage
+- **Release Management** - Structured release planning and validation
+- **Test Planning** - Create comprehensive test plans from requirements
+- **Coverage Analysis** - Identify gaps in test coverage
+- **Performance Testing** - Load and performance test strategy
+- **Security Testing** - Security test planning and execution
+
+## Installation
+
+Install TEA during initial setup:
+
+```bash
+npx bmad-method install
+# Select Test Architect when prompted
+```
+
+Or add it to an existing installation:
+
+```bash
+npx bmad-method install --modules tea
+```
+
+For non-interactive installation:
+
+```bash
+npx bmad-method install --modules tea --yes
+```
+
+## Repository Information
+
+**GitHub:** [bmad-code-org/bmad-method-test-architecture-enterprise](https://github.com/bmad-code-org/bmad-method-test-architecture-enterprise)
+
+**NPM Package:** `bmad-method-test-architecture-enterprise`
+
+**Type:** Official BMad Module
+
+**Default Selected:** No (opt-in during installation)
+
+**Documentation:** [Test Architect Docs](https://bmad-code-org.github.io/bmad-method-test-architecture-enterprise/)
+
+## Test Architect Agent
+
+TEA provides a Master Test Architect agent persona with expertise in:
+
+- Quality assurance strategy
+- Test automation frameworks
+- Risk analysis and mitigation
+- Release readiness assessment
+- Performance and security testing
+- Testing best practices across domains
+
+### Invoke the Test Architect
+
+```
+/agent test-architect
+```
+
+Or start test-specific workflows that automatically use the Test Architect.
+
+## Core Workflows
+
+### Risk-Based Test Strategy
+
+Develop a testing strategy prioritized by risk:
+
+```
+/workflow test-strategy
+```
+
+**Outputs:**
+- Risk assessment matrix
+- Test coverage recommendations
+- Testing priorities by risk level
+- Resource allocation guidance
+
+### Test Automation Architecture
+
+Design your test automation framework:
+
+```
+/workflow automation-architecture
+```
+
+**Outputs:**
+- Automation framework design
+- Tool selection recommendations
+- Coding standards for tests
+- Maintenance strategy
+
+### Quality Gates Definition
+
+Define quality criteria for each stage:
+
+```
+/workflow define-quality-gates
+```
+
+**Outputs:**
+- Quality gate definitions
+- Entry and exit criteria
+- Automated gate checks
+- Exception handling procedures
+
+### Release Readiness Assessment
+
+Validate readiness for production release:
+
+```
+/workflow release-readiness
+```
+
+**Outputs:**
+- Readiness checklist
+- Risk assessment
+- Go/no-go recommendation
+- Rollback procedures
+
+### Test Plan Generation
+
+Create comprehensive test plans from requirements:
+
+```
+/workflow generate-test-plan
+```
+
+**Inputs:** Requirements documents, user stories, or PRD
+
+**Outputs:**
+- Test scenarios
+- Test cases
+- Test data requirements
+- Execution timeline
+
+## Testing Domains
+
+TEA covers all major testing domains:
+
+### Functional Testing
+- Unit testing strategy
+- Integration testing
+- End-to-end testing
+- User acceptance testing
+
+### Non-Functional Testing
+- Performance testing
+- Security testing
+- Accessibility testing
+- Usability testing
+
+### Specialized Testing
+- API testing
+- Database testing
+- Mobile testing
+- Cross-browser testing
+
+## Configuration Variables
+
+TEA defines its own configuration variables during installation. See the module's `module.yaml` in the [GitHub repository](https://github.com/bmad-code-org/bmad-method-test-architecture-enterprise) for current configuration options.
+
+Common configurations include:
+
+- Test artifact storage locations
+- Preferred testing frameworks
+- CI/CD integration settings
+- Quality threshold definitions
+
+## Integration with BMM
+
+TEA integrates seamlessly with BMad Method workflows:
+
+### During Architecture Phase
+- Review architecture for testability
+- Identify testing challenges early
+- Design test automation approach
+
+### During Sprint Planning
+- Define test tasks for each story
+- Estimate testing effort
+- Set quality gates for the sprint
+
+### During Implementation
+- Guide test-driven development
+- Review test coverage
+- Validate quality gates
+
+### Before Release
+- Execute release readiness workflow
+- Validate all quality gates passed
+- Assess production risks
+
+## Quality Metrics
+
+TEA helps you track and improve:
+
+- **Test Coverage** - Code coverage, requirement coverage, risk coverage
+- **Test Effectiveness** - Defect detection rate, escape rate
+- **Test Efficiency** - Execution time, automation rate
+- **Quality Trends** - Defect density, test pass rates over time
+
+## Best Practices
+
+### Risk-Based Testing
+
+1. Identify business-critical features
+2. Assess technical complexity and risk
+3. Allocate testing effort proportionally
+4. Re-assess risks regularly
+
+### Test Automation
+
+1. Automate stable, repetitive tests first
+2. Maintain test code quality standards
+3. Keep tests independent and isolated
+4. Monitor test execution time
+5. Review and refactor regularly
+
+### Quality Gates
+
+1. Define clear, measurable criteria
+2. Automate gate checks where possible
+3. Make gates visible to the team
+4. Review gate effectiveness
+5. Adjust gates based on learnings
+
+## Example Use Cases
+
+### Enterprise SaaS Application
+
+```
+# Create comprehensive test strategy
+/workflow test-strategy
+
+# Design multi-tier automation framework
+/workflow automation-architecture
+
+# Set up staging and production gates
+/workflow define-quality-gates
+```
+
+### Mobile App Release
+
+```
+# Generate test plan for new features
+/workflow generate-test-plan
+
+# Assess release readiness
+/workflow release-readiness
+```
+
+### API Service
+
+```
+# Ask Test Architect for API testing guidance
+/agent test-architect
+"I'm building a REST API. What testing strategy do you recommend?"
+```
+
+## Support and Resources
+
+- **Documentation:** [Test Architect Documentation](https://bmad-code-org.github.io/bmad-method-test-architecture-enterprise/)
+- **GitHub:** [Repository](https://github.com/bmad-code-org/bmad-method-test-architecture-enterprise)
+- **Discord:** Get help in the #test-architect channel
+- **Issues:** Report bugs or request features on GitHub
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Test Architect Docs" icon="book" href="https://bmad-code-org.github.io/bmad-method-test-architecture-enterprise/">
+    Full TEA documentation
+  </Card>
+  
+  <Card title="Quality Workflows" icon="check-circle" href="/reference/workflows">
+    Explore quality-focused workflows
+  </Card>
+  
+  <Card title="BMad Method Module" icon="brain" href="/reference/modules/bmad-method">
+    Core BMad framework
+  </Card>
+  
+  <Card title="Module Overview" icon="grid" href="/reference/modules/overview">
+    All BMad modules
+  </Card>
+</CardGroup>

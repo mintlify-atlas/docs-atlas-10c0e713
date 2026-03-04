@@ -1,80 +1,412 @@
 ---
-title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+title: Quick Start Guide
+description: Get BMad Method running in your project in 5-10 minutes with this step-by-step guide
 ---
 
-## Get started in three steps
+# Quick Start Guide
 
-Get your documentation site running locally and make your first customization.
-
-### Step 1: Set up your local environment
-
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
-
-### Step 2: Deploy your changes
-
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
-
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
-
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
-
-### Step 3: Go live
-
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
-
-## Next steps
-
-Now that you have your docs running, explore these key features:
-
-<CardGroup cols={2}>
-
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
-
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
-
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
-
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
-
-</CardGroup>
+Get BMad Method installed and running in your project in just a few minutes. This guide will walk you through installation, first commands, and basic usage.
 
 <Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
+  **Prerequisites:** You need [Node.js](https://nodejs.org) v20 or higher installed on your system.
 </Note>
+
+## Installation
+
+<Steps>
+  <Step title="Run the installer">
+    Open your terminal and navigate to your project directory, then run:
+
+    ```bash
+    npx bmad-method install
+    ```
+
+    <Tip>
+      If you're getting a stale beta version, use: `npx bmad-method@6.0.1 install`
+    </Tip>
+  </Step>
+
+  <Step title="Answer configuration prompts">
+    The installer will ask you a few questions to configure BMad for your project:
+
+    **Core Configuration:**
+    - What should agents call you? (Your name or team name)
+    - What language should agents use when chatting?
+    - Preferred document output language?
+    - Where should output files be saved? (default: `_bmad-output`)
+
+    **BMad Method Configuration:**
+    - Project name (defaults to your directory name)
+    - Your development experience level (beginner/intermediate/expert)
+    - Where to store planning artifacts (default: `_bmad-output/planning-artifacts`)
+    - Where to store implementation artifacts (default: `_bmad-output/implementation-artifacts`)
+    - Where to store project knowledge (default: `docs`)
+
+    <CodeGroup>
+    ```bash Example: Solo Developer
+    What should agents call you? Alex
+    What language should agents use? English  
+    Project name: my-saas-app
+    Experience level: Intermediate
+    ```
+
+    ```bash Example: Team
+    What should agents call you? Engineering Team
+    What language should agents use? English
+    Project name: enterprise-platform
+    Experience level: Expert
+    ```
+    </CodeGroup>
+  </Step>
+
+  <Step title="Select modules to install">
+    Choose which BMad modules you want to install:
+
+    - **BMad Method (BMM)** — Core framework with 34+ workflows (recommended)
+    - **BMad Builder (BMB)** — Create custom agents and workflows
+    - **Test Architect (TEA)** — Risk-based test strategy and automation
+    - **Game Dev Studio (BMGD)** — Game development workflows
+    - **Creative Intelligence Suite (CIS)** — Innovation and brainstorming
+
+    <Tip>
+      Start with just BMM (the core framework). You can add other modules anytime by running the installer again.
+    </Tip>
+  </Step>
+
+  <Step title="Select your AI IDE">
+    Choose which AI IDE(s) you're using:
+
+    - Claude Code (recommended)
+    - Cursor
+    - GitHub Copilot
+    - Windsurf
+    - And more...
+
+    The installer will configure slash commands for your selected IDE(s).
+  </Step>
+
+  <Step title="Wait for installation to complete">
+    The installer will:
+    - Create necessary directories
+    - Install selected modules
+    - Generate agent files
+    - Configure IDE integrations
+    - Set up workflow commands
+
+    This usually takes 30-60 seconds.
+  </Step>
+</Steps>
+
+## Verify Installation
+
+After installation completes, verify everything is working:
+
+<Steps>
+  <Step title="Check for the _bmad directory">
+    You should see a new `_bmad` directory in your project with this structure:
+
+    ```bash
+    _bmad/
+    ├── core/              # Core BMad functionality
+    ├── bmm/               # BMad Method module
+    │   ├── agents/        # Agent definitions
+    │   └── workflows/     # Workflow files
+    └── manifest.yaml      # Installation manifest
+    ```
+  </Step>
+
+  <Step title="Check for IDE integration">
+    Depending on your IDE, you should see:
+
+    **Claude Code:**
+    ```bash
+    .claude/
+    └── commands/
+        └── bmad/          # BMad slash commands
+    ```
+
+    **Cursor:**
+    ```bash
+    .cursor/
+    └── commands/
+        └── bmad/          # BMad slash commands
+    ```
+  </Step>
+
+  <Step title="Open your AI IDE">
+    Open your AI IDE (Claude Code, Cursor, etc.) in your project directory.
+  </Step>
+</Steps>
+
+## Your First Commands
+
+Now you're ready to use BMad Method! Here are your first commands:
+
+### Get Help
+
+The most important command is `/bmad-help` — it tells you exactly what to do next:
+
+```bash
+/bmad-help
+```
+
+You can also ask questions:
+
+```bash
+/bmad-help I just finished the architecture, what do I do next?
+```
+
+### Invoke an Agent
+
+Agents are your specialized collaborators. Try invoking the Product Manager:
+
+```bash
+/pm
+```
+
+You'll see a menu with options like:
+- **[CP] Create PRD** — Create a Product Requirements Document
+- **[VP] Validate PRD** — Validate an existing PRD
+- **[EP] Edit PRD** — Update your PRD
+- **[CE] Create Epics and Stories** — Break down requirements
+
+### Run a Workflow
+
+Workflows can also be called directly:
+
+```bash
+/create-prd
+```
+
+This launches the PRD creation workflow with guided facilitation.
+
+### Quick Development Flow
+
+For rapid iteration on small features or bug fixes:
+
+```bash
+/quick-flow-solo-dev
+```
+
+This specialized agent helps you ship quickly while maintaining quality.
+
+## Common First Tasks
+
+Here are typical first tasks based on your project stage:
+
+<Tabs>
+  <Tab title="New Project">
+    ### Starting from Scratch
+
+    <Steps>
+      <Step title="Brainstorm ideas">
+        ```bash
+        /bmad-help brainstorming
+        ```
+      </Step>
+
+      <Step title="Create a product brief">
+        ```bash
+        /pm
+        # Select "Create Product Brief"
+        ```
+      </Step>
+
+      <Step title="Write a PRD">
+        ```bash
+        /create-prd
+        ```
+      </Step>
+
+      <Step title="Design UX">
+        ```bash
+        /ux-designer
+        # Select "[CU] Create UX Design"
+        ```
+      </Step>
+
+      <Step title="Create architecture">
+        ```bash
+        /architect
+        # Select "[CA] Create Architecture"
+        ```
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="Existing Project">
+    ### Adding BMad to an Existing Project
+
+    <Steps>
+      <Step title="Document your project">
+        ```bash
+        /generate-project-context
+        ```
+        This creates a comprehensive project overview.
+      </Step>
+
+      <Step title="Plan a new feature">
+        ```bash
+        /create-prd
+        ```
+        Document requirements for your next feature.
+      </Step>
+
+      <Step title="Quick development">
+        ```bash
+        /quick-flow-solo-dev
+        ```
+        Jump straight into implementing small features.
+      </Step>
+
+      <Step title="Set up sprints">
+        ```bash
+        /sm
+        # Select "Sprint Planning"
+        ```
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="Bug Fix / Small Feature">
+    ### Quick Flow Development
+
+    <Steps>
+      <Step title="Start quick-flow">
+        ```bash
+        /quick-flow-solo-dev
+        ```
+      </Step>
+
+      <Step title="Choose your mode">
+        The agent will detect whether you need:
+        - Quick spec (plan before implementing)
+        - Quick dev (implement with review)
+      </Step>
+
+      <Step title="Follow the workflow">
+        The agent guides you through:
+        1. Understanding requirements
+        2. Implementation
+        3. Self-check
+        4. Adversarial review
+        5. Resolving findings
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Understanding the Workflow
+
+BMad Method organizes work into 4 phases:
+
+<CardGroup cols={2}>
+  <Card title="Phase 1: Analysis" icon="magnifying-glass">
+    **Research and Discovery**
+    - Domain research
+    - Market research
+    - Technical research
+    - Competitive analysis
+  </Card>
+
+  <Card title="Phase 2: Planning" icon="file-lines">
+    **Requirements & Design**
+    - Product briefs
+    - PRD creation
+    - UX design
+    - Validation
+  </Card>
+
+  <Card title="Phase 3: Solutioning" icon="compass-drafting">
+    **Architecture & Breakdown**
+    - Architecture documentation
+    - Epics and stories
+    - Implementation readiness
+  </Card>
+
+  <Card title="Phase 4: Implementation" icon="code">
+    **Development & Delivery**
+    - Sprint planning
+    - Story development
+    - Code review
+    - Retrospectives
+  </Card>
+</CardGroup>
+
+<Tip>
+  You don't need to follow all phases for every project! Small features can jump straight to quick-flow. The framework adapts to your needs.
+</Tip>
+
+## Pro Tips
+
+### Use Party Mode
+
+Bring multiple agents into a discussion:
+
+```bash
+/party-mode
+```
+
+Example: Get PM, Architect, and Dev in the same conversation to discuss a complex feature.
+
+### Customize Agent Behavior
+
+You can customize how agents communicate with you by editing:
+
+```bash
+_bmad/core/config.yaml
+```
+
+Change experience level, language, or output preferences.
+
+### Non-Interactive Installation
+
+For CI/CD pipelines or automation:
+
+```bash
+npx bmad-method install \
+  --directory /path/to/project \
+  --modules bmm \
+  --tools claude-code \
+  --yes
+```
+
+### Check Installation Status
+
+See what's currently installed:
+
+```bash
+npx bmad-method status
+```
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="Installation Guide" icon="book" href="/installation">
+    Learn about all installation options and troubleshooting
+  </Card>
+  <Card title="Agent Reference" icon="users" href="/reference/agents">
+    Meet all the specialized agents and their capabilities
+  </Card>
+  <Card title="Workflow Guide" icon="diagram-project" href="/workflows/overview">
+    Explore all 34+ workflows in detail
+  </Card>
+  <Card title="Tutorials" icon="graduation-cap" href="/tutorials/getting-started">
+    Step-by-step tutorials for common scenarios
+  </Card>
+</CardGroup>
+
+## Need Help?
+
+<Warning>
+  **Stuck or confused?** Remember: `/bmad-help` is your friend! It provides context-aware guidance based on your current project state.
+</Warning>
+
+- Ask `/bmad-help` in your IDE for intelligent guidance
+- Join our [Discord community](https://discord.gg/gk8jAdXWmj) for help and discussion
+- Report issues on [GitHub](https://github.com/bmad-code-org/BMAD-METHOD/issues)
+- Check the [documentation site](https://docs.bmad-method.org) for detailed guides
+
+---
+
+Congratulations! You're now ready to use BMad Method to build better software faster. Start with `/bmad-help` and let the agents guide you.

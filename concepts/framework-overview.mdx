@@ -1,0 +1,191 @@
+---
+title: Framework Overview
+description: High-level architecture and design philosophy of the BMad Method
+---
+
+The BMad Method (**B**uild **M**ore **A**rchitect **D**reams) is an AI-driven development framework that transforms how you build software by partnering AI agents with human expertise through structured workflows.
+
+## Design Philosophy
+
+Traditional AI coding tools do the thinking for you, producing average results. BMad takes a different approach: **AI agents act as expert collaborators who guide you through structured processes** to bring out your best thinking in partnership with the AI.
+
+Think of it as the difference between:
+- **Traditional AI**: "Here's what I generated for you"
+- **BMad Method**: "Let's work through this together using proven methodologies"
+
+### Core Principles
+
+1. **Human-AI Partnership** — You bring domain expertise and vision; agents bring structure, methodology, and execution rigor
+2. **Context Engineering** — Each phase produces documents that become authoritative context for the next phase
+3. **Progressive Elaboration** — Start with high-level goals, refine through structured workflows into implementable units
+4. **Agent Specialization** — Different experts (PM, Architect, Dev) for different phases, each with distinct personas and capabilities
+5. **Methodology Over Generation** — Agents facilitate proven processes (agile, design thinking, architecture patterns) rather than just generating code
+
+## Framework Architecture
+
+BMad is built on a **modular, phase-based architecture** that mirrors how successful software projects actually work:
+
+```
+Phase 1: Analysis          Phase 2: Planning          Phase 3: Solutioning       Phase 4: Implementation
+┌─────────────┐            ┌──────────────┐           ┌───────────────┐          ┌────────────────┐
+│ Brainstorm  │───────────>│ Create PRD   │──────────>│ Architecture  │─────────>│ Sprint Planning│
+│ Research    │            │ UX Design    │           │ Epics/Stories │          │ Dev Stories    │
+│ Brief       │            │              │           │ Readiness     │          │ Code Review    │
+└─────────────┘            └──────────────┘           └───────────────┘          └────────────────┘
+     ↓                           ↓                           ↓                           ↓
+  Optional              Defines WHAT & WHY           Defines HOW & WHAT UNITS      Builds feature-by-feature
+
+                            Quick Flow (Parallel Track)
+                            ┌──────────────────────────┐
+                            │ quick-spec → quick-dev   │
+                            │ Skip phases 1-3 entirely │
+                            └──────────────────────────┘
+```
+
+### Key Components
+
+**1. Module System**
+BMad uses a module-based architecture where functionality is organized into installable modules:
+- **Core** — Foundation configuration and orchestration
+- **BMM** (BMad Method) — Main agile development workflows and agents
+- **Extension Modules** — TEA (Test Architect), CIS (Creative Intelligence Suite), BMGD (Game Dev Studio)
+
+**2. Agent System**
+Specialized AI agents with distinct personas, knowledge domains, and workflows:
+- Product Manager (John) — Requirements discovery and PRD creation
+- Architect (Winston) — Technical design and architecture decisions
+- Developer (Amelia) — Story implementation with test coverage
+- Scrum Master (Bob) — Sprint planning and story preparation
+- UX Designer (Sally) — User experience design
+- And more (QA, Tech Writer, Analyst, Quick Flow Specialist)
+
+**3. Workflow Engine**
+Structured, multi-step workflows that enforce methodology:
+- **Step-file architecture** — Each workflow broken into sequential steps
+- **Just-in-time loading** — Only current step in memory
+- **State tracking** — Progress tracked in artifact frontmatter
+- **Menu-driven interaction** — Agents pause for user decisions at key points
+
+**4. Context Management**
+Documents become authoritative context for downstream work:
+- PRD informs architecture decisions
+- Architecture informs epic/story breakdown
+- Stories provide complete context for implementation
+- `project-context.md` ensures consistency across all agents
+
+## How It Works
+
+BMad Method follows a **context-driven development cycle**:
+
+### 1. Choose Your Track
+
+Projects adapt based on complexity:
+
+| Track | Best For | Artifacts |
+|-------|----------|----------|
+| **Quick Flow** | Bug fixes, small features, clear scope | Tech-spec only |
+| **BMad Method** | Products, platforms, complex features | PRD + Architecture + Epics |
+| **Enterprise** | Compliance, security, multi-tenant systems | Full methodology + specialized docs |
+
+### 2. Progress Through Phases
+
+Each phase builds on the previous:
+
+**Phase 1: Analysis (Optional)**
+- Brainstorm ideas with facilitated creative techniques
+- Research market/technical assumptions
+- Create Product Brief for strategic vision
+
+**Phase 2: Planning (Required)**
+- PM agent facilitates PRD creation through user interviews
+- UX Designer creates experience specifications (optional)
+- Output: Clear requirements (FRs/NFRs) and user flows
+
+**Phase 3: Solutioning (BMad Method/Enterprise)**
+- Architect makes explicit technical decisions
+- PM breaks work into epics and stories using architecture context
+- Implementation Readiness check validates alignment
+- Output: Architecture doc + Epic files with stories
+
+**Phase 4: Implementation**
+- Sprint Planning initializes tracking
+- For each story: Scrum Master prepares → Dev implements → Code Review validates
+- Retrospective after each epic
+- Output: Working, tested code
+
+### 3. BMad-Help Guides You
+
+The `/bmad-help` command is your intelligent guide:
+- Inspects your project to see what's been completed
+- Recommends what to do next based on your situation
+- Answers questions about process and options
+- Runs automatically at the end of every workflow
+
+## Scale-Adaptive Intelligence
+
+BMad automatically adjusts planning depth based on project complexity:
+
+- **Small changes** (1-5 stories) → Quick Flow with minimal ceremony
+- **Medium projects** (10-30 stories) → BMad Method Simple (PRD optional Architecture)
+- **Complex projects** (30+ stories) → Full BMad Method with architecture
+- **Enterprise systems** → Complete methodology + security/compliance workflows
+
+This means you're never over-planning simple changes or under-planning complex systems.
+
+## Integration Points
+
+### AI IDEs
+BMad works with any AI coding assistant supporting custom prompts:
+- Claude Code (recommended)
+- Cursor
+- GitHub Copilot (with custom instructions)
+- Any LLM-powered IDE
+
+### Version Control
+All artifacts are markdown files suitable for git tracking:
+```bash
+_bmad-output/
+├── planning-artifacts/
+│   ├── PRD.md
+│   ├── architecture.md
+│   └── epics/
+├── implementation-artifacts/
+│   ├── sprint-status.yaml
+│   └── stories/
+└── project-context.md
+```
+
+### Build Tools
+Agents use your existing build tools and testing frameworks. BMad doesn't replace your toolchain — it orchestrates how you use it.
+
+## Key Differentiators
+
+**vs. Traditional AI Code Assistants**
+- Traditional: Generate code from prompts
+- BMad: Guide through proven methodologies that produce better specifications, which then produce better code
+
+**vs. No-Code/Low-Code Platforms**
+- No-code: Limited to platform capabilities
+- BMad: Full control over tech stack and architecture
+
+**vs. Manual Agile Process**
+- Manual: Relies on human discipline and experience
+- BMad: AI agents enforce methodology and provide expert guidance at each phase
+
+## What Makes BMad Different
+
+1. **Facilitation Over Generation** — Agents guide you through proven processes rather than just generating outputs
+2. **Multi-Agent Specialization** — Different experts for different phases, each with realistic personas
+3. **Context Engineering** — Deliberate document hierarchy where each artifact informs the next
+4. **Scale Adaptation** — Framework adjusts ceremony level to project complexity
+5. **Open Source & Free** — 100% free with no paywalls or gated features
+6. **Methodology Grounding** — Built on agile, lean architecture, and design thinking principles
+
+## Next Steps
+
+Now that you understand the framework architecture:
+
+- Learn about [Agents](./agents) — Meet the specialized AI experts
+- Explore [Workflows](./workflows) — Understand how structured processes work
+- Discover [Modules](./modules) — See how to extend BMad capabilities
+- Try [Party Mode](./party-mode) — Experience multi-agent collaboration

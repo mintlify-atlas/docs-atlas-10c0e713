@@ -1,0 +1,377 @@
+---
+title: Game Dev Studio (BMGD)
+description: Game development workflows and agents for Unity, Unreal Engine, and Godot
+---
+
+## Overview
+
+BMad Game Dev Studio (BMGD) brings specialized game development expertise to the BMad Method ecosystem. It provides workflows, agents, and tooling specifically designed for game development across Unity, Unreal Engine, and Godot.
+
+**Module Code:** `gds`
+
+## Key Features
+
+- **Multi-Engine Support** - Workflows for Unity, Unreal Engine, and Godot
+- **Game Design Workflows** - From concept to game design document
+- **Technical Design** - Game architecture, systems, and technical planning
+- **Asset Pipeline** - Asset creation, management, and integration guidance
+- **Gameplay Programming** - Code structure and patterns for game mechanics
+- **Performance Optimization** - Game-specific performance tuning
+- **Publishing Support** - Platform-specific release preparation
+- **Game-Specific Agents** - Specialized personas for game development roles
+
+## Installation
+
+Install BMGD during initial setup:
+
+```bash
+npx bmad-method install
+# Select Game Dev Studio when prompted
+```
+
+Or add it to an existing installation:
+
+```bash
+npx bmad-method install --modules gds
+```
+
+For non-interactive installation:
+
+```bash
+npx bmad-method install --modules gds --yes
+```
+
+## Repository Information
+
+**GitHub:** [bmad-code-org/bmad-module-game-dev-studio](https://github.com/bmad-code-org/bmad-module-game-dev-studio)
+
+**NPM Package:** `bmad-game-dev-studio`
+
+**Type:** Official BMad Module
+
+**Default Selected:** No (opt-in during installation)
+
+## Specialized Agents
+
+BMGD provides game development-specific agent personas:
+
+### Game Designer
+
+Expertise in:
+- Game mechanics design
+- Player experience
+- Game balance and progression
+- Monetization strategy
+- Level design principles
+
+### Technical Game Designer
+
+Expertise in:
+- Systems design
+- Combat and AI systems
+- Economy and progression systems
+- Tool requirements
+- Prototyping strategy
+
+### Game Programmer
+
+Expertise in:
+- Gameplay programming
+- Game architecture patterns
+- Engine-specific best practices
+- Performance optimization
+- Code organization for games
+
+### Game Artist (Technical)
+
+Expertise in:
+- Asset pipeline setup
+- Technical art constraints
+- Shader and material guidance
+- Performance budgets
+- Integration workflows
+
+## Core Workflows
+
+### Game Concept Development
+
+Develop your game idea into a structured concept:
+
+```
+/workflow game-concept
+```
+
+**Outputs:**
+- Core gameplay loop
+- Unique selling points
+- Target audience
+- Platform considerations
+- High-level scope
+
+### Game Design Document
+
+Create comprehensive game design documentation:
+
+```
+/workflow game-design-doc
+```
+
+**Outputs:**
+- Game overview and vision
+- Gameplay mechanics
+- Systems design
+- Progression and balance
+- Content plan
+
+### Technical Design Document
+
+Plan the technical architecture:
+
+```
+/workflow game-technical-design
+```
+
+**Outputs:**
+- Architecture overview
+- System dependencies
+- Engine-specific considerations
+- Performance targets
+- Technical constraints
+
+### Asset Pipeline Setup
+
+Design your asset workflow:
+
+```
+/workflow asset-pipeline
+```
+
+**Outputs:**
+- Asset naming conventions
+- Folder structure
+- Import settings
+- Optimization guidelines
+- Version control setup
+
+### Gameplay System Design
+
+Design individual game systems:
+
+```
+/workflow design-gameplay-system
+```
+
+**Inputs:** System type (combat, inventory, dialogue, etc.)
+
+**Outputs:**
+- System requirements
+- Data structures
+- State management
+- Integration points
+- Testing approach
+
+## Engine-Specific Support
+
+### Unity
+
+- C# coding patterns
+- ScriptableObject architecture
+- Unity-specific workflows
+- Package management
+- Build pipeline setup
+
+### Unreal Engine
+
+- Blueprint best practices
+- C++ integration
+- Gameplay Framework usage
+- Performance profiling
+- Packaging and deployment
+
+### Godot
+
+- GDScript patterns
+- Scene organization
+- Node architecture
+- Resource management
+- Export templates
+
+## Game Development Lifecycle
+
+BMGD supports the full game development cycle:
+
+### Pre-Production
+
+1. Concept development
+2. Prototyping strategy
+3. Technical feasibility
+4. Scope definition
+5. Team and resource planning
+
+### Production
+
+1. Iterative development sprints
+2. Vertical slice creation
+3. Content production
+4. System implementation
+5. Regular playtesting
+
+### Polish & Release
+
+1. Performance optimization
+2. Bug fixing and stability
+3. Platform compliance
+4. Marketing asset creation
+5. Launch preparation
+
+### Post-Launch
+
+1. Live operations
+2. Update planning
+3. Community feedback integration
+4. DLC/expansion development
+
+## Configuration Variables
+
+BMGD defines game-specific configuration variables during installation. See the module's `module.yaml` in the [GitHub repository](https://github.com/bmad-code-org/bmad-module-game-dev-studio) for current configuration options.
+
+Common configurations include:
+
+- Game engine selection (Unity, Unreal, Godot)
+- Target platforms
+- Asset storage locations
+- Design document templates
+- Build configuration paths
+
+## Integration with BMM
+
+BMGD extends BMad Method workflows with game-specific context:
+
+### Architecture Phase
+- Game-specific architecture patterns
+- Engine framework integration
+- Performance architecture
+- Data-driven design
+
+### Sprint Planning
+- Feature vs. content balance
+- Iteration and polish time
+- Playtesting sessions
+- Vertical slice milestones
+
+### Implementation
+- Gameplay code reviews
+- Asset integration
+- Performance profiling
+- Build and playtest automation
+
+## Best Practices
+
+### Game Design
+
+1. Prototype core mechanics early
+2. Playtest frequently
+3. Iterate based on player feedback
+4. Balance scope with resources
+5. Document design decisions
+
+### Technical Development
+
+1. Plan for performance from the start
+2. Use data-driven design
+3. Decouple systems for flexibility
+4. Profile early and often
+5. Automate builds and testing
+
+### Asset Management
+
+1. Establish naming conventions early
+2. Version control binary assets properly
+3. Optimize assets for target platforms
+4. Use asset bundles/packages
+5. Document asset specifications
+
+## Example Use Cases
+
+### 2D Mobile Game
+
+```
+# Start with game concept
+/workflow game-concept
+
+# Create game design document
+/workflow game-design-doc
+
+# Set up asset pipeline for 2D sprites
+/workflow asset-pipeline
+```
+
+### 3D PC Game (Unity)
+
+```
+# Technical design for 3D systems
+/workflow game-technical-design
+
+# Design combat system
+/workflow design-gameplay-system
+
+# Consult game programmer
+/agent game-programmer
+```
+
+### Multiplayer Game (Unreal)
+
+```
+# Ask technical game designer about networking
+/agent technical-game-designer
+"What's the best approach for client-server architecture in Unreal?"
+```
+
+## Platform Support
+
+BMGD includes guidance for:
+
+- **PC** - Steam, Epic Games Store, GOG
+- **Console** - PlayStation, Xbox, Nintendo Switch
+- **Mobile** - iOS, Android
+- **Web** - WebGL, HTML5
+- **VR/AR** - Meta Quest, PSVR, HoloLens
+
+## Performance Optimization
+
+Game-specific performance guidance:
+
+- Frame rate optimization
+- Memory management
+- Asset streaming
+- LOD systems
+- Physics optimization
+- Rendering performance
+- Network optimization
+
+## Support and Resources
+
+- **GitHub:** [Repository](https://github.com/bmad-code-org/bmad-module-game-dev-studio)
+- **Discord:** Get help in the #game-dev channel
+- **Issues:** Report bugs or request features on GitHub
+- **Examples:** Sample game projects using BMGD
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Game Dev Tutorials" icon="gamepad" href="/tutorials/game-development">
+    Learn game development with BMad
+  </Card>
+  
+  <Card title="BMad Method Module" icon="brain" href="/reference/modules/bmad-method">
+    Core BMad framework
+  </Card>
+  
+  <Card title="Workflow Reference" icon="diagram-project" href="/reference/workflows">
+    All available workflows
+  </Card>
+  
+  <Card title="Module Overview" icon="grid" href="/reference/modules/overview">
+    All BMad modules
+  </Card>
+</CardGroup>

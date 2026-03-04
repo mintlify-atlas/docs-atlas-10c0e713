@@ -1,0 +1,360 @@
+---
+title: "Adversarial Review Process"
+description: "Force deeper analysis by requiring problems to be found - a technique that prevents lazy rubber-stamp reviews"
+---
+
+Adversarial review is a forced reasoning technique that eliminates superficial "looks good" reviews by requiring the reviewer to find issues.
+
+## What is Adversarial Review?
+
+A review technique where the reviewer **must find issues**. No "looks good" allowed. The reviewer adopts a cynical, skeptical stance - assume problems exist and find them.
+
+This isn't about being negative for its own sake. It's about forcing genuine analysis instead of a cursory glance that rubber-stamps whatever was submitted.
+
+<Note>
+**The core rule:** You must find issues. Zero findings triggers a halt - re-analyze or explain why nothing is wrong.
+</Note>
+
+## Why Standard Reviews Fail
+
+Normal reviews suffer from predictable cognitive biases:
+
+### Confirmation Bias
+
+You skim the work, nothing immediately jumps out, so you approve it. Your brain is looking for reasons to confirm "this is fine" rather than actively seeking problems.
+
+### Surface-Level Analysis
+
+Without a forcing function, reviewers take the path of least resistance - checking syntax, formatting, obvious errors. Deeper issues like missing edge cases, security vulnerabilities, or architectural problems go unnoticed.
+
+### Authority Bias
+
+If the author is senior or respected, reviewers unconsciously defer to their judgment. "They probably thought of this" becomes a reason to skip critical thinking.
+
+### Time Pressure
+
+Reviews compete with other work. The easiest way to clear your queue is quick approval. Thorough analysis takes time most people don't allocate.
+
+## How Adversarial Review Works
+
+The "find problems" mandate breaks these patterns:
+
+### Forces Thoroughness
+
+You can't approve until you've looked hard enough to find issues. This naturally extends review time and deepens analysis.
+
+### Shifts the Question
+
+Instead of "Is anything obviously broken?" you ask "What's wrong with this?" and "What's missing?" These questions surface different insights.
+
+### Catches Absence
+
+Normal reviews focus on what's present. Adversarial review asks "What should be here but isn't?" - error handling, edge cases, validation, documentation, tests.
+
+### Improves Signal Quality
+
+Findings are specific and actionable, not vague concerns. "This might have issues" becomes "Line 47: No rate limiting on failed login attempts."
+
+### Information Asymmetry Advantage
+
+Best results come from reviewing the artifact without access to original reasoning. You evaluate what's actually there, not what the author intended.
+
+## Where It's Used
+
+Adversarial review appears throughout BMad workflows:
+
+- **Code review** - Find bugs, security issues, performance problems
+- **Implementation readiness checks** - Validate specs before building
+- **Spec validation** - Find gaps, contradictions, ambiguities
+- **Architecture review** - Surface conflicts, missing decisions
+- **Test coverage** - Identify untested scenarios
+- **Documentation review** - Find unclear explanations, missing info
+
+Sometimes it's a required step, sometimes optional (like advanced elicitation or party mode). The pattern adapts to whatever artifact needs scrutiny.
+
+## Example: Before and After
+
+### Standard Review
+
+> "The authentication implementation looks reasonable. Token-based auth with session management. Approved."
+
+**Problems:** Misses security vulnerabilities, doesn't check edge cases, provides no specific feedback.
+
+### Adversarial Review
+
+> **Issues Found:**
+>
+> 1. **HIGH** - `login.ts:47` - No rate limiting on failed login attempts (enables brute force attacks)
+> 2. **HIGH** - `auth.ts:123` - Session token stored in localStorage (vulnerable to XSS attacks, should use httpOnly cookies)
+> 3. **HIGH** - `password.ts:89` - Password validation happens client-side only (can be bypassed)
+> 4. **MEDIUM** - `login.ts:52` - No audit logging for failed login attempts (can't detect attack patterns)
+> 5. **MEDIUM** - `session.ts:34` - Session timeout not implemented (sessions never expire)
+> 6. **MEDIUM** - Missing: No account lockout after repeated failures
+> 7. **LOW** - `auth.ts:145` - Magic number `3600` should be named constant `SESSION_TIMEOUT_SECONDS`
+> 8. **LOW** - `login.ts:23` - Error messages reveal whether username exists (enables user enumeration)
+
+**Result:** The first review would have shipped with multiple security vulnerabilities. The second caught eight issues, four of them high severity.
+
+## Human Filtering Required
+
+Because the AI is **instructed** to find problems, it will find problems - even when they don't actually exist.
+
+<Warning>
+Expect false positives: nitpicks dressed as issues, misunderstandings of intent, or outright hallucinated concerns. Don't blindly accept all findings.
+</Warning>
+
+### Types of False Positives
+
+**Misunderstood Context**
+
+> "HIGH - No error handling for database connection"
+
+Actual: Error handling exists in the connection pool layer, reviewer didn't see it.
+
+**Nitpicking**
+
+> "MEDIUM - Variable name `usr` should be spelled out as `user`"
+
+Actual: Minor style preference, not a real issue.
+
+**Hallucinated Problems**
+
+> "HIGH - Function doesn't validate email format"
+
+Actual: Email validation happens at the schema level, function correctly assumes input is pre-validated.
+
+**Over-Engineering**
+
+> "MEDIUM - Should add caching layer for performance"
+
+Actual: Premature optimization, current performance is fine.
+
+### Your Role
+
+**You decide what's real.** Review each finding:
+
+- **Dismiss** - False positive or nitpick
+- **Fix** - Real issue that matters
+- **Note** - Valid point but not worth addressing now
+- **Investigate** - Uncertain, need to verify
+
+The value isn't in accepting every finding. The value is in being forced to think through each one, which surfaces real issues you would have missed.
+
+## Iteration and Diminishing Returns
+
+After addressing findings, consider running adversarial review again:
+
+### First Pass
+
+Catches obvious issues, missing pieces, common problems. Highest ROI.
+
+### Second Pass
+
+Catches subtler issues that the first review missed or that were introduced by fixes. Still valuable.
+
+### Third Pass
+
+Might catch a few more things, but increasingly dominated by false positives and nitpicks.
+
+### Fourth+ Pass
+
+Diminishing returns. You're mostly generating noise at this point.
+
+<Tip>
+**Sweet spot:** Two passes for critical code/specs, one pass for normal work. Stop when findings become mostly nitpicks.
+</Tip>
+
+## Best Practices
+
+### For Maximum Effectiveness
+
+**Use information asymmetry** - Don't give the reviewer access to original reasoning, design docs, or discussions. Evaluate only what's in the artifact.
+
+**Review with fresh eyes** - Wait a day before adversarial review of your own work. Mental distance helps you spot issues.
+
+**Focus on high-impact areas** - Apply adversarial review to security, data handling, public APIs, critical business logic. Less critical for internal utilities.
+
+**Combine with other techniques** - Use adversarial review, then apply advanced elicitation (pre-mortem analysis) to findings.
+
+**Document patterns** - Track common issues to improve future work and update templates/checklists.
+
+### Common Mistakes to Avoid
+
+**Accepting everything** - You'll fix non-issues and waste time. Filter ruthlessly.
+
+**Dismissing everything** - Defensiveness prevents learning. Consider each finding honestly.
+
+**Infinite iteration** - Know when to stop. Diminishing returns kick in fast.
+
+**Wrong severity levels** - Reviewer might mark nitpicks as HIGH. Recalibrate based on actual impact.
+
+**No action tracking** - Document real issues and track fixes. Don't let valid findings get lost.
+
+## Integration with Workflows
+
+### In `implement`
+
+After implementation, before marking complete:
+
+```
+Workflow: Implementation complete. Run adversarial code review?
+You: Yes
+
+Workflow: [Reviews code with cynical lens]
+
+Workflow: Found 6 issues:
+1. HIGH - Missing null check on user input
+2. MEDIUM - No error logging
+...
+
+Address these before completing?
+```
+
+### In `prd-co-write`
+
+Validate requirements before finalizing:
+
+```
+Workflow: PRD draft complete. Run adversarial review?
+You: Yes
+
+Workflow: Found 8 gaps:
+1. HIGH - User authentication not specified
+2. HIGH - No error handling requirements
+3. MEDIUM - Mobile responsiveness unclear
+...
+```
+
+### In `plan-build`
+
+Validate architecture decisions:
+
+```
+Workflow: Architecture complete. Run adversarial review?
+You: Yes
+
+Workflow: Found 5 concerns:
+1. HIGH - No decision on state management
+2. MEDIUM - API versioning strategy missing
+...
+```
+
+## Measuring Success
+
+How do you know adversarial review is working?
+
+**Good indicators:**
+
+- Finding 3-8 real issues per review (right range, not too few or too many)
+- Mix of severity levels (not all nitpicks, not all critical)
+- Issues you genuinely didn't notice before
+- Improved quality in subsequent work (learning from patterns)
+- Reduced production bugs (catching issues earlier)
+
+**Warning signs:**
+
+- Consistently finding 0-1 issues (not being thorough enough)
+- Finding 20+ issues (reviewer is nitpicking or hallucinating)
+- All findings are LOW severity (missing real problems)
+- Same issues appearing repeatedly (not learning from feedback)
+
+## Advanced Techniques
+
+### Role-Based Review
+
+Review from different perspectives:
+
+- **Security reviewer** - Find vulnerabilities and attack vectors
+- **Performance reviewer** - Identify bottlenecks and inefficiencies
+- **Maintainability reviewer** - Spot complexity and technical debt
+- **User experience reviewer** - Find usability and accessibility issues
+
+Each role surfaces different classes of problems.
+
+### Comparative Review
+
+Review against alternatives:
+
+- **Best practices** - Does this follow industry standards?
+- **Similar implementations** - How does this compare to existing code?
+- **Competitor solutions** - What are we missing that others have?
+
+### Constraint-Based Review
+
+Review assuming specific constraints:
+
+- **What if traffic 10x overnight?**
+- **What if this needs to support 100 languages?**
+- **What if the database is unavailable?**
+- **What if malicious users attack this endpoint?**
+
+These hypotheticals surface missing resilience and scalability considerations.
+
+## Real-World Example
+
+Here's an adversarial review of an API endpoint implementation:
+
+```typescript
+// Original Implementation
+async function createUser(req: Request, res: Response) {
+  const { email, password, name } = req.body;
+  const user = await db.users.create({ email, password, name });
+  res.json({ userId: user.id });
+}
+```
+
+**Adversarial Review Findings:**
+
+1. **HIGH** - No input validation on email, password, or name
+2. **HIGH** - Password stored in plaintext (should be hashed)
+3. **HIGH** - No authentication check (anyone can call this)
+4. **HIGH** - No duplicate email check (allows multiple accounts)
+5. **MEDIUM** - No error handling for database failures
+6. **MEDIUM** - Returns 200 even on failure
+7. **MEDIUM** - No audit logging of user creation
+8. **LOW** - Response includes only userId (might want user object)
+
+**After Fixes:**
+
+```typescript
+async function createUser(req: Request, res: Response) {
+  try {
+    // Input validation
+    const { email, password, name } = validateUserInput(req.body);
+    
+    // Check for duplicate
+    const existing = await db.users.findByEmail(email);
+    if (existing) {
+      return res.status(409).json({ error: 'Email already exists' });
+    }
+    
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+    
+    // Create user
+    const user = await db.users.create({
+      email,
+      password: hashedPassword,
+      name
+    });
+    
+    // Audit log
+    await auditLog.record('user_created', { userId: user.id });
+    
+    res.status(201).json({ 
+      userId: user.id,
+      email: user.email,
+      name: user.name 
+    });
+  } catch (error) {
+    logger.error('User creation failed', { error, email });
+    res.status(500).json({ error: 'Failed to create user' });
+  }
+}
+```
+
+Adversarial review transformed a dangerous implementation into production-ready code.
+
+<Tip>
+**Remember:** Assume problems exist. Look for what's missing, not just what's wrong. Filter findings through your judgment, but take each seriously enough to think through.
+</Tip>

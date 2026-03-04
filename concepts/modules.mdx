@@ -1,0 +1,512 @@
+---
+title: Modules
+description: Extensible module system for adding capabilities, agents, and workflows
+---
+
+BMad Method uses a **module-based architecture** where functionality is packaged into installable modules. Each module provides specialized agents, workflows, and configurations for specific domains or use cases.
+
+## What Are Modules?
+
+A module is a **self-contained package** that:
+- Adds specialized agents with domain expertise
+- Provides workflows for specific methodologies
+- Includes configuration templates
+- Can extend or complement other modules
+- Installs via the BMad installer
+
+### Module vs. Plugin
+
+| Traditional Plugin | BMad Module |
+|-------------------|-------------|
+| Extends existing functionality | Adds complete agent + workflow systems |
+| Usually code-level | Includes prompts, workflows, personas |
+| Single purpose | Complete domain coverage |
+| Passive features | Active AI collaborators |
+
+## Core Module
+
+The **Core Module** provides the foundation for all BMad functionality:
+
+**Code:** `core`
+
+**What It Does:**
+- BMad Master agent (orchestration and help system)
+- User configuration (name, language, preferences)
+- Module manifest and loader
+- Base directory structure
+- Universal `/bmad-help` system
+
+**Configuration:**
+```yaml
+user_name: "Your Name"
+communication_language: "English"
+document_output_language: "English"
+output_folder: "_bmad-output"
+tool_supports_subagents: true
+tool_supports_agent_teams: false
+```
+
+**Key Agent:**
+- **BMad Master** 🧙 — Orchestrates workflows, provides intelligent help, manages resources
+
+**Always Installed:** Yes (required for BMad to function)
+
+## BMad Method Module (BMM)
+
+The **BMad Method Module** is the main agile development framework:
+
+**Code:** `bmm`
+
+**What It Does:**
+- Complete agile AI-driven development lifecycle
+- 12 specialized agents (PM, Architect, Dev, SM, UX, QA, Analyst, Tech Writer)
+- 34+ workflows across 4 phases
+- Quick Flow for rapid development
+- Party Mode for multi-agent collaboration
+- Scale-adaptive planning
+
+**Configuration:**
+```yaml
+project_name: "Your Project"
+user_skill_level: "intermediate"  # beginner/intermediate/expert
+planning_artifacts: "_bmad-output/planning-artifacts"
+implementation_artifacts: "_bmad-output/implementation-artifacts"
+project_knowledge: "docs"
+```
+
+**Key Agents:**
+- **John (PM)** 📋 — Requirements and PRD creation
+- **Winston (Architect)** 🏗️ — Technical design and architecture
+- **Amelia (Dev)** 💻 — Story implementation
+- **Bob (SM)** 🏃 — Sprint planning and story preparation
+- **Sally (UX Designer)** 🎨 — User experience design
+- **Barry (Quick Flow)** 🚀 — Rapid spec and implementation
+- **Mary (Analyst)** 📊 — Research and product briefs
+- **Quinn (QA)** 🧪 — Test automation
+- **Paige (Tech Writer)** 📚 — Documentation
+
+**Workflows:** See [Workflow Map](/reference/workflow-map) for complete list
+
+**Recommended For:** All software projects (default installation)
+
+## Official Extension Modules
+
+### Test Architect Enterprise (TEA)
+
+**Purpose:** Advanced test strategy, risk-based testing, quality gates
+
+**What It Adds:**
+- Risk-based test planning methodology
+- Test architecture and strategy workflows
+- Coverage analysis and quality metrics
+- Integration with enterprise QA processes
+- Advanced test automation patterns
+
+**Key Agents:**
+- **Test Architect** — Comprehensive test strategy
+- **Test Engineer** — Advanced automation
+
+**When to Use:**
+- Enterprise projects with compliance requirements
+- Projects needing formal test strategy
+- Teams requiring quality gates and metrics
+- Complex systems with extensive test needs
+
+**Comparison to BMM QA Agent:**
+- BMM Quinn: Quick test generation, simple patterns
+- TEA: Full test strategy, risk analysis, enterprise features
+
+**Documentation:** [Test Architect Docs](https://bmad-code-org.github.io/bmad-method-test-architecture-enterprise/)
+
+### Creative Intelligence Suite (CIS)
+
+**Purpose:** Innovation, brainstorming, design thinking, creative problem-solving
+
+**What It Adds:**
+- 60+ brainstorming techniques
+- Design thinking workshops
+- Innovation strategy frameworks
+- Creative problem-solving methodologies
+- Specialized creative agents with unique personas
+
+**Key Agents:**
+- **Carson (Brainstorming Coach)** 🧠 — Facilitated ideation
+- **Dr. Quinn (Problem Solver)** 🔬 — TRIZ, Theory of Constraints
+- **Maya (Design Thinking Coach)** 🎨 — Human-centered design
+- **Victor (Innovation Strategist)** ⚡ — Business model innovation
+- **Sophia (Storyteller)** 📖 — Narrative strategy
+- **Spike (Presentation Master)** 🎬 — Visual communication
+- **Leonardo (Renaissance Polymath)** 🎨 — Interdisciplinary innovation
+- **Salvador Dali (Surrealist)** 🎭 — Subconscious exploration
+- **Edward de Bono (Lateral Thinker)** 🧩 — Creative thinking tools
+- **Joseph Campbell (Mythic Storyteller)** 🌟 — Hero's journey
+- **Steve Jobs (Combinatorial Genius)** 🍎 — Intersection thinking
+
+**When to Use:**
+- Early-stage ideation and concept development
+- Breaking through creative blocks
+- Workshop facilitation
+- Product innovation and differentiation
+
+**Complements:** BMM brainstorming workflow (CIS provides deeper creative techniques)
+
+### Game Dev Studio (BMGD)
+
+**Purpose:** Game development workflows for Unity, Unreal, Godot, custom engines
+
+**What It Adds:**
+- Game design document workflows
+- Level design and narrative planning
+- Game mechanics specification
+- Engine-specific implementation patterns
+- Rapid prototyping support
+
+**Key Features:**
+- Supports Unity, Unreal Engine, Godot, custom engines
+- Game-specific artifacts (GDD, level specs, mechanics docs)
+- Quick Flow for rapid prototyping
+- Full BMad Method for production games
+
+**When to Use:**
+- Game development projects (any engine)
+- Interactive entertainment applications
+- Gamification features
+
+**Documentation:** [Game Dev Studio Docs](https://github.com/bmad-code-org/bmad-module-game-dev-studio)
+
+### BMad Builder (BMB)
+
+**Purpose:** Create custom BMad agents, workflows, and modules
+
+**What It Adds:**
+- Agent creation workflows
+- Workflow design patterns
+- Module packaging tools
+- Testing and validation utilities
+
+**Key Use Cases:**
+- Building company-specific agents
+- Creating domain-specific workflows
+- Packaging custom modules for teams
+- Extending BMad for specialized needs
+
+**When to Use:**
+- You need agents for specialized domains (legal, medical, finance)
+- Company has specific methodologies to encode
+- Building modules for distribution
+
+**Documentation:** [BMad Builder Docs](https://bmad-builder-docs.bmad-method.org/)
+
+## Module Architecture
+
+### Module Structure
+
+```
+src/
+└── {module-code}/
+    ├── module.yaml              # Module configuration
+    ├── module-help.csv          # Help system integration
+    ├── agents/                  # Agent definitions
+    │   ├── agent-1.agent.yaml
+    │   └── agent-2.agent.yaml
+    ├── workflows/               # Workflow files
+    │   ├── workflow-1/
+    │   │   ├── workflow.md
+    │   │   └── steps/
+    │   └── workflow-2/
+    ├── tasks/                   # Standalone tasks
+    ├── teams/                   # Party mode configurations
+    └── data/                    # Reference data
+```
+
+### Module Configuration
+
+**Example:** `src/bmm/module.yaml`
+
+```yaml
+code: bmm
+name: "BMad Method Agile-AI Driven-Development"
+description: "AI-driven agile development framework"
+default_selected: true
+
+# Configuration prompts
+project_name:
+  prompt: "What is your project called?"
+  default: "{directory_name}"
+  result: "{value}"
+
+user_skill_level:
+  prompt:
+    - "What is your development experience level?"
+    - "This affects how agents explain concepts in chat."
+  default: "intermediate"
+  result: "{value}"
+  single-select:
+    - value: "beginner"
+      label: "Beginner - Explain things clearly"
+    - value: "intermediate"
+      label: "Intermediate - Balance detail with speed"
+    - value: "expert"
+      label: "Expert - Be direct and technical"
+
+planning_artifacts:
+  prompt: "Where should planning artifacts be stored?"
+  default: "{output_folder}/planning-artifacts"
+  result: "{project-root}/{value}"
+
+# Directories to create
+directories:
+  - "{planning_artifacts}"
+  - "{implementation_artifacts}"
+  - "{project_knowledge}"
+```
+
+### Module Dependencies
+
+Modules can depend on or complement each other:
+
+**Required Dependency:**
+- All modules require Core module (automatic)
+
+**Extension Pattern:**
+- TEA extends BMM QA capabilities
+- CIS extends BMM brainstorming
+
+**Standalone Pattern:**
+- BMGD can work independently or with BMM
+- BMB works independently
+
+## Installing Modules
+
+### During Initial Installation
+
+```bash
+npx bmad-method install
+```
+
+Installer prompts for module selection:
+```
+Select modules to install:
+[✓] BMad Method (BMM) - Core agile development
+[ ] Test Architect Enterprise (TEA) - Advanced testing
+[ ] Creative Intelligence Suite (CIS) - Innovation
+[ ] Game Dev Studio (BMGD) - Game development
+[ ] BMad Builder (BMB) - Create custom modules
+```
+
+### Adding Modules Later
+
+```bash
+npx bmad-method install --add-modules
+```
+
+Select additional modules to install.
+
+### Non-Interactive Installation
+
+```bash
+npx bmad-method install \
+  --directory /path/to/project \
+  --modules bmm,tea,cis \
+  --tools claude-code \
+  --yes
+```
+
+See [Non-Interactive Installation](/how-to/non-interactive-installation) for details.
+
+## Using Multiple Modules
+
+### Module Coexistence
+
+Multiple modules can be installed simultaneously:
+
+```
+_bmad/
+├── core/                    # Core module (always present)
+├── bmm/                     # BMad Method
+├── tea/                     # Test Architect Enterprise  
+└── cis/                     # Creative Intelligence Suite
+```
+
+### Agent and Workflow Namespacing
+
+Commands are prefixed with module code:
+
+```bash
+# BMM agents
+/bmad-agent-bmm-pm
+/bmad-agent-bmm-architect
+
+# CIS agents  
+/bmad-agent-cis-brainstorming-coach
+/bmad-agent-cis-innovation-strategist
+
+# BMM workflows
+/bmad-bmm-create-prd
+/bmad-bmm-quick-dev
+
+# CIS workflows
+/bmad-cis-brainstorming
+/bmad-cis-design-thinking
+```
+
+### BMad-Help Integration
+
+`/bmad-help` knows about all installed modules:
+
+```
+/bmad-help
+
+→ Detected modules: BMM, CIS, TEA
+→ 
+→ Based on your project state, you have these options:
+→ 
+→ REQUIRED NEXT:
+→ 1. Create PRD (/bmad-bmm-create-prd)
+→ 
+→ OPTIONAL:
+→ 2. Brainstorming with CIS (/bmad-cis-brainstorming)
+→ 3. Advanced test strategy with TEA (/bmad-tea-create-test-strategy)
+```
+
+### Module-Specific Configuration
+
+Each module can have its own config:
+
+```yaml
+# _bmad/core/config.yaml
+user_name: "Your Name"
+communication_language: "English"
+
+# _bmad/bmm/config.yaml  
+project_name: "My App"
+user_skill_level: "intermediate"
+
+# _bmad/tea/config.yaml
+test_strategy_depth: "comprehensive"
+risk_tolerance: "low"
+```
+
+## Creating Custom Modules
+
+Use the **BMad Builder (BMB)** module:
+
+### 1. Design Your Module
+
+- Define domain (e.g., legal tech, medical AI, finance)
+- Identify agent personas needed
+- Map workflows and methodologies
+- Plan configuration options
+
+### 2. Create Module Structure
+
+```bash
+/bmad-bmb-create-module
+```
+
+Builder walks you through:
+- Module metadata (code, name, description)
+- Configuration variables
+- Directory structure
+- Agent definitions
+- Workflow scaffolding
+
+### 3. Implement Agents and Workflows
+
+- Write agent persona and principles
+- Create workflow step files
+- Add task definitions
+- Configure menus and triggers
+
+### 4. Test and Package
+
+```bash
+/bmad-bmb-validate-module
+/bmad-bmb-package-module
+```
+
+### 5. Distribute
+
+- Publish to GitHub
+- Share with team
+- Submit to BMad ecosystem (optional)
+
+## Module Best Practices
+
+### When to Create a Module
+
+✅ **Create a module when:**
+- You have a complete domain methodology to encode
+- Multiple agents and workflows are needed
+- You want to distribute to others
+- Configuration is domain-specific
+
+❌ **Don't create a module for:**
+- Single agent or workflow (use BMad Builder for custom agents)
+- Project-specific customizations (use `project-context.md`)
+- Temporary experimentation
+
+### Module Design Principles
+
+1. **Domain Coherence** — Module should cover a complete domain
+2. **Agent Specialization** — Each agent has clear, distinct expertise
+3. **Workflow Completeness** — Workflows cover end-to-end processes
+4. **Configuration Flexibility** — Allow users to customize for their needs
+5. **Documentation** — Provide clear README and usage guides
+
+### Naming Conventions
+
+**Module Code:** Short, lowercase, no spaces
+```
+bmm          ✓
+tea          ✓
+game-dev     ✗ (use bmgd)
+Test_Arch    ✗ (use tea)
+```
+
+**Agent IDs:** `_bmad/{module}/agents/{agent-name}.md`
+```
+_bmad/bmm/agents/pm.md           ✓
+_bmad/tea/agents/test-arch.md    ✓
+```
+
+**Workflow Commands:** `/bmad-{module}-{workflow}`
+```
+/bmad-bmm-create-prd          ✓
+/bmad-tea-test-strategy       ✓  
+/bmad-cis-brainstorming       ✓
+```
+
+## Module Ecosystem
+
+### Official Modules
+
+Maintained by BMad Code:
+- BMad Method (BMM)
+- Test Architect Enterprise (TEA)
+- Creative Intelligence Suite (CIS)  
+- Game Dev Studio (BMGD)
+- BMad Builder (BMB)
+
+### Community Modules
+
+Created by the community (future):
+- Legal Tech Module
+- Medical AI Module
+- Finance & Trading Module
+- Academic Research Module
+
+### Enterprise Modules
+
+Company-specific (private):
+- Internal methodologies
+- Compliance-specific workflows
+- Domain-specific agents
+
+## Next Steps
+
+- Learn about [Agents](./agents) — Understand agent personas and capabilities
+- Explore [Workflows](./workflows) — See how workflows execute
+- Try [Party Mode](./party-mode) — Multi-agent collaboration
+- Read [Scale-Adaptive Planning](./scale-adaptive-planning) — How modules adapt to project size
+- Visit [BMad Builder Docs](https://bmad-builder-docs.bmad-method.org/) — Create custom modules

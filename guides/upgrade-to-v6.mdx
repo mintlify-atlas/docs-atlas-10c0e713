@@ -1,0 +1,187 @@
+---
+title: "How to Upgrade to v6"
+description: Migrate from BMad v4 or v5 to v6
+---
+
+Use the BMad installer to upgrade from v4 or v5 to v6, which includes automatic detection of legacy installations and migration assistance.
+
+## When to Use This
+
+- You have BMad v4 or v5 installed (`.bmad-method` folder)
+- You want to migrate to the new v6 architecture
+- You have existing planning artifacts to preserve
+
+<Note>
+**Prerequisites**
+- Node.js 20+
+- Existing BMad v4 or v5 installation
+</Note>
+
+## What's New in v6
+
+BMad v6 is the first stable release after extensive beta testing. Key improvements:
+
+### Unified Architecture
+
+- Single `_bmad/` folder for all modules (was `.bmad-method`, `.bmad-core`, etc.)
+- Simplified configuration with per-module `config.yaml` files
+- Clean separation between core framework and method modules
+
+### Non-Interactive Installation
+
+Full CI/CD support with command-line flags:
+- `--directory`, `--modules`, `--tools`, `--custom-content`
+- `--action` for update modes (`install`, `update`, `quick-update`, `compile-agents`)
+- `-y, --yes` for fully automated installations
+
+### Enhanced Workflows
+
+- Improved PRD workflow with vision/differentiators and executive summary steps
+- Better project context generation for existing codebases
+- Enhanced Quick Flow for rapid development
+- New `/bmad-help` intelligent guide
+
+### Better Customization
+
+- `.customize.yaml` files for all agents
+- Update-safe customizations (preserved across updates)
+- More granular control over agent behavior
+
+## Steps
+
+### 1. Run the Installer
+
+Follow the [Installer Instructions](./install-bmad):
+
+```bash
+npx bmad-method install
+```
+
+<Tip>
+For the latest stable version, specify the version explicitly:
+```bash
+npx bmad-method@6.0.4 install
+```
+</Tip>
+
+### 2. Handle Legacy Installation
+
+When v4/v5 is detected, you can:
+
+- Allow the installer to back up and remove `.bmad-method`
+- Exit and handle cleanup manually
+
+If you named your bmad method folder something else - you will need to manually remove the folder yourself.
+
+### 3. Clean Up IDE Commands
+
+Manually remove legacy v4/v5 IDE commands - for example if you have claude, look for any nested folders that start with bmad and remove them:
+
+**Claude Code:**
+```bash
+rm -rf .claude/commands/BMad/agents
+rm -rf .claude/commands/BMad/tasks
+```
+
+**Cursor:**
+```bash
+rm -rf .cursor/prompts/BMad
+```
+
+The v6 installer will create new commands in the correct locations.
+
+### 4. Migrate Planning Artifacts
+
+**If you have planning documents (Brief/PRD/UX/Architecture):**
+
+Move them to `_bmad-output/planning-artifacts/` with descriptive names:
+
+- Include `PRD` in filename for PRD documents
+- Include `brief`, `architecture`, or `ux-design` accordingly
+- Sharded documents can be in named subfolders
+
+**Example:**
+```bash
+mkdir -p _bmad-output/planning-artifacts
+mv old-docs/prd.md _bmad-output/planning-artifacts/myapp-PRD.md
+mv old-docs/architecture.md _bmad-output/planning-artifacts/myapp-architecture.md
+```
+
+**If you're mid-planning:** Consider restarting with v6 workflows. Use your existing documents as inputs—the new progressive discovery workflows with web search and IDE plan mode produce better results.
+
+### 5. Migrate In-Progress Development
+
+If you have stories created or implemented:
+
+1. Complete the v6 installation
+2. Place `epics.md` or `epics/epic*.md` in `_bmad-output/planning-artifacts/`
+3. Run the Scrum Master's `sprint-planning` workflow
+4. Tell the SM which epics/stories are already complete
+
+## What You Get
+
+**v6 unified structure:**
+
+```text
+your-project/
+├── _bmad/               # Single installation folder
+│   ├── _config/         # Your customizations
+│   │   └── agents/      # Agent customization files
+│   ├── core/            # Universal core framework
+│   ├── bmm/             # BMad Method module
+│   ├── bmb/             # BMad Builder
+│   └── cis/             # Creative Intelligence Suite
+└── _bmad-output/        # Output folder (was doc folder in v4)
+```
+
+## Module Migration
+
+| v4/v5 Module                  | v6 Status                                 |
+| ----------------------------- | ----------------------------------------- |
+| `.bmad-2d-phaser-game-dev`    | Integrated into BMGD Module               |
+| `.bmad-2d-unity-game-dev`     | Integrated into BMGD Module               |
+| `.bmad-godot-game-dev`        | Integrated into BMGD Module               |
+| `.bmad-infrastructure-devops` | Deprecated — new DevOps agent coming soon |
+| `.bmad-creative-writing`      | Not adapted — new v6 module coming soon   |
+
+## Key Changes
+
+| Concept       | v4/v5                                 | v6                                   |
+| ------------- | ------------------------------------- | ------------------------------------ |
+| **Core**      | `_bmad-core` was actually BMad Method | `_bmad/core/` is universal framework |
+| **Method**    | `_bmad-method`                        | `_bmad/bmm/`                         |
+| **Config**    | Modified files directly               | `config.yaml` per module             |
+| **Documents** | Sharded or unsharded required setup   | Fully flexible, auto-scanned         |
+| **Commands**  | Nested folder structure               | Flat structure for IDE commands      |
+
+## Troubleshooting
+
+### "Legacy installation detected" but no `.bmad-method` folder
+
+The installer might detect other legacy folders like `.bmad-core`. Remove them manually:
+
+```bash
+rm -rf .bmad-*
+```
+
+### Workflows not showing up in IDE
+
+Restart your IDE after installation to reload the command palette.
+
+### Old commands still appearing
+
+Manually clean up legacy command folders (see Step 3 above) and restart your IDE.
+
+### Lost customizations
+
+If you edited agent files directly in v4/v5, those changes are lost. In v6, always use `.customize.yaml` files to preserve your changes across updates.
+
+<Tip>
+After upgrading, run `/bmad-help` to verify your installation and see what's new in v6.
+</Tip>
+
+## Next Steps
+
+- [Set up project context](./project-context) for existing projects
+- [Customize agents](./customize-bmad) using the new `.customize.yaml` files
+- Explore the enhanced workflows with `/bmad-help`

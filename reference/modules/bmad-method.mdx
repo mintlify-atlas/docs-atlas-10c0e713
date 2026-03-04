@@ -1,0 +1,233 @@
+---
+title: BMad Method Module (BMM)
+description: Core agile AI-driven development framework with 34+ workflows and 12+ specialized agents
+---
+
+## Overview
+
+The BMad Method Module (BMM) is the core framework that provides AI-driven agile development capabilities. It includes 34+ structured workflows, 12+ specialized agent personas, and a complete development lifecycle from brainstorming to deployment.
+
+**Module Code:** `bmm`
+
+## Key Features
+
+- **Scale-Domain-Adaptive** - Automatically adjusts planning depth based on project complexity
+- **Structured Workflows** - Grounded in agile best practices across analysis, planning, architecture, and implementation
+- **Specialized Agents** - Domain experts including PM, Architect, Developer, UX Designer, Scrum Master, and more
+- **Party Mode** - Bring multiple agent personas into one session for collaborative discussions
+- **AI Intelligent Help** - Ask `/bmad-help` anytime for guidance on what's next
+- **Complete Lifecycle** - From brainstorming through deployment and maintenance
+
+## Installation
+
+The BMM module is selected by default during installation:
+
+```bash
+npx bmad-method install
+```
+
+For non-interactive installation:
+
+```bash
+npx bmad-method install --modules bmm --yes
+```
+
+## Configuration Variables
+
+BMM extends the core configuration with project-specific settings:
+
+### `project_name`
+
+**Prompt:** "What is your project called?"
+
+**Default:** `{directory_name}` (uses the current directory name)
+
+**Purpose:** Sets the project name used throughout workflows and documentation.
+
+### `user_skill_level`
+
+**Prompt:** "What is your development experience level?"
+
+**Default:** `intermediate`
+
+**Options:**
+- `beginner` - Explain things clearly
+- `intermediate` - Balance detail with speed
+- `expert` - Be direct and technical
+
+**Purpose:** Affects how agents explain concepts during chat interactions. Beginners get more detailed explanations, while experts get concise technical responses.
+
+### `planning_artifacts`
+
+**Prompt:** "Where should planning artifacts be stored?"
+
+**Default:** `{output_folder}/planning-artifacts`
+
+**Purpose:** Storage location for Phase 1-3 artifacts including:
+- Brainstorming sessions
+- Project briefs
+- Product Requirements Documents (PRDs)
+- UX designs
+- Architecture documentation
+- Epics
+
+### `implementation_artifacts`
+
+**Prompt:** "Where should implementation artifacts be stored?"
+
+**Default:** `{output_folder}/implementation-artifacts`
+
+**Purpose:** Storage location for Phase 4 artifacts including:
+- Sprint status
+- User stories
+- Sprint reviews
+- Sprint retrospectives
+- Quick development flow outputs
+
+### `project_knowledge`
+
+**Prompt:** "Where should long-term project knowledge be stored?"
+
+**Default:** `docs`
+
+**Purpose:** Storage for long-lived accurate project knowledge including:
+- Documentation
+- Research findings
+- Reference materials
+- Project context
+
+## Inherited Core Variables
+
+BMM automatically inherits these variables from the Core Module:
+
+- `user_name` - What agents call you
+- `communication_language` - Language for agent interactions
+- `document_output_language` - Language for generated documents
+- `output_folder` - Base output directory
+
+## Directory Structure
+
+BMM automatically creates these directories during installation:
+
+```
+{project-root}/
+├── {planning_artifacts}/        # Phase 1-3 planning outputs
+├── {implementation_artifacts}/  # Phase 4 implementation outputs
+└── {project_knowledge}/         # Long-term documentation
+```
+
+By default:
+
+```
+project/
+├── _bmad-output/
+│   ├── planning-artifacts/
+│   └── implementation-artifacts/
+└── docs/
+```
+
+## Workflow Categories
+
+BMM includes workflows across the complete development lifecycle:
+
+### Phase 1: Discovery & Analysis
+- Brainstorming
+- Requirements gathering
+- Stakeholder analysis
+
+### Phase 2: Planning & Design
+- Product brief creation
+- PRD development
+- UX design
+
+### Phase 3: Architecture
+- System architecture
+- Technical design
+- Architecture decision records
+
+### Phase 4: Implementation
+- Sprint planning
+- Story development
+- Code implementation
+- Sprint reviews and retrospectives
+
+### Continuous Workflows
+- Quick development mode
+- Bug fixes
+- Refactoring
+- Documentation updates
+
+## Specialized Agents
+
+BMM provides 12+ specialized agent personas:
+
+- **Product Manager** - Requirements and product strategy
+- **System Architect** - Architecture and technical design
+- **UX Designer** - User experience and interface design
+- **Senior Developer** - Code implementation and reviews
+- **Scrum Master** - Agile facilitation and process
+- **QA Engineer** - Quality assurance and testing
+- **DevOps Engineer** - Infrastructure and deployment
+- **Tech Lead** - Technical leadership and mentoring
+- **Business Analyst** - Business requirements analysis
+- **Data Architect** - Data modeling and strategy
+- **Security Engineer** - Security assessment and best practices
+- **Documentation Specialist** - Technical writing and docs
+
+## Usage Examples
+
+### Get Help
+
+```
+/bmad-help
+```
+
+Or ask specific questions:
+
+```
+/bmad-help I just finished the architecture, what do I do next?
+```
+
+### Start a Workflow
+
+```
+/workflow start-sprint-planning
+```
+
+### Invoke an Agent
+
+```
+/agent product-manager
+```
+
+### Party Mode
+
+```
+/party-mode architect developer qa-engineer
+```
+
+## Repository
+
+**GitHub:** [bmad-code-org/BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD)
+
+**NPM Package:** `bmad-method`
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Getting Started Tutorial" icon="rocket" href="/tutorials/getting-started">
+    Learn BMad Method fundamentals
+  </Card>
+  
+  <Card title="Workflow Reference" icon="diagram-project" href="/reference/workflows">
+    Explore all available workflows
+  </Card>
+  
+  <Card title="Agent Reference" icon="user-group" href="/reference/agents">
+    Meet the specialized agents
+  </Card>
+  
+  <Card title="BMad Builder" icon="hammer" href="/reference/modules/bmad-builder">
+    Create custom workflows and agents
+  </Card>
+</CardGroup>

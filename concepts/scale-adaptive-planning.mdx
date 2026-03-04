@@ -1,0 +1,561 @@
+---
+title: Scale-Adaptive Planning
+description: How BMad automatically adjusts planning depth based on project complexity
+---
+
+BMad Method automatically adjusts planning depth and ceremony based on your project's complexity. You're never over-planning a simple bug fix or under-planning an enterprise system.
+
+## The Problem with Fixed Methodologies
+
+Traditional development methodologies apply the same process regardless of project size:
+
+**Heavyweight Agile:**
+```
+Every change requires:
+- Product requirements document
+- Architecture review
+- Epic breakdown
+- Story creation
+- Sprint planning
+- Retrospective
+
+Result: Bureaucracy for simple changes
+```
+
+**No Methodology:**
+```
+Every change is ad-hoc:
+- Jump straight to coding
+- No planning or alignment
+- Inconsistent approaches
+- Integration conflicts
+
+Result: Chaos for complex projects
+```
+
+**The Right Approach:** Match methodology depth to project complexity.
+
+## Scale-Adaptive Planning in BMad
+
+BMad offers **three planning tracks** that adapt to your project:
+
+### Quick Flow (1-15 Stories)
+
+**Best For:**
+- Bug fixes and patches
+- Small features with clear scope
+- Refactoring existing code
+- Prototyping and spikes
+- Single-developer work
+
+**Process:**
+```
+quick-spec → quick-dev
+     ↓           ↓
+ Tech-spec   Working code + tests
+```
+
+**Artifacts:**
+- `tech-spec-{slug}.md` — Single implementation document
+
+**Time Investment:**
+- Planning: 15-30 minutes
+- Implementation: Hours to 1-2 days
+
+**When It Works:**
+- Requirements fit in one conversation
+- No architectural decisions needed
+- Single agent can reason about full scope
+- Existing architecture provides context
+
+**Example Projects:**
+- "Fix the login timeout issue"
+- "Add email validation to registration form"
+- "Refactor authentication middleware"
+- "Implement password reset flow"
+
+### BMad Method (10-50+ Stories)
+
+**Best For:**
+- New products and platforms
+- Complex features spanning multiple components
+- Work requiring stakeholder alignment
+- Projects needing architectural decisions
+
+**Process:**
+```
+Phase 1 (Optional)     Phase 2            Phase 3               Phase 4
+    ↓                     ↓                   ↓                     ↓
+Product Brief  →  PRD + UX Design  →  Architecture + Epics  →  Sprint-by-sprint
+```
+
+**Artifacts:**
+- `product-brief.md` (optional) — Strategic vision
+- `PRD.md` — Functional and non-functional requirements
+- `ux-spec.md` (optional) — User experience design
+- `architecture.md` — Technical decisions with ADRs
+- Epic files with stories — Implementation breakdown
+- `project-context.md` — Implementation rules
+
+**Time Investment:**
+- Planning: 2-8 hours (spread across phases)
+- Implementation: Days to weeks
+
+**When It Works:**
+- Requirements need discovery and alignment
+- Architecture decisions affect implementation
+- Multiple epics that could conflict
+- Team needs shared context
+
+**Example Projects:**
+- "Build a SaaS authentication platform"
+- "Create a real-time collaboration feature"
+- "Implement multi-tenant data isolation"
+- "Add payment processing with multiple providers"
+
+### Enterprise (30+ Stories)
+
+**Best For:**
+- Compliance-heavy systems (healthcare, finance)
+- Multi-tenant platforms
+- Security-critical applications
+- Large-scale systems with complex integrations
+
+**Process:**
+```
+Full BMad Method + Enterprise Extensions
+         ↓
+Additional artifacts:
+- Security architecture
+- Compliance mapping
+- DevOps strategy
+- Integration specifications
+- Quality gates
+```
+
+**Artifacts:**
+- Everything from BMad Method PLUS:
+- Security specifications
+- Compliance documentation
+- Integration contracts
+- DevOps and deployment strategy
+- Quality gate definitions
+
+**Time Investment:**
+- Planning: 1-3 weeks
+- Implementation: Weeks to months
+
+**When It Works:**
+- Regulatory compliance required
+- Security reviews mandatory
+- Multiple team coordination needed
+- Long-term maintenance expected
+
+**Example Projects:**
+- "HIPAA-compliant patient data system"
+- "PCI-DSS payment processing platform"
+- "SOC 2 Type II multi-tenant SaaS"
+- "Government contract system with clearance requirements"
+
+## How BMad Adapts
+
+### Automatic Scope Detection
+
+BMad workflows include **scope detection guardrails**:
+
+**In Quick Flow:**
+```bash
+/bmad-bmm-quick-dev "Build a microservices architecture"
+
+→ 🚨 SCOPE ALERT
+  
+  This request mentions:
+  ✗ Multiple components (microservices)
+  ✗ System-level architecture
+  ✗ No existing specification
+  
+  Quick Flow is designed for small, focused changes.
+  
+  RECOMMENDATION: Use full BMad Method
+  1. /bmad-bmm-create-prd for requirements
+  2. /bmad-bmm-create-architecture for design
+  3. /bmad-bmm-create-epics-and-stories for breakdown
+  
+  Proceed anyway? (Not recommended)
+```
+
+**In quick-spec:**
+```
+After discovery phase:
+
+→ COMPLEXITY ASSESSMENT
+  
+  Based on our conversation, I'm detecting:
+  ✓ 12 stories identified
+  ✓ 3 architectural decisions needed
+  ✓ Multiple team dependencies
+  
+  RECOMMENDATION: Escalate to full BMad Method
+  
+  This work is larger than Quick Flow can handle well.
+  Would you like to:
+  A) Create a PRD instead (recommended)
+  B) Continue with Quick Flow (risk of rework)
+  C) Split into smaller Quick Flow chunks
+```
+
+### Manual Track Selection
+
+You can choose your track explicitly:
+
+**Via BMad-Help:**
+```bash
+/bmad-help "I have a SaaS idea with user auth, payments, and admin dashboard"
+
+→ RECOMMENDATION: BMad Method track
+  
+  Your project includes:
+  - Multiple major features (auth, payments, admin)
+  - Likely 20-40 stories
+  - Architecture decisions needed
+  
+  Suggested path:
+  1. /bmad-bmm-create-product-brief (optional but recommended)
+  2. /bmad-bmm-create-prd
+  3. /bmad-bmm-create-architecture
+  4. /bmad-bmm-create-epics-and-stories
+  5. Implementation phase
+  
+  Want to start with Quick Flow instead?
+```
+
+**Direct Workflow Choice:**
+- Run `/bmad-bmm-quick-spec` → Quick Flow track
+- Run `/bmad-bmm-create-prd` → BMad Method track
+- Install TEA module → Enterprise track option
+
+## Adaptation Mechanisms
+
+### 1. Conditional Phases
+
+Phases activate based on project needs:
+
+| Phase | Quick Flow | BMad Method | Enterprise |
+|-------|-----------|-------------|------------|
+| Analysis | ✗ Skip | Optional | Recommended |
+| Planning | Tech-spec | PRD + UX | PRD + UX + Security |
+| Solutioning | ✗ Skip | Architecture + Epics | Architecture + Integrations + Epics |
+| Implementation | quick-dev | Story-by-story | Story-by-story + Quality Gates |
+
+### 2. Artifact Granularity
+
+**Quick Flow:**
+```markdown
+# tech-spec-auth-fix.md
+
+## Problem
+Login timeout after 30 seconds
+
+## Solution
+Increase timeout to 5 minutes, add keep-alive
+
+## Tasks
+1. Update AUTH_TIMEOUT constant (src/config.ts:12)
+2. Add heartbeat endpoint (src/api/auth.ts)
+3. Wire up keep-alive in client
+
+## Acceptance Criteria
+Given user is logged in
+When idle for 4 minutes
+Then session remains active
+```
+
+**BMad Method:**
+```markdown
+# PRD.md (20 pages)
+## Vision
+## User Personas
+## Functional Requirements
+## Non-Functional Requirements
+## Success Metrics
+
+# architecture.md (15 pages)  
+## System Overview
+## Component Design
+## Data Models
+## API Contracts
+## ADRs (Architecture Decision Records)
+
+# epic-01-authentication.md (5 pages)
+## Epic Overview
+## Stories (10 stories with full context)
+```
+
+### 3. Ceremony Level
+
+**Quick Flow:**
+- No sprint planning
+- No retrospectives
+- Minimal documentation
+- Direct implementation
+
+**BMad Method:**
+- Sprint planning (`/bmad-bmm-sprint-planning`)
+- Story preparation (`/bmad-bmm-create-story`)
+- Code review (`/bmad-bmm-code-review`)
+- Epic retrospective (`/bmad-bmm-retrospective`)
+
+**Enterprise:**
+- All BMad Method ceremonies PLUS:
+- Security reviews
+- Compliance checks
+- Integration validation
+- Quality gate approvals
+
+### 4. Context Engineering
+
+**Quick Flow:**
+```
+Context Sources:
+- Tech-spec file
+- project-context.md (if exists)
+- Codebase scan
+```
+
+**BMad Method:**
+```
+Context Sources:
+- PRD (what and why)
+- Architecture (how)
+- Epic file (breakdown)
+- Story file (specific context)
+- project-context.md (rules)
+- UX spec (flows)
+```
+
+**Enterprise:**
+```
+All BMad Method sources PLUS:
+- Security specifications
+- Compliance requirements
+- Integration contracts
+- Quality gate definitions
+```
+
+More context = better agent decisions, but higher overhead.
+
+## Decision Framework
+
+Use this guide to choose your track:
+
+### Size Indicators
+
+**Story Count (Rough Guide):**
+- 1-5 stories → Quick Flow
+- 5-15 stories → Quick Flow or BMad Method Simple
+- 15-30 stories → BMad Method
+- 30+ stories → BMad Method or Enterprise
+
+**Time Horizon:**
+- Hours to 1-2 days → Quick Flow
+- 1-4 weeks → BMad Method
+- 1+ months → BMad Method or Enterprise
+
+**Team Size:**
+- 1 developer → Quick Flow or BMad Method
+- 2-5 developers → BMad Method
+- 5+ developers → BMad Method or Enterprise
+
+### Complexity Indicators
+
+**Choose Quick Flow if ALL true:**
+- ✓ Requirements are clear and uncontested
+- ✓ No architectural decisions needed
+- ✓ Fits within existing patterns
+- ✓ One developer can hold full scope
+- ✓ No cross-team coordination required
+
+**Choose BMad Method if ANY true:**
+- ✗ Requirements need discovery or alignment
+- ✗ Architecture decisions affect implementation
+- ✗ Multiple components or services involved
+- ✗ Could be implemented inconsistently by different agents
+- ✗ Stakeholders need documentation
+
+**Choose Enterprise if ANY true:**
+- ✗ Compliance requirements (HIPAA, PCI-DSS, SOC 2)
+- ✗ Security review mandatory
+- ✗ Multi-tenant with data isolation concerns
+- ✗ Integration with multiple external systems
+- ✗ Long-term maintenance by multiple teams
+
+### Risk-Based Selection
+
+**Low Risk → Quick Flow:**
+- Internal tools
+- Non-critical features
+- Isolated changes
+- Easy to revert
+
+**Medium Risk → BMad Method:**
+- User-facing features
+- Data model changes
+- API contracts
+- Multi-component work
+
+**High Risk → Enterprise:**
+- Security-critical systems
+- Financial transactions
+- Healthcare data
+- Compliance-regulated systems
+
+## Escalation and De-escalation
+
+### Escalating from Quick Flow
+
+If Quick Flow scope grows:
+
+```bash
+/bmad-bmm-quick-spec
+
+[After discovery...]
+
+→ ESCALATION RECOMMENDED
+  
+  This work involves:
+  - 15 stories identified
+  - Database schema changes
+  - API contract modifications
+  - 3 teams affected
+  
+  Your tech-spec work isn't wasted — it becomes input for the PRD.
+  
+  Switch to full BMad Method?
+  A) Yes, create PRD (recommended)
+  B) Continue with Quick Flow (not recommended)
+  C) Split into smaller chunks
+```
+
+Your work carries forward — the tech-spec informs the PRD.
+
+### De-escalating from BMad Method
+
+If you started BMad Method but realize it's simpler:
+
+```
+After PRD creation:
+
+→ SIMPLIFICATION OPPORTUNITY
+  
+  Your PRD reveals:
+  - 8 stories total
+  - No architectural decisions needed
+  - Single epic
+  
+  Consider Quick Flow instead:
+  1. Convert PRD to tech-spec
+  2. Run quick-dev
+  
+  Or continue with full method for practice/documentation.
+```
+
+## Real-World Examples
+
+### Example 1: Bug Fix (Quick Flow)
+
+**Situation:** Login form submits twice on Enter key
+
+**Track:** Quick Flow
+
+**Process:**
+```bash
+/bmad-bmm-quick-dev "Fix double-submit on login form"
+
+→ Barry: Got it. Scanning login form code...
+         Found the issue: missing form.preventDefault()
+         Adding preventDefault and submit debounce.
+         Writing test. Done in 8 minutes.
+```
+
+**Time:** 15 minutes total
+
+**Outcome:** Fixed, tested, shipped
+
+### Example 2: Feature Addition (BMad Method)
+
+**Situation:** Add payment processing with Stripe and PayPal
+
+**Track:** BMad Method
+
+**Process:**
+1. `/bmad-bmm-create-prd` → Define requirements, success metrics (1 hour)
+2. `/bmad-bmm-create-architecture` → Decide payment abstraction layer, webhook handling (1.5 hours)
+3. `/bmad-bmm-create-epics-and-stories` → Break into 4 epics, 22 stories (1 hour)
+4. Implementation: 3 weeks of sprints
+
+**Time:** 3.5 hours planning, 3 weeks implementation
+
+**Outcome:** Consistent payment handling, extensible to future providers
+
+### Example 3: Enterprise Platform (Enterprise)
+
+**Situation:** HIPAA-compliant telemedicine platform
+
+**Track:** Enterprise (full BMad Method + TEA)
+
+**Process:**
+1. Product Brief → Strategic vision and compliance landscape
+2. PRD → Requirements including HIPAA-specific FRs/NFRs
+3. Architecture → Security architecture, data encryption, audit logging
+4. TEA Test Strategy → Risk-based testing, compliance validation
+5. Epics & Stories → 60+ stories across 8 epics
+6. Implementation with quality gates at each epic
+
+**Time:** 2 weeks planning, 3 months implementation
+
+**Outcome:** Compliant, secure, auditable system
+
+## Benefits of Scale-Adaptive Planning
+
+### 1. Right-Sized Planning
+
+Never over-plan or under-plan:
+- Simple changes stay simple
+- Complex projects get proper foundation
+- Planning effort matches risk
+
+### 2. Reduced Waste
+
+No unnecessary ceremony:
+- Bug fixes don't need PRDs
+- Simple features don't need architecture docs
+- Save time without sacrificing quality
+
+### 3. Consistency Where It Matters
+
+Structure applied where conflicts could occur:
+- Multi-epic projects get architecture
+- Single-component work stays lean
+- Avoid integration problems
+
+### 4. Learning Curve Management
+
+New users start simple:
+- Begin with Quick Flow
+- Graduate to BMad Method
+- Adopt Enterprise when needed
+
+### 5. Flexibility
+
+Escalate or de-escalate as needed:
+- Start Quick Flow, escalate if scope grows
+- Start BMad Method, simplify if scope shrinks
+- Adapt mid-project
+
+## Next Steps
+
+- Learn about [Workflows](./workflows) — See how each track executes
+- Explore [Modules](./modules) — Discover Enterprise extensions
+- Understand [Framework Overview](./framework-overview) — See the complete architecture
+- Try the [Getting Started Tutorial](/tutorials/getting-started) — Experience scale adaptation
+- Read [Quick Flow Explanation](/explanation/quick-flow) — Deep dive on the fast track

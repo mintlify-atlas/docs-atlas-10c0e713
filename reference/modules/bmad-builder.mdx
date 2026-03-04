@@ -1,0 +1,278 @@
+---
+title: BMad Builder Module (BMB)
+description: Create custom BMad agents, workflows, and modules with the BMad Builder toolkit
+---
+
+## Overview
+
+BMad Builder (BMB) provides tools and workflows for creating custom BMad agents, workflows, and modules. Whether you're extending BMad for your team's specific needs or building reusable modules for the community, BMB gives you the scaffolding and guidance you need.
+
+**Module Code:** `bmb`
+
+## Key Features
+
+- **Agent Builder** - Scaffold new agent personas with custom instructions and capabilities
+- **Workflow Builder** - Create structured, multi-step workflows with agent facilitation
+- **Module Builder** - Package agents and workflows into reusable modules
+- **Template System** - Start from proven templates or create your own
+- **Validation Tools** - Ensure your agents and workflows follow BMad standards
+- **Testing Utilities** - Test agents and workflows before deployment
+
+## Installation
+
+Install BMB during initial setup:
+
+```bash
+npx bmad-method install
+# Select BMad Builder when prompted
+```
+
+Or add it to an existing installation:
+
+```bash
+npx bmad-method install --modules bmb
+```
+
+For non-interactive installation:
+
+```bash
+npx bmad-method install --modules bmb --yes
+```
+
+## Repository Information
+
+**GitHub:** [bmad-code-org/bmad-builder](https://github.com/bmad-code-org/bmad-builder)
+
+**NPM Package:** `bmad-builder`
+
+**Type:** Official BMad Module
+
+**Default Selected:** No (opt-in during installation)
+
+## What You Can Build
+
+### Custom Agents
+
+Create specialized agent personas for your domain:
+
+- Domain experts (legal, finance, healthcare, etc.)
+- Role-specific agents (CTO, designer, analyst)
+- Tool-specific agents (Git expert, Docker specialist)
+- Custom personality and communication styles
+
+### Custom Workflows
+
+Build structured processes for your team:
+
+- Company-specific development processes
+- Compliance and audit workflows
+- Custom review and approval chains
+- Domain-specific planning and analysis
+
+### Custom Modules
+
+Package related agents and workflows:
+
+- Internal team modules
+- Industry-specific modules (fintech, healthtech, etc.)
+- Tool integration modules
+- Community-contributed modules
+
+## Builder Workflows
+
+BMB includes workflows that guide you through creation:
+
+### `/workflow create-agent`
+
+Interactive workflow to create a new agent persona:
+
+1. Define agent role and expertise
+2. Set communication style and tone
+3. Configure capabilities and skills
+4. Add domain-specific knowledge
+5. Test agent interactions
+6. Generate agent definition files
+
+### `/workflow create-workflow`
+
+Build structured multi-step workflows:
+
+1. Define workflow purpose and goals
+2. Map workflow phases and steps
+3. Assign agents to each step
+4. Configure inputs and outputs
+5. Set validation criteria
+6. Test workflow execution
+7. Generate workflow definition files
+
+### `/workflow create-module`
+
+Package agents and workflows into modules:
+
+1. Define module metadata
+2. Select agents and workflows to include
+3. Configure module variables
+4. Set up directory structure
+5. Define installation scripts
+6. Generate module.yaml and package files
+7. Test module installation
+
+## Module Structure
+
+BMB helps you create modules following this structure:
+
+```yaml
+code: your-module-code
+name: "Your Module Name"
+description: "Module description"
+default_selected: false
+
+# Configuration variables
+variable_name:
+  prompt: "Question to ask during installation?"
+  default: "default value"
+  result: "{value}"
+
+# Directories to create
+directories:
+  - "{output_folder}/module-specific"
+```
+
+## Agent Definition Format
+
+Agents are defined with:
+
+- **Role and expertise** - What the agent specializes in
+- **Personality** - Communication style and tone
+- **Instructions** - How the agent should behave
+- **Skills** - Capabilities the agent can invoke
+- **Knowledge** - Domain-specific information
+
+## Workflow Definition Format
+
+Workflows include:
+
+- **Metadata** - Name, description, category
+- **Phases** - Major workflow sections
+- **Steps** - Individual actions within phases
+- **Agents** - Which agent facilitates each step
+- **Inputs/Outputs** - Data flow between steps
+- **Validation** - Criteria for step completion
+
+## Testing and Validation
+
+BMB provides tools to test your creations:
+
+- **Agent Testing** - Simulate conversations and verify responses
+- **Workflow Testing** - Execute workflows in test mode
+- **Module Validation** - Ensure module.yaml is properly formatted
+- **Integration Testing** - Test module installation and removal
+
+## Best Practices
+
+### Agent Development
+
+- Define clear expertise boundaries
+- Use consistent personality and tone
+- Provide examples of expected interactions
+- Test with various user skill levels
+- Document agent capabilities
+
+### Workflow Development
+
+- Keep workflows focused on a single outcome
+- Provide clear guidance at each step
+- Include validation and error handling
+- Test with different project sizes
+- Document prerequisites and expected outputs
+
+### Module Development
+
+- Follow semantic versioning
+- Document all configuration variables
+- Provide sensible defaults
+- Include examples and tutorials
+- Test installation and upgrade paths
+
+## Publishing Modules
+
+### Internal Distribution
+
+For team-specific modules:
+
+1. Store in internal Git repository
+2. Reference via Git URL in installation
+3. Document internal installation process
+
+### Community Distribution
+
+For public modules:
+
+1. Publish to GitHub under your organization
+2. Submit to BMad community module registry
+3. Follow BMad module quality standards
+4. Provide documentation and examples
+5. Maintain compatibility with BMad versions
+
+## Configuration Variables
+
+BMB defines its own configuration variables during installation. See the module's `module.yaml` in the [GitHub repository](https://github.com/bmad-code-org/bmad-builder) for current configuration options.
+
+## Examples
+
+### Create a Legal Review Agent
+
+```
+/workflow create-agent
+
+# Follow prompts to create a legal review agent
+# Agent will help review code for license compliance,
+# data privacy, and regulatory requirements
+```
+
+### Create a Design System Workflow
+
+```
+/workflow create-workflow
+
+# Build a workflow for maintaining design systems
+# Including component creation, documentation,
+# and Figma integration
+```
+
+### Package Healthcare Module
+
+```
+/workflow create-module
+
+# Combine HIPAA compliance agent,
+# healthcare data workflows,
+# and regulatory documentation
+```
+
+## Support and Resources
+
+- **Documentation:** See the [BMad Builder repository](https://github.com/bmad-code-org/bmad-builder)
+- **Examples:** Browse community modules for inspiration
+- **Discord:** Get help in the #builder channel
+- **GitHub Issues:** Report bugs or request features
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Module Development Guide" icon="book" href="/guides/module-development">
+    Learn module development in depth
+  </Card>
+  
+  <Card title="Agent Reference" icon="user" href="/reference/agents">
+    Study existing agent implementations
+  </Card>
+  
+  <Card title="Workflow Reference" icon="diagram-project" href="/reference/workflows">
+    Explore workflow patterns
+  </Card>
+  
+  <Card title="Module System Overview" icon="grid" href="/reference/modules/overview">
+    Understand the module architecture
+  </Card>
+</CardGroup>

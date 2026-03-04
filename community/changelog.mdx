@@ -1,0 +1,291 @@
+---
+title: Changelog
+description: Version history and recent changes to BMad Method
+---
+
+# Changelog
+
+Stay up to date with the latest features, fixes, and improvements to BMad Method.
+
+---
+
+## [6.0.4] - Latest
+
+### 🎁 Features
+
+**Edge Case Hunter Review Task**
+
+New reusable review task that exhaustively traces branching paths and boundary conditions in code, reporting only unhandled gaps.
+
+- Method-driven analysis approach
+- Complements adversarial review
+- Systematic edge case discovery
+- Prevents overlooked boundary conditions
+
+[PR #1790](https://github.com/bmad-code-org/BMAD-METHOD/pull/1790)
+
+### 🐛 Bug Fixes
+
+**Brainstorming Session Management**
+
+Fixed brainstorming to not overwrite previous sessions:
+- Now prompts to continue existing session or start new
+- Preserves brainstorming history
+- Better session organization
+
+**Installer Template Fixes**
+
+Replaced legacy `@` path prefixes with explicit `{project-root}` syntax:
+- Consistent path handling
+- Better cross-platform support
+- Clearer configuration
+
+[PR #1769](https://github.com/bmad-code-org/BMAD-METHOD/pull/1769)
+
+**Edge Case Hunter Improvements**
+
+Removed zero-findings halt condition:
+- Prevents LLM from hallucinating findings
+- Allows legitimate "no issues found" results
+- More accurate analysis
+
+[PR #1797](https://github.com/bmad-code-org/BMAD-METHOD/pull/1797)
+
+**Documentation Links**
+
+Fixed broken docs domain references:
+- Updated README links
+- Fixed GitHub issue templates
+- All links now point to correct documentation
+
+[PR #1777](https://github.com/bmad-code-org/BMAD-METHOD/pull/1777)
+
+---
+
+## [6.0.3]
+
+### 🎁 Features
+
+**Root Cause Analysis Skill**
+
+New `bmad-os-root-cause-analysis` skill for analyzing bug-fix commits:
+- Structured root cause analysis reports
+- Pyramid communication format
+- Systematic issue investigation
+
+[PR #1741](https://github.com/bmad-code-org/BMAD-METHOD/pull/1741)
+
+### 🐛 Bug Fixes
+
+**Installer Improvements**
+
+- Refuses installation when ancestor directory has BMAD commands (prevents duplicate autocompletion)
+- Fixed OpenCode integration with proper frontmatter
+- Updated directory names to plural form
+
+[PR #1735](https://github.com/bmad-code-org/BMAD-METHOD/pull/1735), [PR #1764](https://github.com/bmad-code-org/BMAD-METHOD/pull/1764)
+
+**CSV Manifest Pipeline**
+
+Fixed double-escaping of quotes:
+- Prevents corrupted output files
+- Switched Gemini templates to single quotes
+- Better CSV handling
+
+[PR #1746](https://github.com/bmad-code-org/BMAD-METHOD/pull/1746)
+
+**Workflow Improvements**
+
+Fixed workflow help task chaining:
+- Removed ambiguous clauses
+- Better LLM interpretation
+- Doesn't break YAML front matter
+
+[PR #1740](https://github.com/bmad-code-org/BMAD-METHOD/pull/1740)
+
+### 📚 Documentation
+
+- Fixed broken TEA hyperlinks to new repository URL [PR #1772](https://github.com/bmad-code-org/BMAD-METHOD/pull/1772)
+- Rebranded BMAD acronym to "Build More Architect Dreams" [PR #1765](https://github.com/bmad-code-org/BMAD-METHOD/pull/1765)
+
+---
+
+## [6.0.2]
+
+### 🎁 Features
+
+**Platform Support**
+
+- Added CodeBuddy platform support [PR #1483](https://github.com/bmad-code-org/BMAD-METHOD/pull/1483)
+- Migrated Codex installer to `.agents/skills` format [PR #1729](https://github.com/bmad-code-org/BMAD-METHOD/pull/1729)
+
+**New Tools**
+
+- LLM audit prompt for file reference conventions using parallel subagents [PR #1720](https://github.com/bmad-code-org/BMAD-METHOD/pull/1720)
+- Converted review-pr and audit-file-refs to proper bmad-os skills with slash commands [PR #1732](https://github.com/bmad-code-org/BMAD-METHOD/pull/1732)
+
+### 🐛 Bug Fixes
+
+**Path References**
+
+- Fixed 24 broken step references in create-architecture workflow [PR #1734](https://github.com/bmad-code-org/BMAD-METHOD/pull/1734)
+- Fixed step file path references in check-implementation-readiness [PR #1709, #1716](https://github.com/bmad-code-org/BMAD-METHOD/pull/1709)
+- Fixed 104 relative step references to use `{project-root}/_bmad/` paths [PR #1722](https://github.com/bmad-code-org/BMAD-METHOD/pull/1722)
+- Enabled strict file reference validation in CI [PR #1717](https://github.com/bmad-code-org/BMAD-METHOD/pull/1717)
+
+**IDE Integration**
+
+- Fixed Rovo Dev integration with custom installer [PR #1701](https://github.com/bmad-code-org/BMAD-METHOD/pull/1701)
+- Fixed default Codex install location from global to project [PR #1698](https://github.com/bmad-code-org/BMAD-METHOD/pull/1698)
+- Removed Windsurf from recommended IDEs list [PR #1727](https://github.com/bmad-code-org/BMAD-METHOD/pull/1727)
+
+**Installation**
+
+- Added npx cache workaround for stale beta versions [PR #1685](https://github.com/bmad-code-org/BMAD-METHOD/pull/1685)
+- Ignored `.junie/` IDE integration folder [PR #1719](https://github.com/bmad-code-org/BMAD-METHOD/pull/1719)
+
+---
+
+## [6.0.0] - V6 Stable Release! 🎉
+
+**The End of Beta!**
+
+### 🎁 Features
+
+**Product Requirements**
+
+- Added PRD workflow steps 2b (vision/differentiators) and 2c (executive summary)
+- More complete product requirements documentation
+
+**Installation**
+
+- New `bmad uninstall` command with interactive and non-interactive modes
+- Selective component removal
+- Dedicated GitHub Copilot installer with enriched `.agent.md` and `.prompt.md` files
+
+**Test Automation**
+
+- Added TEA browser automation prerequisite prompts
+- Guides Playwright CLI/MCP setup after configuration
+
+### 🐛 Bug Fixes
+
+**Version Management**
+
+- Fixed version comparison to use semantic versioning
+- Prevents incorrect downgrade recommendations
+
+**Module Configuration**
+
+- Fixed `--custom-content` flag to properly populate sources
+- Improved configuration UX messaging
+- Auto-discover PRD files in validate-prd workflow
+
+**Workflow Improvements**
+
+- Removed incorrect `mode: primary` from OpenCode agent template
+- Fixed installer non-interactive mode hanging
+- Fixed workflow-level config.yaml copying for custom content modules
+
+### 📚 Documentation
+
+- Added post-install notes documentation for modules
+- Improved project-context documentation
+- Added BMad Builder link to index for extenders
+
+---
+
+## [6.0.0-Beta.8] - February 8, 2026
+
+### 🌟 Key Highlights
+
+1. **Non-Interactive Installation** — Full CI/CD support with 10 new CLI flags
+2. **Complete @clack/prompts Migration** — Unified CLI experience
+3. **CSV File Reference Validation** — Extended validator for workflow references
+4. **Kiro IDE Support** — Standardized config-driven installation
+
+### 🎁 Features
+
+**Non-Interactive Installation**
+
+Added comprehensive CLI flags for automated deployments:
+- `--directory`, `--modules`, `--tools`
+- `--custom-content`, `--user-name`
+- `--communication-language`, `--document-output-language`
+- `--output-folder`, `-y/--yes`
+
+[PR #1520](https://github.com/bmad-code-org/BMAD-METHOD/pull/1520)
+
+**Validation Improvements**
+
+CSV file reference validation:
+- Scans `.csv` files for broken workflow references
+- Checks 501 references across 212 files
+- Prevents broken links in workflows
+
+[PR #1573](https://github.com/bmad-code-org/BMAD-METHOD/pull/1573)
+
+**IDE Support**
+
+- Kiro IDE support with config-driven templates [PR #1589](https://github.com/bmad-code-org/BMAD-METHOD/pull/1589)
+- OpenCode template consolidation with `mode: primary` frontmatter [PR #1556](https://github.com/bmad-code-org/BMAD-METHOD/pull/1556)
+
+**Documentation**
+
+- Added official external modules reference page [PR #1540](https://github.com/bmad-code-org/BMAD-METHOD/pull/1540)
+
+### 🐛 Bug Fixes
+
+**Installer**
+
+- Removed "None - Skip module installation" option
+- Eliminated ~100 lines of dead code
+- Added ESM/.cjs support for module installers
+- Fixed SPACE key not working in autocomplete multiselect prompts
+
+[PR #1590, #1557](https://github.com/bmad-code-org/BMAD-METHOD/pull/1590)
+
+**Workflows**
+
+- Fixed Party Mode return protocol to prevent lost-in-the-middle failures [PR #1569](https://github.com/bmad-code-org/BMAD-METHOD/pull/1569)
+- Fixed technical research workflow step routing [PR #1547](https://github.com/bmad-code-org/BMAD-METHOD/pull/1547)
+- Removed forbidden `workflow_path` variable from 16 workflow files [PR #1546](https://github.com/bmad-code-org/BMAD-METHOD/pull/1546)
+
+**Installation**
+
+- Fixed bmad-help to read project-specific docs and respect `communication_language` [PR #1535](https://github.com/bmad-code-org/BMAD-METHOD/pull/1535)
+- Removed `--prefer-offline` npm flag to prevent stale cache errors [PR #1531](https://github.com/bmad-code-org/BMAD-METHOD/pull/1531)
+
+---
+
+## Previous Versions
+
+For complete changelog history including all alpha and beta versions, see:
+
+📖 **[Full Changelog on GitHub](https://github.com/bmad-code-org/BMAD-METHOD/blob/main/CHANGELOG.md)**
+
+---
+
+## Release Notes Format
+
+Our changelog follows this format:
+
+- 🎁 **Features** — New capabilities and enhancements
+- 🐛 **Bug Fixes** — Issues resolved
+- ♻️ **Refactoring** — Code improvements without behavior changes
+- 📚 **Documentation** — Documentation updates
+- 🔧 **Maintenance** — Dependency updates and tooling
+
+---
+
+## Stay Updated
+
+- **[GitHub Releases](https://github.com/bmad-code-org/BMAD-METHOD/releases)** — Official releases
+- **[Discord](https://discord.gg/gk8jAdXWmj)** — Release announcements
+- **[Roadmap](/community/roadmap)** — Upcoming features
+
+---
+
+## Upgrading
+
+See our [Upgrade Guide](/how-to/upgrade-to-v6/) for instructions on upgrading from previous versions.

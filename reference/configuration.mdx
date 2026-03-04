@@ -1,0 +1,455 @@
+---
+title: Configuration
+description: Complete reference for module.yaml configuration files
+---
+
+BMad modules are configured using `module.yaml` files that define module metadata, user prompts, variables, and installation behavior. This reference documents the configuration schema and available options.
+
+## Configuration File Location
+
+Each module contains a `module.yaml` file in its root directory:
+
+```
+src/
+├── core/
+│   └── module.yaml          # Core module configuration
+├── bmm/
+│   └── module.yaml          # BMM module configuration
+└── [other-modules]/
+    └── module.yaml
+```
+
+## Schema Overview
+
+A `module.yaml` file consists of:
+
+1. **Module metadata** - Identification and description
+2. **Header configuration** - Display text during installation
+3. **Variable definitions** - User-configurable settings with prompts
+4. **Installation directives** - Directories to create, files to copy, etc.
+
+---
+
+## Module Metadata
+
+### code
+
+<ParamField path="code" type="string" required>
+  Unique identifier for the module. Used in command names and internal references.
+  
+  **Naming convention:** Lowercase, 2-4 characters
+  
+  **Example:**
+  ```yaml
+  code: bmm
+  ```
+</ParamField>
+
+### name
+
+<ParamField path="name" type="string" required>
+  Human-readable module name displayed during installation and in status output.
+  
+  **Example:**
+  ```yaml
+  name: "BMad Method Agile-AI Driven-Development"
+  ```
+</ParamField>
+
+### description
+
+<ParamField path="description" type="string">
+  Brief description of the module's purpose and features.
+  
+  **Example:**
+  ```yaml
+  description: "AI-driven agile development framework"
+  ```
+</ParamField>
+
+### default_selected
+
+<ParamField path="default_selected" type="boolean" default="false">
+  Whether this module should be pre-selected during installation. Only the core module and primary modules should use this.
+  
+  **Example:**
+  ```yaml
+  default_selected: true
+  ```
+</ParamField>
+
+---
+
+## Header Configuration
+
+Headers provide context to users during the installation prompts.
+
+### header
+
+<ParamField path="header" type="string">
+  Main heading displayed before module configuration prompts.
+  
+  **Example:**
+  ```yaml
+  header: "BMad Core Configuration"
+  ```
+</ParamField>
+
+### subheader
+
+<ParamField path="subheader" type="string">
+  Additional explanatory text displayed below the header. Supports multi-line strings.
+  
+  **Example:**
+  ```yaml
+  subheader: "Configure the core settings for your BMad installation.\nThese settings will be used across all installed bmad skills, workflows, and agents."
+  ```
+</ParamField>
+
+---
+
+## Variable Definitions
+
+Variables collect user input and configure module behavior. Each variable has a unique key and configuration object.
+
+### Variable Structure
+
+```yaml
+variable_name:
+  prompt: "Question to ask user"
+  default: "default_value"
+  result: "{value}"
+  # Optional: single-select or multi-select options
+```
+
+### Variable Properties
+
+<ParamField path="prompt" type="string | array" required>
+  Question(s) to ask the user. Can be:
+  - Single string for simple prompts
+  - Array of strings for multi-line prompts
+  
+  **Examples:**
+  ```yaml
+  # Simple prompt
+  user_name:
+    prompt: "What should agents call you?"
+  
+  # Multi-line prompt
+  user_skill_level:
+    prompt:
+      - "What is your development experience level?"
+      - "This affects how agents explain concepts in chat."
+  ```
+</ParamField>
+
+<ParamField path="default" type="string | boolean">
+  Default value if user accepts the default. Supports:
+  - Literal values: `"English"`, `true`, `false`
+  - Variable references: `"{directory_name}"`
+  - Path templates: `"{output_folder}/planning-artifacts"`
+  
+  **Examples:**
+  ```yaml
+  communication_language:
+    default: "English"
+  
+  project_name:
+    default: "{directory_name}"
+  
+  tool_supports_subagents:
+    default: true
+  ```
+</ParamField>
+
+<ParamField path="result" type="string" required>
+  Template for the final value stored in the configuration. Supports:
+  - `{value}` - User's input or selected value
+  - `{project-root}` - Absolute path to project root
+  - Other variable references: `{output_folder}`
+  
+  **Examples:**
+  ```yaml
+  user_name:
+    result: "{value}"
+  
+  output_folder:
+    result: "{project-root}/{value}"
+  
+  planning_artifacts:
+    result: "{project-root}/{value}"
+  ```
+</ParamField>
+
+### Selection Types
+
+Variables can provide predefined options for users to choose from.
+
+#### single-select
+
+<ParamField path="single-select" type="array">
+  Array of options where user selects exactly one. Each option has `value` and `label`.
+  
+  **Structure:**
+  ```yaml
+  variable_name:
+    prompt: "Choose one option"
+    default: "value1"
+    result: "{value}"
+    single-select:
+      - value: "value1"
+        label: "First Option - Description"
+      - value: "value2"
+        label: "Second Option - Description"
+  ```
+  
+  **Example:**
+  ```yaml
+  user_skill_level:
+    prompt:
+      - "What is your development experience level?"
+      - "This affects how agents explain concepts in chat."
+    default: "intermediate"
+    result: "{value}"
+    single-select:
+      - value: "beginner"
+        label: "Beginner - Explain things clearly"
+      - value: "intermediate"
+        label: "Intermediate - Balance detail with speed"
+      - value: "expert"
+        label: "Expert - Be direct and technical"
+  ```
+</ParamField>
+
+#### multi-select
+
+<ParamField path="multi-select" type="array">
+  Array of options where user can select multiple. Same structure as single-select.
+  
+  **Note:** Multi-select is available but less commonly used. Refer to single-select structure.
+</ParamField>
+
+---
+
+## Installation Directives
+
+### directories
+
+<ParamField path="directories" type="array">
+  List of directories to create during installation. Supports variable interpolation.
+  
+  **Example:**
+  ```yaml
+  directories:
+    - "{planning_artifacts}"
+    - "{implementation_artifacts}"
+    - "{project_knowledge}"
+  ```
+  
+  This creates:
+  ```
+  /project-root/
+  ├── _bmad-output/
+  │   ├── planning-artifacts/
+  │   └── implementation-artifacts/
+  └── docs/
+  ```
+</ParamField>
+
+---
+
+## Variable Interpolation
+
+Configuration values support template variables that are resolved during installation:
+
+| Variable | Description | Example Value |
+|----------|-------------|---------------|
+| `{value}` | User's input or selection | `"Alex"`, `true` |
+| `{project-root}` | Absolute path to project root | `/home/user/my-project` |
+| `{directory_name}` | Current directory name | `my-project` |
+| `{variable_name}` | Reference to another variable's value | `{output_folder}` resolves to `_bmad-output` |
+
+### Resolution Order
+
+1. Core module variables are resolved first
+2. Module-specific variables are resolved next
+3. Variables can reference previously-defined variables
+4. Path templates are expanded using resolved values
+
+**Example chain:**
+
+```yaml
+# core/module.yaml
+output_folder:
+  default: "_bmad-output"
+  result: "{project-root}/{value}"
+  # Resolves to: /home/user/project/_bmad-output
+
+# bmm/module.yaml  
+planning_artifacts:
+  default: "{output_folder}/planning-artifacts"
+  result: "{project-root}/{value}"
+  # Resolves to: /home/user/project/_bmad-output/planning-artifacts
+```
+
+---
+
+## Variable Inheritance
+
+Modules can reference variables defined in the core module:
+
+```yaml
+# bmm/module.yaml
+# Variables from Core Config inserted:
+## user_name
+## communication_language  
+## document_output_language
+## output_folder
+
+project_name:
+  prompt: "What is your project called?"
+  default: "{directory_name}"
+  result: "{value}"
+```
+
+Core variables are automatically available to all modules without re-prompting the user.
+
+---
+
+## Complete Examples
+
+### Core Module Configuration
+
+```yaml
+code: core
+name: "BMad Core Module"
+
+header: "BMad Core Configuration"
+subheader: "Configure the core settings for your BMad installation.\nThese settings will be used across all installed bmad skills, workflows, and agents."
+
+user_name:
+  prompt: "What should agents call you? (Use your name or a team name)"
+  default: "BMad"
+  result: "{value}"
+
+communication_language:
+  prompt: "What language should agents use when chatting with you?"
+  default: "English"
+  result: "{value}"
+
+document_output_language:
+  prompt: "Preferred document output language?"
+  default: "English"
+  result: "{value}"
+
+output_folder:
+  prompt: "Where should output files be saved?"
+  default: "_bmad-output"
+  result: "{project-root}/{value}"
+
+tool_supports_subagents:
+  prompt: "Subagents are supported by the LLM or Tool I will be using?"
+  default: true
+  result: "{value}"
+
+tool_supports_agent_teams:
+  prompt: "Agent Teams are supported by the LLM or Tool I will be using?"
+  default: false
+  result: "{value}"
+```
+
+### BMM Module Configuration
+
+```yaml
+code: bmm
+name: "BMad Method Agile-AI Driven-Development"
+description: "AI-driven agile development framework"
+default_selected: true
+
+# Variables from Core Config inserted:
+## user_name
+## communication_language
+## document_output_language
+## output_folder
+
+project_name:
+  prompt: "What is your project called?"
+  default: "{directory_name}"
+  result: "{value}"
+
+user_skill_level:
+  prompt:
+    - "What is your development experience level?"
+    - "This affects how agents explain concepts in chat."
+  default: "intermediate"
+  result: "{value}"
+  single-select:
+    - value: "beginner"
+      label: "Beginner - Explain things clearly"
+    - value: "intermediate"
+      label: "Intermediate - Balance detail with speed"
+    - value: "expert"
+      label: "Expert - Be direct and technical"
+
+planning_artifacts:
+  prompt: "Where should planning artifacts be stored? (Brainstorming, Briefs, PRDs, UX Designs, Architecture, Epics)"
+  default: "{output_folder}/planning-artifacts"
+  result: "{project-root}/{value}"
+
+implementation_artifacts:
+  prompt: "Where should implementation artifacts be stored? (Sprint status, stories, reviews, retrospectives, Quick Flow output)"
+  default: "{output_folder}/implementation-artifacts"
+  result: "{project-root}/{value}"
+
+project_knowledge:
+  prompt: "Where should long-term project knowledge be stored? (docs, research, references)"
+  default: "docs"
+  result: "{project-root}/{value}"
+
+directories:
+  - "{planning_artifacts}"
+  - "{implementation_artifacts}"
+  - "{project_knowledge}"
+```
+
+---
+
+## Best Practices
+
+### Naming Conventions
+
+- **Module codes:** Short (2-4 chars), lowercase, memorable (`bmm`, `core`, `tea`)
+- **Variable names:** Snake_case, descriptive (`user_name`, `planning_artifacts`)
+- **Paths:** Use underscores or hyphens, avoid spaces
+
+### User Experience
+
+- **Provide sensible defaults** - Most users should be able to accept defaults
+- **Use clear prompts** - Explain what the setting affects
+- **Group related settings** - Use headers and subheaders
+- **Avoid redundancy** - Reference core variables instead of re-prompting
+
+### Path Management
+
+- **Use relative paths in defaults** - Let users customize the base
+- **Always resolve with project-root** - Ensures absolute paths in manifest
+- **Create directories declaratively** - Use `directories` array
+
+### Variable Dependencies
+
+- **Define base paths first** - `output_folder` before `planning_artifacts`
+- **Reference existing variables** - `"{output_folder}/planning-artifacts"`
+- **Document inherited variables** - Add comments showing core variables
+
+---
+
+## Validation
+
+The installer validates configuration files during installation:
+
+- Required fields: `code`, `name`
+- Variable references must resolve
+- Directory paths must be valid
+- Selection options must include the default value
+
+Validation errors are displayed with clear messages during installation.

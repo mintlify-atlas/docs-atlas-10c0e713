@@ -1,0 +1,512 @@
+---
+title: "Preventing Agent Conflicts"
+description: "How architecture documentation prevents conflicts when multiple AI agents implement different parts of a system"
+---
+
+When multiple AI agents implement different parts of a system, they can make conflicting technical decisions. Architecture documentation prevents this by establishing shared standards.
+
+## The Multi-Agent Problem
+
+Modern AI-assisted development often involves multiple agents working in parallel:
+
+- **Agent A** implements user authentication
+- **Agent B** implements data management
+- **Agent C** implements reporting features
+
+Each agent has the same goal: ship working features. But without coordination, they make independent technical choices that create system-wide inconsistency.
+
+<Warning>
+Without shared architecture, every agent becomes its own architect. The result is a Frankenstein system with incompatible patterns.
+</Warning>
+
+## Common Conflict Types
+
+Here are the conflicts that emerge when agents work without architectural guidance:
+
+### API Style Conflicts
+
+**Without architecture:**
+
+- Agent A implements REST endpoints: `GET /users/{id}`
+- Agent B implements GraphQL mutations: `mutation updateProduct`
+- Agent C implements RPC-style POST endpoints: `POST /executeReport`
+
+**Result:**
+
+- Frontend developers face 3 different API patterns
+- Documentation is inconsistent
+- Testing strategies differ per agent
+- Client libraries can't be standardized
+
+**With architecture:**
+
+- ADR specifies: "Use GraphQL for all client-server communication"
+- All agents implement GraphQL resolvers
+- Consistent patterns, single client library, unified docs
+
+### Database Design Conflicts
+
+**Without architecture:**
+
+- Agent A uses snake_case: `user_id`, `created_at`
+- Agent B uses camelCase: `productId`, `updatedAt`
+- Agent C uses PascalCase: `ReportName`, `ExecutionTime`
+
+**Result:**
+
+- Database schema is inconsistent
+- Queries become confusing
+- ORM mappings are complex
+- Migrations are error-prone
+
+**With architecture:**
+
+- Standards document specifies: "Use snake_case for all database columns"
+- All agents follow the same naming convention
+- Consistent schema, predictable queries
+
+### State Management Conflicts
+
+**Without architecture:**
+
+- Agent A implements Redux for user state
+- Agent B implements React Context for product state
+- Agent C implements local component state with hooks
+
+**Result:**
+
+- Three state management approaches in one app
+- Complex debugging across state systems
+- New developers face steep learning curve
+- State synchronization issues
+
+**With architecture:**
+
+- ADR specifies: "Use Zustand for global state, React Query for server state"
+- All agents implement consistent state patterns
+- Predictable data flow, easier debugging
+
+### Authentication/Authorization Conflicts
+
+**Without architecture:**
+
+- Agent A implements JWT tokens in localStorage
+- Agent B implements session cookies
+- Agent C implements API keys in headers
+
+**Result:**
+
+- Users need multiple authentication methods
+- Security vulnerabilities from inconsistent approaches
+- Authorization checks differ per feature
+
+**With architecture:**
+
+- ADR specifies: "JWT in httpOnly cookies, refresh token rotation"
+- All agents implement same auth flow
+- Consistent security posture
+
+### Error Handling Conflicts
+
+**Without architecture:**
+
+- Agent A returns: `{ success: false, message: "Error" }`
+- Agent B throws exceptions with custom error classes
+- Agent C returns HTTP status codes only
+
+**Result:**
+
+- Frontend can't standardize error handling
+- Logging and monitoring fragmented
+- User experience inconsistent
+
+**With architecture:**
+
+- Standards document specifies error format:
+  ```json
+  {
+    "error": {
+      "code": "VALIDATION_ERROR",
+      "message": "User-friendly message",
+      "details": { "field": "email", "issue": "invalid_format" }
+    }
+  }
+  ```
+- All agents return errors in same format
+- Centralized error handling, consistent UX
+
+## How Architecture Prevents Conflicts
+
+Architecture documentation acts as a contract that all agents must follow:
+
+### 1. Explicit Decisions via ADRs
+
+Architecture Decision Records (ADRs) document every significant technology choice:
+
+**ADR Template:**
+
+```markdown
+# ADR-001: API Communication Protocol
+
+## Context
+We need to define how frontend and backend communicate.
+Multiple agents will implement different features that expose APIs.
+
+## Options Considered
+1. REST with OpenAPI spec
+2. GraphQL with Apollo
+3. gRPC for internal services
+
+## Decision
+Use GraphQL with Apollo Server and Apollo Client.
+
+## Rationale
+- Single endpoint simplifies routing
+- Type safety with schema
+- Efficient data fetching (no over/under fetching)
+- Strong ecosystem and tooling
+
+## Consequences
+- All agents must implement GraphQL resolvers
+- Schema coordination required for shared types
+- GraphQL learning curve for team
+- Can't use REST-specific tools
+```
+
+Every agent reads this ADR before implementing API endpoints. Conflicts prevented.
+
+### 2. FR/NFR-Specific Guidance
+
+Architecture maps each functional requirement to technical approach:
+
+```markdown
+## Implementation Guidance
+
+**FR-001: User Management**
+- GraphQL mutations: `createUser`, `updateUser`, `deleteUser`
+- PostgreSQL users table with uuid primary key
+- Passwords hashed with bcrypt (cost factor 12)
+- Email validation with regex + DNS check
+
+**FR-002: File Upload**
+- S3 direct upload with presigned URLs
+- Max file size: 50MB
+- Virus scanning with ClamAV before storage
+- CloudFront CDN for delivery
+
+**FR-003: Real-time Notifications**
+- GraphQL subscriptions over WebSocket
+- Redis pub/sub for message distribution
+- Reconnection logic with exponential backoff
+```
+
+Agent implementing FR-001 knows exactly which patterns to use. Agent implementing FR-003 uses different but compatible patterns.
+
+### 3. Standards and Conventions
+
+Explicit documentation of cross-cutting concerns:
+
+```markdown
+## Code Standards
+
+**Directory Structure:**
+```
+src/
+  features/
+    [feature-name]/
+      components/
+      hooks/
+      graphql/
+      tests/
+  shared/
+    components/
+    utils/
+    types/
+```
+
+**Naming Conventions:**
+- Components: PascalCase (UserProfile.tsx)
+- Hooks: camelCase with "use" prefix (useAuth.ts)
+- Utils: camelCase (formatDate.ts)
+- GraphQL files: camelCase with .graphql.ts extension
+
+**Testing Patterns:**
+- Unit tests: [ComponentName].test.tsx
+- Integration tests: [Feature].integration.test.tsx
+- E2E tests: [UserFlow].e2e.test.tsx
+- Coverage minimum: 80% for features, 90% for shared utils
+```
+
+All agents produce code that looks like it came from one developer.
+
+## Architecture as Shared Context
+
+Think of architecture as the shared context that all agents read before implementing:
+
+```
+PRD: "What to build"
+     ↓
+Architecture: "How to build it"
+     ↓
+Agent A reads architecture → implements Epic 1 (auth)
+Agent B reads architecture → implements Epic 2 (products)
+Agent C reads architecture → implements Epic 3 (reports)
+     ↓
+Result: Three epics that integrate seamlessly
+```
+
+**Without architecture:**
+
+Each agent invents its own approach → integration nightmare.
+
+**With architecture:**
+
+Each agent follows shared patterns → drop-in compatibility.
+
+## Key ADR Topics
+
+These decisions prevent the most common conflicts:
+
+| Topic | Example Decision |
+|-------|------------------|
+| **API Style** | GraphQL vs REST vs gRPC |
+| **Database** | PostgreSQL vs MongoDB, schema design patterns |
+| **Authentication** | JWT vs sessions, token storage |
+| **State Management** | Redux vs Zustand vs Jotai, server state handling |
+| **Styling** | CSS Modules vs Tailwind vs Styled Components |
+| **Testing** | Jest + RTL + Playwright vs Vitest + Cypress |
+| **Error Handling** | Error format, logging strategy, user messaging |
+| **Data Fetching** | React Query vs SWR vs Apollo Client |
+| **Form Management** | React Hook Form vs Formik vs uncontrolled |
+| **Date/Time** | Library choice (date-fns vs dayjs), timezone handling |
+| **File Structure** | Feature-based vs layer-based organization |
+| **Type Safety** | TypeScript strict mode, Zod for runtime validation |
+
+<Note>
+Not every decision needs an ADR. Focus on choices that cross epic boundaries and affect multiple agents.
+</Note>
+
+## Anti-Patterns to Avoid
+
+### Implicit Decisions
+
+**Bad:**
+
+> "We'll figure out the API style as we go."
+
+**Why it fails:**
+
+First agent picks REST. Second agent picks GraphQL. Conflict.
+
+**Good:**
+
+> "ADR-001 specifies GraphQL. All agents implement GraphQL resolvers."
+
+### Over-Documentation
+
+**Bad:**
+
+> 50-page architecture document covering every function signature and variable name.
+
+**Why it fails:**
+
+No one reads it. Agents ignore it. Becomes stale immediately.
+
+**Good:**
+
+> Focused ADRs for conflict-prone decisions. Standards for cross-cutting concerns. Everything else is agent discretion.
+
+### Stale Architecture
+
+**Bad:**
+
+> Architecture written once during planning, never updated.
+
+**Why it fails:**
+
+Reality diverges from docs. New agents follow outdated patterns. Conflicts re-emerge.
+
+**Good:**
+
+> Living architecture updated as you learn. `correct-course` workflow for significant pivots.
+
+### Missing Rationale
+
+**Bad:**
+
+> "Use PostgreSQL."
+
+**Why it fails:**
+
+Agents don't understand why. Can't make good decisions for edge cases.
+
+**Good:**
+
+> "Use PostgreSQL for structured data requiring ACID guarantees. Rationale: Our data is relational (users, products, orders), we need transactions for order processing, team has PostgreSQL expertise."
+
+### Technology Without Context
+
+**Bad:**
+
+> "Stack: React, Node.js, PostgreSQL, Redis, S3, GraphQL."
+
+**Why it fails:**
+
+Doesn't explain when to use each technology.
+
+**Good:**
+
+> - **React:** Frontend UI components
+> - **Node.js + Express:** GraphQL server
+> - **PostgreSQL:** Transactional data (users, orders)
+> - **Redis:** Session storage, caching, pub/sub
+> - **S3:** User-uploaded files, static assets
+> - **GraphQL:** Client-server API communication
+
+## Best Practices
+
+### Document Decisions That Matter
+
+Focus on:
+
+- **Cross-epic concerns** - Choices that affect multiple features
+- **Conflict-prone areas** - API patterns, data models, state management
+- **Non-obvious trade-offs** - Decisions where the rationale isn't obvious
+- **Consistency requirements** - Patterns that must be uniform
+
+### Update as You Learn
+
+Architecture isn't static:
+
+- **After spikes** - Update ADRs based on what you discovered
+- **When pivoting** - Use `correct-course` to revise decisions
+- **During retrospectives** - Capture lessons learned
+- **When patterns emerge** - Document successful approaches
+
+### Make Architecture Discoverable
+
+Agents need to find and use architecture:
+
+- **Consistent location** - `_bmad-output/planning-artifacts/architecture/`
+- **Clear naming** - `adr-001-api-protocol.md`, `standards-frontend.md`
+- **Index file** - `architecture/index.md` linking to all ADRs
+- **Workflow integration** - `implement` workflow loads relevant ADRs
+
+### Validate Adherence
+
+Check that agents follow architecture:
+
+- **Code review** - Verify patterns match ADRs
+- **Adversarial review** - Find deviations from standards
+- **Automated linting** - Enforce naming conventions, structure
+- **Integration tests** - Validate cross-epic compatibility
+
+<Tip>
+Use adversarial review on architecture itself. Before finalizing, ask: "How could this architecture lead to conflicts?"
+</Tip>
+
+## Real-World Example
+
+Consider a SaaS application with three major features:
+
+**Without Architecture:**
+
+- **Auth feature** (Agent A): JWT in localStorage, REST endpoints, Redux state
+- **Products feature** (Agent B): Session cookies, GraphQL mutations, React Context state
+- **Billing feature** (Agent C): API keys, RPC endpoints, local component state
+
+**Integration attempt:**
+
+- Auth tokens don't work for GraphQL requests
+- Product state doesn't sync with auth state
+- Billing can't access user info from auth
+- 3 different loading/error patterns in UI
+
+**Result:** Weeks of refactoring to reconcile conflicts.
+
+**With Architecture:**
+
+**ADR-001: Authentication**
+- JWT tokens in httpOnly cookies
+- Refresh token rotation
+- All features use same auth context
+
+**ADR-002: API Communication**
+- GraphQL for all client-server communication
+- Shared schema with modular resolvers
+- Code-generated TypeScript types
+
+**ADR-003: State Management**
+- React Query for server state
+- Zustand for client state
+- No Redux, no Context for global state
+
+**ADR-004: Error Handling**
+- Standardized error format (code, message, details)
+- Centralized error boundary
+- Toast notifications for user-facing errors
+
+**Implementation:**
+
+- **Auth feature** (Agent A): GraphQL mutations, JWT cookies, Zustand for auth state
+- **Products feature** (Agent B): GraphQL queries/mutations, React Query for server state
+- **Billing feature** (Agent C): GraphQL mutations, React Query + Zustand
+
+**Integration:**
+
+- All features work together immediately
+- Auth state accessible everywhere via Zustand hook
+- Consistent error handling across features
+- Type-safe API calls via generated types
+
+**Result:** Zero integration conflicts. Features compose cleanly.
+
+## Using `correct-course` for Architecture Updates
+
+When significant changes are needed:
+
+```bash
+/bmad-correct-course
+```
+
+**Workflow prompts:**
+
+```
+Workflow: What needs to change?
+You: We need to switch from REST to GraphQL
+
+Workflow: Why?
+You: REST endpoints are multiplying, clients are over-fetching,
+type safety is becoming a problem
+
+Workflow: Impact analysis...
+- 12 existing REST endpoints need migration
+- Frontend has 8 components using REST calls
+- 2 epics in progress using REST
+
+Workflow: Migration strategy:
+1. Add GraphQL layer alongside REST (parallel operation)
+2. Migrate frontend components incrementally
+3. Deprecate REST endpoints after full migration
+4. Update architecture ADRs
+
+Proceed?
+```
+
+This ensures architecture changes are coordinated, not chaotic.
+
+<Warning>
+Never let individual agents make architectural changes. Use `correct-course` to ensure system-wide consistency.
+</Warning>
+
+## Summary
+
+Preventing agent conflicts requires:
+
+1. **Explicit architecture** - ADRs for key decisions, standards for patterns
+2. **Shared context** - All agents read architecture before implementing
+3. **Focused documentation** - Cover conflict-prone areas, skip the obvious
+4. **Living documents** - Update architecture as you learn
+5. **Validation** - Review code for adherence to architecture
+
+The investment in architecture documentation pays off exponentially as the number of agents and features grows. Without it, every new feature increases integration complexity. With it, features compose cleanly no matter how many agents contribute.

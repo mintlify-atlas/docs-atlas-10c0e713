@@ -1,0 +1,371 @@
+---
+title: Support
+description: Get help with BMad Method - Discord community, GitHub issues, documentation, and troubleshooting resources
+---
+
+# Getting Support
+
+Need help with BMad Method? We're here to assist! This guide will direct you to the right resources for your specific needs.
+
+---
+
+## Quick Help Options
+
+### AI-Powered Help (Best First Step)
+
+🤖 **Use `/bmad-help` in your IDE**
+
+The BMad help system provides intelligent, context-aware guidance:
+
+```
+/bmad-help
+/bmad-help I just finished the architecture, what do I do next?
+/bmad-help How do I start a new project?
+/bmad-help What workflows are available?
+```
+
+This is often the fastest way to get answers about:
+- What to do next in your workflow
+- Available commands and workflows
+- Project status and progress
+- Optional vs required steps
+
+---
+
+## Support Channels
+
+### Discord Community (Real-Time Help)
+
+💬 **[Join our Discord](https://discord.gg/gk8jAdXWmj)**
+
+**Best for:**
+- General questions and discussions
+- Implementation help and guidance
+- Sharing ideas and getting feedback
+- Community collaboration
+- Quick questions that don't require long investigation
+
+**Key Channels:**
+- `#general` — General BMad Method discussions
+- `#bmad-development` — Development questions and help
+- `#showcase` — Share your projects and workflows
+- `#ideas` — Suggest features and improvements
+
+**Response time:** Usually within a few hours during business hours (US Eastern)
+
+### GitHub Issues (Bug Reports & Features)
+
+🐛 **[GitHub Issues](https://github.com/bmad-code-org/BMAD-METHOD/issues)**
+
+**Best for:**
+- Bug reports
+- Feature requests
+- Tracking known issues
+- Official issue documentation
+
+**Before creating an issue:**
+1. Search existing issues (open and closed)
+2. Check GitHub Discussions
+3. Review documentation
+
+**Use templates:**
+- [Bug Report Template](https://github.com/bmad-code-org/BMAD-METHOD/issues/new?template=bug_report.md)
+- [Feature Request Template](https://github.com/bmad-code-org/BMAD-METHOD/issues/new?template=feature_request.md)
+
+**Response time:** 1-3 business days for initial triage
+
+### GitHub Discussions
+
+💬 **[GitHub Discussions](https://github.com/bmad-code-org/BMAD-METHOD/discussions)**
+
+**Best for:**
+- Open-ended questions
+- Community conversations
+- Sharing workflows and tips
+- Proposing ideas for discussion
+- Questions that aren't bugs or feature requests
+
+---
+
+## Documentation Resources
+
+### Official Documentation
+
+📚 **[docs.bmad-method.org](https://docs.bmad-method.org)**
+
+Comprehensive documentation including:
+
+**[Tutorials](/tutorials)**
+- [Getting Started](/tutorials/getting-started)
+- Step-by-step guides for beginners
+
+**[How-To Guides](/how-to)**
+- [Installation](/how-to/installation)
+- [Upgrading](/how-to/upgrade-to-v6)
+- [Non-Interactive Installation](/how-to/non-interactive-installation)
+- Specific task instructions
+
+**[Concepts](/concepts)**
+- Understanding BMad architecture
+- Agents, workflows, and modules
+- Philosophy and methodology
+
+**[Reference](/reference)**
+- Complete API reference
+- Agent documentation
+- Workflow specifications
+
+### Module-Specific Documentation
+
+**Test Architect (TEA)**
+- [TEA Documentation](https://bmad-code-org.github.io/bmad-method-test-architecture-enterprise/)
+- Testing workflows and automation
+
+**BMad Builder (BMB)**
+- [BMad Builder GitHub](https://github.com/bmad-code-org/bmad-builder)
+- Agent and workflow creation
+
+**Game Dev Studio (BMGD)**
+- [BMGD GitHub](https://github.com/bmad-code-org/bmad-module-game-dev-studio)
+- Game development workflows
+
+**Creative Intelligence Suite (CIS)**
+- [CIS GitHub](https://github.com/bmad-code-org/bmad-module-creative-intelligence-suite)
+- Innovation and brainstorming
+
+---
+
+## Common Issues & Solutions
+
+### Installation Issues
+
+**Problem:** Getting stale beta version
+
+```bash
+# Solution: Specify exact version
+npx bmad-method@6.0.4 install
+```
+
+**Problem:** Installation fails in nested directory
+
+```bash
+# Solution: Check for existing BMAD installations in parent directories
+# The installer will refuse if ancestor has BMAD to prevent duplicate autocomplete
+```
+
+**Problem:** Tools not appearing in IDE
+
+```bash
+# Solution: Recompile agents
+npx bmad-method
+# Select: "Recompile Agents"
+```
+
+### Workflow Issues
+
+**Problem:** Don't know which workflow to use
+
+```
+# Solution: Use bmad-help
+/bmad-help What should I do to start a new feature?
+```
+
+**Problem:** Workflow seems stuck
+
+```
+# Solution: Check workflow status
+/bmad-help workflow status
+```
+
+**Problem:** Lost track of progress
+
+```
+# Solution: Review project status
+/bmad-help What have I completed so far?
+```
+
+### Configuration Issues
+
+**Problem:** Wrong language or settings
+
+```bash
+# Solution: Reconfigure core module
+npx bmad-method
+# Select: "Configure Modules" → "Core"
+```
+
+**Problem:** Custom content not appearing
+
+```bash
+# Solution: Reinstall with custom content flag
+npx bmad-method install --custom-content /path/to/content
+```
+
+---
+
+## Troubleshooting Steps
+
+When encountering an issue, follow these steps:
+
+### 1. Check Documentation
+
+- Search the [official docs](https://docs.bmad-method.org)
+- Review relevant how-to guides
+- Check module-specific documentation
+
+### 2. Use AI Help
+
+```
+/bmad-help [describe your issue]
+```
+
+### 3. Search Existing Issues
+
+- [Search GitHub Issues](https://github.com/bmad-code-org/BMAD-METHOD/issues)
+- Check both open and closed issues
+- Review GitHub Discussions
+
+### 4. Ask the Community
+
+- Post in [Discord](https://discord.gg/gk8jAdXWmj)
+- Start a [GitHub Discussion](https://github.com/bmad-code-org/BMAD-METHOD/discussions)
+
+### 5. Report a Bug
+
+If it's a confirmed bug:
+- Use the [bug report template](https://github.com/bmad-code-org/BMAD-METHOD/issues/new?template=bug_report.md)
+- Include reproduction steps
+- Provide environment details
+
+---
+
+## What to Include in Support Requests
+
+To get the fastest help, provide:
+
+### Environment Information
+
+```
+- BMad version: (run `npx bmad-method --version`)
+- IDE: (Claude Code, Cursor, etc.)
+- AI Model: (Claude 3.5 Sonnet, GPT-4, etc.)
+- OS: (macOS 14.1, Windows 11, Ubuntu 22.04, etc.)
+- Node version: (run `node --version`)
+```
+
+### Issue Details
+
+- **What you're trying to do**
+- **What you expected to happen**
+- **What actually happened**
+- **Steps to reproduce**
+- **Error messages** (full text, not screenshots when possible)
+- **Screenshots** (if UI-related)
+
+### Example Support Request
+
+```markdown
+**Issue:** Workflow-status crashes when checking project status
+
+**Environment:**
+- BMad: 6.0.4
+- IDE: Claude Code
+- Model: Claude 3.5 Sonnet
+- OS: macOS 14.1
+- Node: v20.10.0
+
+**Steps to reproduce:**
+1. Install BMad in new project
+2. Run `/bmad-help workflow status`
+3. Select "Check current status"
+
+**Expected:** Should show project status
+**Actual:** Error: "Cannot read property 'branch' of undefined"
+
+**Error message:**
+[paste full error]
+```
+
+---
+
+## Response Times
+
+| Channel | Typical Response Time |
+|---------|----------------------|
+| `/bmad-help` | Instant (AI-powered) |
+| Discord | Few hours during business hours |
+| GitHub Discussions | 1-2 days |
+| GitHub Issues | 1-3 days for triage |
+
+**Note:** BMad Method is open source and community-driven. Response times may vary. For urgent enterprise support, contact us about sponsorship options.
+
+---
+
+## Enterprise Support
+
+For organizations requiring:
+- Dedicated support
+- Custom training
+- Priority bug fixes
+- Custom module development
+- Consulting and implementation
+
+📧 **Contact:** contact@bmadcode.com
+
+---
+
+## Community Resources
+
+### Video Tutorials
+
+📺 **[YouTube Channel](https://www.youtube.com/@BMadCode)**
+- Getting started videos
+- Workflow demonstrations
+- Master class content (coming soon)
+- Podcast episodes (launching March 1, 2026)
+
+### Learning Resources
+
+- [Tutorials](/tutorials) — Step-by-step guides
+- [How-To Guides](/how-to) — Task-specific instructions
+- [Glossary](/reference/glossary) — Terms and concepts
+- [Contributing Guide](/community/contributing) — How to contribute
+
+---
+
+## Giving Feedback
+
+We value your input! Help us improve:
+
+### Feature Requests
+
+- [Submit feature request](https://github.com/bmad-code-org/BMAD-METHOD/issues/new?template=feature_request.md)
+- Share ideas in Discord `#ideas` channel
+- Participate in GitHub Discussions
+
+### Documentation Feedback
+
+- [Open documentation issue](https://github.com/bmad-code-org/BMAD-METHOD/issues/new?template=documentation.yaml)
+- Suggest improvements in Discord
+- Submit documentation PRs
+
+### General Feedback
+
+- Share in Discord `#general`
+- Email: contact@bmadcode.com
+- GitHub Discussions
+
+---
+
+## Still Need Help?
+
+If you've tried the above resources and still need assistance:
+
+1. 💬 **Join [Discord](https://discord.gg/gk8jAdXWmj)** — Most active support channel
+2. 🐛 **[Create GitHub Issue](https://github.com/bmad-code-org/BMAD-METHOD/issues/new/choose)** — For bugs and features
+3. 💡 **[Start Discussion](https://github.com/bmad-code-org/BMAD-METHOD/discussions)** — For questions
+4. 📧 **Email contact@bmadcode.com** — For enterprise inquiries
+
+---
+
+**We're here to help you succeed with BMad Method!** 🎉

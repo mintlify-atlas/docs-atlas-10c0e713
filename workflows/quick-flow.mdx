@@ -1,0 +1,600 @@
+---
+title: "Quick Flow Workflow"
+description: "Rapid development workflow for small features and changes"
+icon: "bolt"
+---
+
+# Quick Flow Workflow
+
+The Quick Flow workflow enables rapid development for small features and changes that don't require the full BMad Method process. It's designed for speed while maintaining quality and alignment.
+
+## When to Use Quick Flow
+
+Use Quick Flow when:
+
+- **Small Features**: Simple features that can be specified quickly
+- **Bug Fixes**: Isolated bugs with clear reproduction
+- **Enhancements**: Minor improvements to existing features
+- **Technical Debt**: Refactoring or optimization tasks
+- **Urgent Changes**: Time-sensitive updates
+
+**Don't use Quick Flow for**:
+
+- Major new features (use full BMad Method)
+- Architectural changes (use Phase 3: Solutioning)
+- Cross-cutting concerns (requires full planning)
+- Features requiring extensive research
+
+## Quick Flow Sub-Workflows
+
+<CardGroup cols={2}>
+  <Card title="Quick Spec" icon="file-lines" href="#quick-spec-workflow">
+    Create implementation-ready technical specifications
+  </Card>
+  <Card title="Quick Dev" icon="code" href="#quick-dev-workflow">
+    Implement features from quick specs or direct instructions
+  </Card>
+  <Card title="Quick Dev New (Preview)" icon="sparkles" href="#quick-dev-new-preview">
+    Enhanced quick development with improved routing
+  </Card>
+</CardGroup>
+
+---
+
+## Quick Spec Workflow
+
+### Purpose
+
+Create implementation-ready technical specifications through conversational discovery, code investigation, and structured documentation. This produces specs that contain ALL context a fresh developer needs to implement the feature.
+
+### Trigger Commands
+
+```bash
+"Create a quick spec"
+"Generate a quick tech spec"
+"Quick spec for [feature]"
+```
+
+### Ready for Development Standard
+
+A quick spec is "Ready for Development" ONLY if it meets:
+
+- ✅ **Actionable**: Every task has clear file path and specific action
+- ✅ **Logical**: Tasks ordered by dependency (lowest level first)
+- ✅ **Testable**: All acceptance criteria follow Given/When/Then
+- ✅ **Complete**: All investigation results inlined, no placeholders
+- ✅ **Self-Contained**: Fresh agent can implement without reading workflow history
+
+### Workflow Steps
+
+1. **Understand** - Clarify the feature request
+2. **Investigate** - Explore existing code and patterns
+3. **Generate** - Create complete technical specification
+4. **Review** - Validate spec completeness and quality
+
+### Step 1: Understand
+
+**Goal**: Sharp questions to understand the feature
+
+- What is the user trying to accomplish?
+- What's the expected behavior?
+- What are the edge cases?
+- What's the scope (what's NOT included)?
+
+**Output**: Clear feature description and boundaries
+
+### Step 2: Investigate
+
+**Goal**: Thoroughly investigate existing code
+
+**Investigation Areas**:
+
+- **Existing Patterns**: How do similar features work?
+- **File Locations**: Where should code go?
+- **Dependencies**: What other code is involved?
+- **Data Models**: What data structures exist?
+- **API Conventions**: What patterns to follow?
+- **Component Patterns**: What UI patterns exist?
+
+**Critical Rule**: All investigation findings must be **inlined into the spec**. No "see file X" references - paste the actual code patterns.
+
+### Step 3: Generate
+
+**Goal**: Create complete, implementation-ready spec
+
+**Spec Structure**:
+
+```markdown
+---
+title: [Feature Name]
+type: quick-spec
+status: ready-for-dev
+created: [date]
+stepsCompleted: [step-01-understand, step-02-investigate, step-03-generate]
+---
+
+# Quick Spec: [Feature Name]
+
+## Overview
+[Brief description of the feature]
+
+## User Story
+**As a** [user type]
+**I want** [capability]
+**So that** [benefit]
+
+## Acceptance Criteria
+
+- Given [context]
+  When [action]
+  Then [outcome]
+
+## Implementation Plan
+
+### Task 1: [Lowest-level task]
+**File**: `path/to/file.ts`
+**Action**: [What to do]
+
+**Code Pattern** (from similar feature):
+```typescript
+// Paste actual code from investigation
+```
+
+**Implementation**:
+```typescript
+// Specific code to write
+```
+
+### Task 2: [Next task]
+...
+
+## Testing Strategy
+
+### Manual Testing
+1. [Test step]
+2. [Test step]
+
+### Automated Tests
+```typescript
+// Test code
+```
+
+## Dependencies
+- [External dependency]
+- [Internal dependency]
+
+## Edge Cases
+- [Edge case and handling]
+
+## Architecture Alignment
+- [Reference to ADRs if they exist]
+- [Patterns to follow]
+```
+
+### Step 4: Review
+
+**Validation Checklist**:
+
+- [ ] All tasks have specific file paths
+- [ ] Tasks are ordered by dependency
+- [ ] All acceptance criteria are testable
+- [ ] Code patterns are inlined (no references)
+- [ ] No placeholders or "TBD" items
+- [ ] Edge cases identified and handled
+- [ ] Fresh agent could implement without questions
+
+**If validation fails**: Return to previous steps to complete missing items.
+
+### Inputs
+
+- Feature request from user
+- Project context (if exists)
+- Existing codebase (for investigation)
+- Architecture decisions (if exist)
+
+### Outputs
+
+**File Location**: `{planning_artifacts}/quick-spec-[feature-name]-{date}.md`
+
+**Ready for**: Immediate implementation with Quick Dev workflow
+
+### Example Invocation
+
+```text
+User: "Create a quick spec for adding dark mode toggle"
+
+AI: "I'll create a quick spec for dark mode toggle.
+
+**Step 1: Understand**
+
+Let me clarify the requirements:
+
+1. Where should the dark mode toggle appear?
+   (e.g., header, settings page, both)
+
+2. Should it persist across sessions?
+
+3. Should it apply to all pages immediately?
+
+4. Any specific color scheme preferences?"
+
+User: "Toggle in header, persist in localStorage, apply immediately, use existing colors from design system"
+
+AI: "Perfect! Clear scope.
+
+**Step 2: Investigate**
+
+Exploring codebase for relevant patterns...
+
+✓ Found theme system: src/styles/theme.ts
+✓ Found header component: src/components/Header.tsx
+✓ Found localStorage hook: src/hooks/useLocalStorage.ts
+✓ Found toggle pattern: src/components/FeatureToggle.tsx
+
+**Step 3: Generate**
+
+Creating implementation-ready spec...
+[Generates complete spec with all patterns inlined]
+
+**Step 4: Review**
+
+Validating spec completeness...
+✓ All tasks have file paths
+✓ Dependencies ordered correctly
+✓ Acceptance criteria are testable
+✓ Code patterns inlined
+✓ No placeholders
+✓ Self-contained and ready
+
+Quick spec created: {planning_artifacts}/quick-spec-dark-mode-toggle-2026-03-04.md
+
+Ready to implement! Run: 'implement this quick spec'"
+```
+
+### Source Files
+
+- Workflow: `src/bmm/workflows/bmad-quick-flow/quick-spec/workflow.md`
+- Template: `src/bmm/workflows/bmad-quick-flow/quick-spec/tech-spec-template.md`
+- Steps: `src/bmm/workflows/bmad-quick-flow/quick-spec/steps/`
+
+---
+
+## Quick Dev Workflow
+
+### Purpose
+
+Execute implementation tasks efficiently, either from a quick tech spec or direct user instructions. This workflow implements features autonomously while maintaining quality.
+
+### Trigger Commands
+
+```bash
+"Implement this quick spec"
+"Proceed with implementation of [quick tech spec]"
+"Dev this: [direct instruction]"
+```
+
+### Execution Modes
+
+Quick Dev supports two modes:
+
+1. **Spec Mode**: Implement from a quick tech spec file
+2. **Direct Mode**: Implement from direct user instructions
+
+### Workflow Steps
+
+1. **Mode Detection** - Determine if using spec or direct mode
+2. **Context Gathering** - Load relevant project context
+3. **Execute** - Implement the feature
+4. **Self-Check** - Verify acceptance criteria
+5. **Adversarial Review** - Find potential issues
+6. **Resolve Findings** - Fix issues before completion
+
+### Step 1: Mode Detection
+
+Determines execution mode:
+
+**Spec Mode Triggers**:
+- User provides quick spec file path
+- User says "implement this quick spec"
+- User references a tech spec document
+
+**Direct Mode Triggers**:
+- User gives direct instructions
+- User says "dev this: [instruction]"
+- No spec file referenced
+
+### Step 2: Context Gathering
+
+**Spec Mode Context**:
+- Load tech spec file
+- Load project context (if exists)
+- Load referenced architecture decisions
+
+**Direct Mode Context**:
+- Elicit requirements from user
+- Investigate relevant code patterns
+- Load project context (if exists)
+
+### Step 3: Execute
+
+**Implementation Guidelines**:
+
+- Follow spec tasks in order (spec mode)
+- Follow project patterns and conventions
+- Write clean, maintainable code
+- Add tests for acceptance criteria
+- Commit code with clear messages
+
+**Baseline Tracking**:
+- Record baseline commit before starting
+- Enables easy rollback if needed
+
+### Step 4: Self-Check
+
+**Verification**:
+
+- Run tests (if they exist)
+- Manually verify acceptance criteria
+- Check for obvious issues
+- Verify code compiles/runs
+
+**Checklist**:
+- [ ] All acceptance criteria met
+- [ ] Tests pass
+- [ ] No console errors
+- [ ] Code follows project conventions
+- [ ] Edge cases handled
+
+### Step 5: Adversarial Review
+
+**Fresh Context Review**:
+
+Load step fresh to combat "lost in the middle" problem. Review with adversarial mindset:
+
+- **Security**: Any vulnerabilities?
+- **Performance**: Any bottlenecks?
+- **Edge Cases**: All handled?
+- **Code Quality**: Clean and maintainable?
+- **Testing**: Adequate coverage?
+
+**Findings Categorization**:
+- 🔴 Critical: Must fix (security, bugs)
+- 🟡 Major: Should fix (quality, performance)
+- 🟢 Minor: Nice to have (style, optimization)
+
+### Step 6: Resolve Findings
+
+**Fix Critical and Major Issues**:
+- Address all critical findings
+- Fix major findings
+- Document minor findings for future
+
+**Final Verification**:
+- Re-run tests
+- Verify fixes
+- Commit fixes
+
+### Inputs
+
+**Spec Mode**:
+- Quick tech spec file
+- Project context
+- Architecture decisions (if referenced)
+
+**Direct Mode**:
+- User instructions
+- Relevant code patterns
+- Project context
+
+### Outputs
+
+- Implemented code (created/modified files)
+- Tests for acceptance criteria
+- Git commits with clear messages
+- Implementation notes (if needed)
+
+### Example Invocation (Spec Mode)
+
+```text
+User: "Implement this quick spec: quick-spec-dark-mode-toggle-2026-03-04.md"
+
+AI: "Loading quick spec...
+
+**Mode**: Spec Mode
+**Feature**: Dark Mode Toggle
+**Tasks**: 4
+**Baseline Commit**: abc123f
+
+Loading context...
+✓ Project context
+✓ Theme system patterns
+
+**Executing Implementation**
+
+Task 1/4: Add theme context
+✓ Created: src/contexts/ThemeContext.tsx
+
+Task 2/4: Update header component
+✓ Modified: src/components/Header.tsx
+
+Task 3/4: Add toggle component
+✓ Created: src/components/ThemeToggle.tsx
+
+Task 4/4: Add persistence
+✓ Modified: src/hooks/useLocalStorage.ts
+
+**Self-Check**
+✓ All acceptance criteria met
+✓ Manual testing passed
+✓ No console errors
+
+**Adversarial Review**
+
+Loading fresh context for review...
+
+🟢 No critical issues
+🟡 Minor: Consider adding loading state for theme flash
+
+**Resolution**
+✓ Added theme flash prevention
+
+Implementation complete!
+
+Commits:
+- feat: add dark mode context and persistence
+- feat: add theme toggle to header
+- fix: prevent theme flash on load
+
+Dark mode is now live! Toggle appears in header."
+```
+
+### Example Invocation (Direct Mode)
+
+```text
+User: "Dev this: Add a copy button to code blocks that copies the code to clipboard"
+
+AI: "**Mode**: Direct Mode
+**Feature**: Copy button for code blocks
+
+Let me gather context...
+
+**Quick Investigation**
+✓ Found code block component: src/components/CodeBlock.tsx
+✓ Found clipboard utility pattern: src/utils/clipboard.ts
+✓ Found icon system: Uses lucide-react
+
+**Implementation Plan**:
+1. Add copy button to CodeBlock component
+2. Add clipboard copy functionality
+3. Add success feedback (toast or button state)
+
+**Executing**
+
+Modifying CodeBlock component...
+✓ Added copy button with Copy icon
+✓ Added clipboard.writeText functionality
+✓ Added success state (checkmark for 2s)
+✓ Added hover states
+
+**Self-Check**
+✓ Copy button appears on code blocks
+✓ Clicking copies code to clipboard
+✓ Success feedback shows
+✓ Works on all code blocks
+
+**Adversarial Review**
+🟢 No issues found
+
+Commit: feat: add copy button to code blocks
+
+Done! Try clicking the copy button on any code block."
+```
+
+### Source Files
+
+- Workflow: `src/bmm/workflows/bmad-quick-flow/quick-dev/workflow.md`
+- Steps: `src/bmm/workflows/bmad-quick-flow/quick-dev/steps/`
+
+---
+
+## Quick Dev New (Preview)
+
+### Purpose
+
+Enhanced quick development workflow with improved routing and user experience. This is a preview version with additional features.
+
+### Key Differences
+
+- **Improved Routing**: Better mode detection and routing
+- **Enhanced Planning**: More thorough planning step
+- **Better Presentation**: Clearer implementation summary
+
+### Workflow Steps
+
+1. **Clarify and Route** - Understand request and choose mode
+2. **Plan** - Create implementation plan
+3. **Implement** - Execute the plan
+4. **Review** - Verify quality
+5. **Present** - Summarize what was done
+
+### Trigger Commands
+
+```bash
+"Quick dev: [instruction]"
+"Implement: [feature]"
+```
+
+### Status
+
+This workflow is in preview. The standard Quick Dev workflow is recommended for production use.
+
+### Source Files
+
+- Workflow: `src/bmm/workflows/bmad-quick-flow/quick-dev-new-preview/workflow.md`
+- Steps: `src/bmm/workflows/bmad-quick-flow/quick-dev-new-preview/steps/`
+
+---
+
+## Quick Flow Best Practices
+
+### When to Create a Spec
+
+Create a quick spec when:
+
+- Feature requires investigation of existing code
+- Multiple developers might implement
+- Implementation has dependencies
+- You want to review plan before implementation
+
+### When to Go Direct
+
+Use direct mode when:
+
+- Very simple, isolated change
+- You're experimenting
+- Urgent bug fix
+- Obvious implementation
+
+### Quality Guidelines
+
+1. **Don't Skip Steps**: Even quick flow has quality gates
+2. **Self-Check Always**: Verify before marking done
+3. **Adversarial Review**: Fresh eyes catch issues
+4. **Test Coverage**: Add tests for acceptance criteria
+5. **Clear Commits**: Write descriptive commit messages
+
+### Integration with BMad Method
+
+Quick Flow complements the full BMad Method:
+
+- Use during Phase 4 implementation for small tasks
+- Use for bugs found during development
+- Use for minor enhancements to stories
+- Use for technical debt between epics
+
+**Don't use Quick Flow to bypass planning**:
+- Major features need full Phase 1-3
+- Architectural decisions need Phase 3
+- Multi-sprint work needs proper planning
+
+---
+
+## Quick Flow vs. Full BMad Method
+
+| Aspect | Quick Flow | Full BMad Method |
+|--------|-----------|------------------|
+| **Scope** | Small features, bugs | Major features, products |
+| **Duration** | Hours to 1 day | Days to weeks |
+| **Planning** | Quick spec or direct | PRD, Architecture, Epics |
+| **Research** | Code investigation | Market, domain, technical research |
+| **Design** | Follow existing patterns | UX design, design system |
+| **Stories** | Single task/spec | Multiple epics with stories |
+| **Review** | Self-check + adversarial | Code review + retrospective |
+| **Documentation** | Tech spec | Full artifact suite |
+
+---
+
+## Next Steps
+
+- [Phase 4: Implementation](/workflows/phase-4-implementation) - Full sprint workflows
+- [Overview](/workflows/overview) - Complete workflow reference

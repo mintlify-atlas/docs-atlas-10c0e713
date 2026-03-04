@@ -1,0 +1,520 @@
+---
+title: Workflows
+description: Structured, multi-step processes that guide agents through proven methodologies
+---
+
+Workflows are the structured processes that BMad agents execute to guide you through proven development methodologies. Rather than free-form AI interactions, workflows enforce step-by-step discipline that produces consistent, high-quality results.
+
+## What Are Workflows?
+
+A workflow is a **multi-step, interactive process** that:
+- Breaks complex activities (like creating a PRD) into sequential steps
+- Guides conversation through proven methodologies
+- Enforces order and completeness
+- Tracks progress in artifact frontmatter
+- Pauses for user decisions at key points
+- Produces structured output documents
+
+### Workflows vs. Simple Prompts
+
+| Simple Prompt | BMad Workflow |
+|--------------|---------------|
+| "Create a PRD for my app" | Multi-step user interview process |
+| Single AI response | Interactive back-and-forth across steps |
+| Variable quality | Consistent methodology |
+| No progress tracking | State saved in frontmatter |
+| All-or-nothing | Can pause and resume |
+
+## Workflow Architecture
+
+BMad uses a **step-file architecture** for disciplined execution:
+
+### Core Principles
+
+**1. Micro-file Design**
+- Each step is a self-contained instruction file
+- Steps are part of an overall workflow sequence
+- Must be followed exactly — no skipping or optimization
+
+**2. Just-In-Time Loading**
+- Only the current step file is loaded into memory
+- Never pre-load future steps
+- Prevents context window overflow
+
+**3. Sequential Enforcement**
+- Steps must complete in order
+- No jumping ahead or skipping
+- Maintains methodology integrity
+
+**4. State Tracking**
+- Progress documented in output file frontmatter
+- `stepsCompleted` array tracks which steps finished
+- Enables pause/resume across conversations
+
+**5. Append-Only Building**
+- Workflows build documents by appending content
+- Each step adds to the artifact
+- Final output is comprehensive
+
+### Workflow File Structure
+
+```
+workflows/
+├── 1-analysis/
+│   ├── create-product-brief/
+│   │   ├── workflow.md          # Entry point
+│   │   ├── product-brief.template.md
+│   │   └── steps/
+│   │       ├── step-01-init.md
+│   │       ├── step-02-discovery.md
+│   │       ├── step-03-market.md
+│   │       └── step-04-finalize.md
+│   └── research/
+│       └── workflow.md
+├── 2-plan-workflows/
+│   ├── create-prd/
+│   │   ├── workflow.md
+│   │   └── steps/
+│   │       ├── step-01-init.md
+│   │       ├── step-02-user-interview.md
+│   │       └── ...
+└── ...
+```
+
+## How Workflows Execute
+
+### Step Processing Rules
+
+1. **READ COMPLETELY** — Always read the entire step file before taking action
+2. **FOLLOW SEQUENCE** — Execute all numbered sections in order
+3. **WAIT FOR INPUT** — If a menu is presented, halt and wait for user selection
+4. **CHECK CONTINUATION** — Only proceed to next step when user selects 'Continue'
+5. **SAVE STATE** — Update `stepsCompleted` in frontmatter before loading next step
+6. **LOAD NEXT** — When directed, read fully and follow the next step file
+
+### Example: Create PRD Workflow
+
+**Entry Point:** `workflow-create-prd.md`
+
+```markdown
+---
+name: create-prd
+description: Create PRD through collaborative discovery
+---
+
+# Product Requirements Document Workflow
+
+**Goal:** Create comprehensive PRD through step-by-step discovery
+
+## INITIALIZATION SEQUENCE
+
+1. Load config from {project-root}/_bmad/bmm/config.yaml
+2. Read and follow: steps/step-01-init.md
+```
+
+**Step 1:** `steps/step-01-init.md`
+
+```markdown
+# Step 1: Initialize PRD Creation
+
+## 1. Welcome User
+
+Greet {user_name} and explain the PRD creation process.
+
+## 2. Check for Product Brief
+
+Search for product-brief.md in {planning_artifacts}.
+- If found: Load and summarize
+- If not found: Note that we'll capture vision during interviews
+
+## 3. Explain Process
+
+This workflow has 5 phases:
+1. User interviews (discovery)
+2. Functional requirements
+3. Non-functional requirements  
+4. Success metrics
+5. Review and finalize
+
+## 4. Menu
+
+**C** — Continue to user interviews
+**Q** — Questions about the process
+**X** — Exit workflow
+
+[STOP: Wait for user input]
+
+When user selects C, load: step-02-user-interview.md
+```
+
+**Step 2:** `steps/step-02-user-interview.md`
+
+```markdown
+# Step 2: User Interviews
+
+## 1. Conduct Discovery
+
+Ask user interview questions:
+- Who is the primary user?
+- What problem are they trying to solve?
+- What does success look like for them?
+- What are they using today?
+- Why isn't the current solution working?
+
+## 2. Capture Insights
+
+Document responses in interview-notes section.
+
+## 3. Menu
+
+**C** — Continue to functional requirements
+**D** — Deep dive with advanced elicitation
+**R** — Review notes so far
+
+[STOP: Wait for user input]
+
+When user selects C, update frontmatter:
+```yaml
+stepsCompleted: ["step-01-init", "step-02-user-interview"]
+```
+
+Then load: step-03-functional-requirements.md
+```
+
+This continues through all steps until the PRD is complete.
+
+## Workflow Phases
+
+BMad Method organizes workflows into 4 phases:
+
+### Phase 1: Analysis (Optional)
+
+Explore the problem space before committing to planning.
+
+| Workflow | Purpose | Produces |
+|----------|---------|----------|
+| `brainstorming` | Guided ideation with 60+ techniques | `brainstorming-report.md` |
+| `research` | Validate market/technical assumptions | Research findings |
+| `create-product-brief` | Capture strategic vision | `product-brief.md` |
+
+**When to use:** New product ideas, unclear problem space, need stakeholder alignment
+
+### Phase 2: Planning (Required)
+
+Define **what** to build and **for whom**.
+
+| Workflow | Purpose | Produces |
+|----------|---------|----------|
+| `create-prd` | Define requirements (FRs/NFRs) | `PRD.md` |
+| `create-ux-design` | Design user experience | `ux-spec.md` |
+
+**When to use:** Every BMad Method or Enterprise project
+
+**Quick Flow alternative:** Use `quick-spec` instead for small changes
+
+### Phase 3: Solutioning (BMad Method/Enterprise)
+
+Decide **how** to build it and break work into implementable units.
+
+| Workflow | Purpose | Produces |
+|----------|---------|----------|
+| `create-architecture` | Make technical decisions explicit | `architecture.md` with ADRs |
+| `create-epics-and-stories` | Break requirements into stories | Epic files with stories |
+| `check-implementation-readiness` | Validate planning alignment | PASS/CONCERNS/FAIL decision |
+
+**When to use:** Multi-epic projects where agents could make conflicting decisions
+
+**Why it matters:**
+```
+Without Solutioning:
+  Agent 1 implements Epic 1 using REST API
+  Agent 2 implements Epic 2 using GraphQL
+  Result: Inconsistent design, integration nightmare
+
+With Solutioning:
+  Architecture decides: "Use GraphQL for all APIs"
+  All agents follow architecture decisions  
+  Result: Consistent implementation
+```
+
+See [Why Solutioning Matters](/explanation/why-solutioning-matters) for details.
+
+### Phase 4: Implementation
+
+Build it, story by story.
+
+| Workflow | Purpose | Produces |
+|----------|---------|----------|
+| `sprint-planning` | Initialize sprint tracking | `sprint-status.yaml` |
+| `create-story` | Prepare story for implementation | `story-[slug].md` |
+| `dev-story` | Implement story with tests | Working code |
+| `code-review` | Validate implementation quality | Review report |
+| `correct-course` | Handle mid-sprint changes | Updated plan |
+| `retrospective` | Review epic completion | Lessons learned |
+
+**Build Cycle:**
+```
+1. create-story  → Prepare next story
+2. dev-story     → Implement with tests
+3. code-review   → Validate quality
+4. [Repeat for each story]
+5. retrospective → Review epic
+```
+
+## Quick Flow Workflows
+
+Parallel track for small changes — skip phases 1-3 entirely.
+
+### quick-spec: Planning
+
+**Purpose:** Create implementation-ready tech-spec
+
+**Process:**
+1. **Understand** — Describe what you want, agent asks questions
+2. **Investigate** — Agent scans codebase and identifies affected files  
+3. **Generate** — Produces tech-spec with tasks, AC, testing strategy
+4. **Review** — Present for sign-off, offer adversarial review
+
+**Output:** `tech-spec-{slug}.md` with:
+- Problem statement and solution approach
+- Ordered implementation tasks (specific file paths)
+- Acceptance criteria (Given/When/Then)
+- Testing strategy
+- Dependencies
+
+### quick-dev: Implementation
+
+**Purpose:** Implement work from spec or direct instructions
+
+**Two Modes:**
+
+**1. Tech-spec mode:**
+```bash
+/bmad-bmm-quick-dev tech-spec-auth.md
+```
+- Executes every task in order
+- Writes tests
+- Verifies acceptance criteria
+
+**2. Direct mode:**
+```bash
+/bmad-bmm-quick-dev "refactor auth middleware"
+```
+- Gathers context
+- Builds mental plan
+- Executes directly
+
+**Post-Implementation:**
+- Self-check audit against tasks and AC
+- Adversarial code review of diff
+- Present findings for resolution
+
+### When to Use Quick Flow
+
+✅ **Good for:**
+- Bug fixes and patches
+- Refactoring existing code
+- Small, well-understood features
+- Prototyping and spikes
+- Single-developer scope
+
+❌ **NOT for:**
+- New products needing stakeholder alignment
+- Major features spanning multiple components
+- Architectural decisions (DB schema, API contracts)
+- Unclear or contested requirements
+
+## Workflow Features
+
+### Advanced Elicitation
+
+Many workflows offer **advanced elicitation** after generating content:
+
+```
+Workflow: "I've drafted the architecture. Would you like to apply 
+          advanced elicitation to rethink this?"
+
+You: Yes
+
+Workflow: "Here are 5 relevant reasoning methods:
+          1. Pre-mortem Analysis
+          2. First Principles Thinking
+          3. Inversion
+          4. Red Team vs Blue Team
+          5. Socratic Questioning
+          
+          Which would you like to apply?"
+```
+
+The agent re-examines its output through the chosen method, surfaces improvements, and you decide whether to keep them.
+
+See [Advanced Elicitation](/explanation/advanced-elicitation) for details.
+
+### Adversarial Review
+
+Implementation workflows include **adversarial review**:
+
+```
+✓ Story implemented
+✓ Tests passing (47/47)
+
+→ Running adversarial code review...
+
+Findings:
+- [HIGH] Race condition in session invalidation
+- [MED] Missing error handling in API client  
+- [LOW] Inconsistent variable naming
+
+Resolve these before marking story complete?
+```
+
+See [Preventing Agent Conflicts](/explanation/preventing-agent-conflicts) for details.
+
+### Implementation Readiness Gate
+
+The `check-implementation-readiness` workflow validates alignment:
+
+```
+Checking: PRD ↔ Architecture ↔ Epics
+
+✓ All PRD requirements mapped to epics
+✓ Architecture decisions reflected in stories
+✗ Epic 3 references "microservices" but Architecture chose monolith
+
+Result: CONCERNS (1 issue)
+
+Recommendation: Resolve conflict before implementation
+```
+
+Prevents discovering misalignment during development.
+
+### Scope Detection
+
+Quick Flow includes **scope detection guardrails**:
+
+```
+You: /bmad-bmm-quick-dev "Build a microservices architecture"
+
+Barry: 🚨 Scope Alert
+      
+       This request mentions multiple components and system-level 
+       architecture. Quick Flow is designed for small, focused changes.
+       
+       Recommendation: Use full BMad Method
+       1. /bmad-bmm-create-prd for requirements
+       2. /bmad-bmm-create-architecture for design
+       3. /bmad-bmm-create-epics-and-stories for breakdown
+       
+       Proceed anyway? (Not recommended)
+```
+
+## Running Workflows
+
+### Direct Command (Recommended)
+
+```bash
+/bmad-bmm-create-prd
+```
+
+- Loads appropriate agent
+- Initializes workflow
+- Starts at step 1
+
+### Via Agent Menu
+
+```bash
+/bmad-agent-bmm-pm      # Load PM agent
+> "I want to create a PRD"
+> Select: CP (Create PRD)
+```
+
+- More conversational
+- Can ask questions first
+- Then trigger workflow from menu
+
+### Workflow Naming Convention
+
+```
+/bmad-{module}-{workflow-name}
+
+Examples:
+/bmad-bmm-create-prd              # BMM module, create-prd workflow
+/bmad-bmm-quick-spec              # BMM module, quick-spec workflow  
+/bmad-brainstorming               # Core workflow (no module prefix)
+```
+
+## Best Practices
+
+### Use Fresh Chats
+
+Start a new conversation for each workflow:
+
+```
+✗ Wrong: PRD + Architecture + Stories in same chat
+✓ Right: Fresh chat for each workflow
+```
+
+**Why:** Prevents context window limits from causing incomplete execution.
+
+### Don't Skip Steps
+
+Let workflows complete their full sequence:
+
+```
+✗ Wrong: "Skip the user interview, just generate requirements"
+✓ Right: Answer interview questions to inform requirements
+```
+
+**Why:** Each step builds context that improves output quality.
+
+### Leverage BMad-Help
+
+Run `/bmad-help` to understand what's next:
+
+```
+/bmad-help
+
+→ You've completed: PRD, Architecture
+→ Next required: create-epics-and-stories
+→ Next optional: generate-project-context
+```
+
+BMad-Help automatically runs at the end of every workflow.
+
+### Provide Context Files
+
+Create `project-context.md` to ensure consistency:
+
+```markdown
+## Technology Stack
+- Node.js 20.x, TypeScript 5.3
+- React 18.2, Zustand for state
+
+## Implementation Rules
+- Use `apiClient` singleton, never fetch directly
+- All async operations use `handleError` wrapper
+```
+
+Workflows load this automatically to align agent decisions.
+
+See [Project Context](/explanation/project-context) for details.
+
+## Creating Custom Workflows
+
+Use **BMad Builder** module to create custom workflows:
+
+1. Define workflow goals and phases
+2. Create step files with numbered sections
+3. Add menus and state tracking
+4. Configure in agent menu
+5. Install in project
+
+Custom workflows follow the same step-file architecture.
+
+## Next Steps
+
+- Learn about [Agents](./agents) — Who executes workflows
+- Explore [Modules](./modules) — Discover workflows from other modules
+- Try [Party Mode](./party-mode) — Multi-agent workflow collaboration
+- Read [Scale-Adaptive Planning](./scale-adaptive-planning) — How BMad adjusts workflow depth
+- Follow the [Getting Started Tutorial](/tutorials/getting-started) — Experience workflows hands-on

@@ -1,122 +1,152 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "BMad Method",
+  "theme": "aspen",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#6366f1",
+    "light": "#818cf8",
+    "dark": "#4f46e5"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon.ico",
+  "logo": {
+    "light": "/logo.png",
+    "dark": "/logo.png"
+  },
+  "navbar": {
+    "primary": {
+      "type": "github",
+      "href": "https://github.com/bmad-code-org/BMAD-METHOD"
+    }
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/bmad-code-org/BMAD-METHOD",
+      "discord": "https://discord.gg/gk8jAdXWmj",
+      "youtube": "https://www.youtube.com/@BMadCode"
+    }
+  },
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Documentation",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Get Started",
             "pages": [
-              "index",
+              "introduction",
               "quickstart",
-              "development"
+              "installation"
             ]
           },
           {
-            "group": "Customization",
+            "group": "Tutorials",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "tutorials/getting-started",
+              "tutorials/first-project",
+              "tutorials/working-with-agents"
             ]
           },
           {
-            "group": "Writing content",
+            "group": "Core Concepts",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
+              "concepts/framework-overview",
+              "concepts/agents",
+              "concepts/workflows",
+              "concepts/modules",
+              "concepts/party-mode",
+              "concepts/scale-adaptive-planning"
             ]
           },
           {
-            "group": "AI tools",
+            "group": "How-To Guides",
             "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "guides/install-bmad",
+              "guides/non-interactive-installation",
+              "guides/customize-bmad",
+              "guides/project-context",
+              "guides/quick-fixes",
+              "guides/upgrade-to-v6",
+              "guides/established-projects",
+              "guides/get-answers"
+            ]
+          },
+          {
+            "group": "Workflows",
+            "pages": [
+              "workflows/overview",
+              "workflows/phase-1-analysis",
+              "workflows/phase-2-planning",
+              "workflows/phase-3-solutioning",
+              "workflows/phase-4-implementation",
+              "workflows/quick-flow",
+              "workflows/document-project"
+            ]
+          },
+          {
+            "group": "Advanced Topics",
+            "pages": [
+              "advanced/brainstorming",
+              "advanced/adversarial-review",
+              "advanced/elicitation",
+              "advanced/preventing-conflicts",
+              "advanced/shard-documents"
             ]
           }
         ]
       },
       {
-        "tab": "API reference",
+        "tab": "Reference",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "API Reference",
             "pages": [
-              "api-reference/introduction"
+              "reference/cli-commands",
+              "reference/configuration",
+              "reference/workflow-map"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Agents",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "reference/agents/overview",
+              "reference/agents/product-manager",
+              "reference/agents/architect",
+              "reference/agents/developer",
+              "reference/agents/qa-engineer",
+              "reference/agents/scrum-master",
+              "reference/agents/ux-designer",
+              "reference/agents/analyst",
+              "reference/agents/tech-writer"
+            ]
+          },
+          {
+            "group": "Modules",
+            "pages": [
+              "reference/modules/overview",
+              "reference/modules/bmad-method",
+              "reference/modules/bmad-builder",
+              "reference/modules/test-architect",
+              "reference/modules/game-dev-studio",
+              "reference/modules/creative-intelligence"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Community",
+        "groups": [
+          {
+            "group": "Resources",
+            "pages": [
+              "community/overview",
+              "community/contributing",
+              "community/roadmap",
+              "community/changelog",
+              "community/support"
             ]
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
-  },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
-  "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
-    }
-  },
-  "contextual": {
-    "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
-  },
-  "footer": {
-    "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
-    }
+    ]
   }
 }

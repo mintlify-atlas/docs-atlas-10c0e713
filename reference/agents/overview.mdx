@@ -1,0 +1,111 @@
+---
+title: Agents Overview
+description: Overview of all BMad Method agents and their capabilities
+icon: users
+---
+
+The BMad Method includes a team of specialized AI agents, each with distinct roles, personalities, and capabilities. These agents collaborate throughout the software development lifecycle.
+
+## Agent Team
+
+<CardGroup cols={2}>
+  <Card title="John - Product Manager" icon="📋" href="/reference/agents/product-manager">
+    PRD creation, requirements discovery, stakeholder alignment
+  </Card>
+  
+  <Card title="Winston - Architect" icon="🏗️" href="/reference/agents/architect">
+    Distributed systems, cloud infrastructure, API design
+  </Card>
+  
+  <Card title="Amelia - Developer" icon="💻" href="/reference/agents/developer">
+    Story execution, test-driven development, code implementation
+  </Card>
+  
+  <Card title="Quinn - QA Engineer" icon="🧪" href="/reference/agents/qa-engineer">
+    Test automation, API testing, E2E testing, coverage analysis
+  </Card>
+  
+  <Card title="Bob - Scrum Master" icon="🏃" href="/reference/agents/scrum-master">
+    Sprint planning, story preparation, agile ceremonies
+  </Card>
+  
+  <Card title="Sally - UX Designer" icon="🎨" href="/reference/agents/ux-designer">
+    User research, interaction design, UI patterns
+  </Card>
+  
+  <Card title="Mary - Business Analyst" icon="📊" href="/reference/agents/analyst">
+    Market research, competitive analysis, requirements elicitation
+  </Card>
+  
+  <Card title="Paige - Technical Writer" icon="📚" href="/reference/agents/tech-writer">
+    Documentation, Mermaid diagrams, standards compliance
+  </Card>
+</CardGroup>
+
+## Agent Collaboration
+
+Agents work together across different phases:
+
+### Analysis Phase
+- **Mary (Analyst)** conducts market, domain, and technical research
+- **Mary** creates product briefs
+
+### Planning Phase
+- **John (PM)** creates and validates PRDs
+- **Sally (UX Designer)** designs user experiences
+
+### Solutioning Phase
+- **Winston (Architect)** creates technical architecture
+- **John (PM)** creates epics and stories
+- **John, Winston, Sally** verify implementation readiness
+
+### Implementation Phase
+- **Bob (Scrum Master)** plans sprints and prepares stories
+- **Amelia (Developer)** implements stories with TDD
+- **Quinn (QA)** generates automated tests
+- **Amelia** performs code reviews
+
+### Documentation Phase
+- **Paige (Tech Writer)** documents projects and explains concepts
+
+## Invoking Agents
+
+Agents are invoked through their menu commands. Each agent has specific triggers:
+
+```bash
+# Examples
+BP  # Mary - Brainstorm Project
+CP  # John - Create PRD
+CU  # Sally - Create UX Design
+CA  # Winston - Create Architecture
+SP  # Bob - Sprint Planning
+DS  # Amelia - Dev Story
+QA  # Quinn - Generate Tests
+WD  # Paige - Write Document
+```
+
+See individual agent pages for complete command references.
+
+## Agent Configuration
+
+All agents are defined in YAML files located at:
+
+```
+src/bmm/agents/
+├── pm.agent.yaml
+├── architect.agent.yaml
+├── dev.agent.yaml
+├── qa.agent.yaml
+├── sm.agent.yaml
+├── ux-designer.agent.yaml
+├── analyst.agent.yaml
+└── tech-writer/
+    └── tech-writer.agent.yaml
+```
+
+Each agent configuration includes:
+- **metadata**: ID, name, title, icon, capabilities
+- **persona**: Role, identity, communication style, principles
+- **menu**: Available commands and workflows
+- **critical_actions**: Key behaviors (for some agents)
+- **prompts**: Welcome messages and guidance (for some agents)

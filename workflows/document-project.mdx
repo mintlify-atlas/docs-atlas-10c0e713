@@ -1,0 +1,665 @@
+---
+title: "Document Project Workflow"
+description: "Generate comprehensive documentation for brownfield projects"
+icon: "book"
+---
+
+# Document Project Workflow
+
+The Document Project workflow generates comprehensive documentation for existing (brownfield) projects. It automatically scans your codebase, understands the architecture, and creates AI-friendly documentation.
+
+## Purpose
+
+This workflow serves two primary purposes:
+
+1. **AI Context Generation**: Create documentation that AI agents can use to understand your project
+2. **Team Knowledge**: Provide human-readable project documentation
+
+## When to Use
+
+Use Document Project when:
+
+- Starting work on an existing codebase
+- Onboarding new team members
+- Project lacks current documentation
+- Need to refresh outdated documentation
+- Preparing for AI-assisted development
+
+## Trigger Commands
+
+```bash
+"Document this project"
+"Generate project docs"
+"Scan and document the codebase"
+```
+
+---
+
+## Workflow Modes
+
+The Document Project workflow has three modes:
+
+<CardGroup cols={3}>
+  <Card title="Initial Scan" icon="radar">
+    First-time documentation of a project
+  </Card>
+  <Card title="Full Rescan" icon="rotate">
+    Update all documentation with latest changes
+  </Card>
+  <Card title="Deep Dive" icon="microscope">
+    Detailed documentation of specific area
+  </Card>
+</CardGroup>
+
+### Initial Scan
+
+**Trigger**: No existing documentation found
+
+**Process**:
+1. Detect project type
+2. Scan codebase structure
+3. Generate comprehensive documentation
+4. Create project overview
+5. Document key areas
+
+**Output**: Complete documentation suite in `{project_knowledge}/`
+
+### Full Rescan
+
+**Trigger**: Existing documentation found, user chooses "Re-scan entire project"
+
+**Process**:
+1. Load existing documentation
+2. Re-scan codebase for changes
+3. Update all documentation
+4. Preserve manual additions
+5. Track what changed
+
+**Output**: Updated documentation with changelog
+
+### Deep Dive
+
+**Trigger**: Existing documentation found, user chooses "Deep-dive into specific area"
+
+**Process**:
+1. User specifies area (folder, feature, module)
+2. Exhaustive scan of that area
+3. Generate detailed documentation
+4. Link to existing docs
+5. Update index
+
+**Output**: Detailed documentation for specific area
+
+---
+
+## Workflow Process
+
+### Step 1: Mode Detection
+
+The workflow checks for existing documentation and determines the mode:
+
+```text
+"Starting Document Project workflow...
+
+Checking for existing documentation..."
+```
+
+**If no documentation exists**:
+```text
+"No existing documentation found. Starting initial project scan..."
+```
+→ Proceeds to Initial Scan mode
+
+**If documentation exists**:
+```text
+"I found existing documentation generated on [date].
+
+What would you like to do?
+
+1. Re-scan entire project - Update all documentation
+2. Deep-dive into specific area - Detail a feature/module
+3. Cancel - Keep existing documentation
+
+Your choice [1/2/3]:"
+```
+
+### Step 2: Project Type Detection
+
+**Purpose**: Understand what kind of project this is to generate relevant documentation.
+
+**Detection Process**:
+
+1. **Examine project structure**
+   - Look for framework indicators (package.json, requirements.txt, etc.)
+   - Identify build tools and configs
+   - Detect languages used
+
+2. **Load documentation requirements**
+   - Uses `documentation-requirements.csv` to map project type to documentation needs
+   - Determines what should be documented
+
+3. **Architecture detection**
+   - Identifies architectural patterns
+   - Detects folder structure conventions
+   - Finds entry points
+
+**Supported Project Types**:
+
+- Web Applications (React, Vue, Angular, etc.)
+- Backend APIs (Node.js, Python, etc.)
+- Full-stack applications
+- Mobile apps
+- Libraries and SDKs
+- CLI tools
+- Microservices
+
+### Step 3: Codebase Scanning
+
+**Scan Levels**:
+
+- **Standard Scan** (Initial/Rescan): Covers main areas
+- **Exhaustive Scan** (Deep Dive): Every detail of specific area
+
+**Scanning Process**:
+
+1. **Structure Discovery**
+   - Map folder structure
+   - Identify key directories
+   - Find configuration files
+
+2. **Entry Points**
+   - Locate main files
+   - Find routing definitions
+   - Identify API endpoints
+
+3. **Dependencies**
+   - External packages
+   - Internal modules
+   - Third-party services
+
+4. **Patterns & Conventions**
+   - Code organization
+   - Naming conventions
+   - Architectural patterns
+
+5. **Key Features**
+   - Main functionality areas
+   - User-facing features
+   - Background processes
+
+### Step 4: Documentation Generation
+
+**Generated Documents**:
+
+#### 1. Project Overview
+
+**File**: `{project_knowledge}/project-overview.md`
+
+**Contains**:
+- Project description
+- Technology stack
+- Architecture overview
+- Key features
+- Getting started guide
+- Development workflow
+
+#### 2. Source Tree
+
+**File**: `{project_knowledge}/source-tree.md`
+
+**Contains**:
+- Complete folder structure
+- Purpose of each directory
+- Key files and their roles
+- Organization principles
+
+#### 3. Deep Dive Documents
+
+**Files**: `{project_knowledge}/deep-dive-[area].md`
+
+**Contains** (for specific area):
+- Detailed component breakdown
+- Data flow
+- API documentation
+- State management
+- Code examples
+- Integration points
+
+#### 4. Index
+
+**File**: `{project_knowledge}/index.md`
+
+**Contains**:
+- Table of contents
+- Document links
+- Quick navigation
+- Last updated dates
+
+### Step 5: State Management
+
+**State File**: `{project_knowledge}/project-scan-report.json`
+
+**Tracks**:
+- Scan progress
+- Completed steps
+- Project classification
+- Timestamps
+- Resume capability
+
+**Resume Capability**:
+
+If workflow is interrupted:
+
+```text
+"I found an in-progress workflow state from [time].
+
+Current Progress:
+- Mode: initial_scan
+- Completed Steps: 3/6
+- Last Step: Architecture analysis
+
+Would you like to:
+1. Resume from where we left off
+2. Start fresh
+3. Cancel
+
+Your choice [1/2/3]:"
+```
+
+---
+
+## Initial Scan Workflow
+
+### Full Scan Process
+
+**File**: `src/bmm/workflows/document-project/workflows/full-scan.yaml`
+
+**Steps**:
+
+1. **Project Discovery**
+   - Detect project type
+   - Load requirements CSV
+   - Configure scan scope
+
+2. **Structure Mapping**
+   - Scan folder structure
+   - Identify key directories
+   - Map file organization
+
+3. **Entry Point Analysis**
+   - Find application entry points
+   - Identify routing files
+   - Locate configuration
+
+4. **Feature Detection**
+   - Identify feature areas
+   - Map user-facing functionality
+   - Document API endpoints
+
+5. **Documentation Generation**
+   - Generate project overview
+   - Create source tree
+   - Write index
+
+6. **State Persistence**
+   - Save scan state
+   - Enable resume
+   - Track completion
+
+### Example Invocation
+
+```text
+User: "Document this project"
+
+AI: "Starting Document Project workflow...
+
+No existing documentation found. Starting initial project scan...
+
+**Step 1: Project Discovery**
+
+Analyzing project structure...
+✓ Detected: React + TypeScript web application
+✓ Build tool: Vite
+✓ Package manager: npm
+✓ Framework: React 18 with React Router
+
+Loading documentation requirements for React web app...
+✓ Will document: Components, Routes, State, API, Utils
+
+**Step 2: Structure Mapping**
+
+Scanning codebase...
+✓ src/ - Main application code
+✓ src/components/ - 47 components found
+✓ src/pages/ - 12 page components
+✓ src/api/ - API integration layer
+✓ src/hooks/ - 15 custom hooks
+✓ src/utils/ - Utility functions
+
+**Step 3: Entry Point Analysis**
+
+✓ Entry: src/main.tsx
+✓ Routes: src/router/index.tsx (12 routes)
+✓ API: src/api/client.ts (RESTful)
+✓ State: React Context (3 contexts)
+
+**Step 4: Feature Detection**
+
+Identified feature areas:
+✓ User Authentication
+✓ Dashboard & Analytics
+✓ Content Management
+✓ Settings & Profile
+✓ Search & Filtering
+
+**Step 5: Documentation Generation**
+
+Generating documentation...
+✓ Created: project-knowledge/project-overview.md
+✓ Created: project-knowledge/source-tree.md
+✓ Created: project-knowledge/index.md
+
+**Documentation Complete!**
+
+Generated:
+- Project Overview (comprehensive)
+- Source Tree (full structure)
+- Index (navigation)
+
+Location: {project_knowledge}/
+
+AI agents can now use this documentation for context.
+
+Next: Try 'Deep-dive into [feature]' for detailed docs on specific areas."
+```
+
+---
+
+## Deep Dive Workflow
+
+### Purpose
+
+Generate exhaustive documentation for a specific feature, module, or folder.
+
+### Deep Dive Process
+
+**File**: `src/bmm/workflows/document-project/workflows/deep-dive.yaml`
+
+**Steps**:
+
+1. **Area Selection**
+   - User specifies area
+   - Validate area exists
+   - Determine scope
+
+2. **Exhaustive Scan**
+   - Read all files in area
+   - Analyze all components
+   - Map all dependencies
+   - Trace data flow
+
+3. **Pattern Analysis**
+   - Identify patterns used
+   - Document conventions
+   - Note architectural decisions
+
+4. **Documentation Generation**
+   - Create deep-dive document
+   - Include code examples
+   - Add diagrams (text-based)
+   - Link to related areas
+
+5. **Index Update**
+   - Add to main index
+   - Create cross-references
+   - Update navigation
+
+### Example Invocation
+
+```text
+User: "Deep-dive into the authentication feature"
+
+AI: "Starting deep-dive documentation for authentication...
+
+**Step 1: Area Discovery**
+
+✓ Found authentication code in:
+  - src/features/auth/
+  - src/hooks/useAuth.ts
+  - src/api/auth.ts
+  - src/contexts/AuthContext.tsx
+
+**Step 2: Exhaustive Scan**
+
+Analyzing authentication implementation...
+
+✓ Components (5):
+  - LoginForm.tsx
+  - SignupForm.tsx
+  - PasswordReset.tsx
+  - AuthGuard.tsx
+  - LogoutButton.tsx
+
+✓ Hooks (3):
+  - useAuth() - Main auth hook
+  - useAuthState() - Auth state management
+  - useAuthToken() - Token handling
+
+✓ API Integration:
+  - POST /auth/login
+  - POST /auth/signup
+  - POST /auth/logout
+  - POST /auth/refresh
+  - GET /auth/me
+
+✓ State Management:
+  - AuthContext with user state
+  - JWT token in localStorage
+  - Auto-refresh logic
+
+**Step 3: Pattern Analysis**
+
+✓ Pattern: JWT-based authentication
+✓ Token storage: localStorage with auto-refresh
+✓ Protected routes: HOC wrapper (AuthGuard)
+✓ Form validation: React Hook Form + Zod
+
+**Step 4: Documentation Generation**
+
+Generating comprehensive deep-dive...
+
+✓ Created: project-knowledge/deep-dive-authentication.md
+
+**Contents**:
+- Authentication Architecture
+- Component Breakdown (with code examples)
+- API Integration Details
+- State Management Flow
+- Security Considerations
+- Usage Examples
+- Testing Approach
+
+**Step 5: Index Update**
+
+✓ Updated: project-knowledge/index.md
+✓ Added cross-references to related features
+
+**Deep Dive Complete!**
+
+Detailed documentation: project-knowledge/deep-dive-authentication.md
+
+This includes everything an AI agent needs to work on authentication features."
+```
+
+---
+
+## Documentation Templates
+
+### Project Overview Template
+
+**File**: `src/bmm/workflows/document-project/templates/project-overview-template.md`
+
+**Sections**:
+- Project Description
+- Technology Stack
+- Architecture Overview
+- Folder Structure
+- Getting Started
+- Development Workflow
+- Key Features
+- External Dependencies
+- Configuration
+- Deployment
+
+### Source Tree Template
+
+**File**: `src/bmm/workflows/document-project/templates/source-tree-template.md`
+
+**Format**:
+```markdown
+# Source Tree
+
+## Structure
+
+```
+project-root/
+├── src/
+│   ├── components/  # Reusable UI components
+│   ├── pages/       # Page-level components
+│   ├── api/         # API integration
+│   └── utils/       # Utility functions
+├── public/          # Static assets
+└── tests/           # Test files
+```
+
+## Directory Purposes
+
+### src/components/
+Reusable UI components following atomic design...
+```
+
+### Deep Dive Template
+
+**File**: `src/bmm/workflows/document-project/templates/deep-dive-template.md`
+
+**Sections**:
+- Area Overview
+- Architecture
+- Component Breakdown
+- Data Flow
+- API Integration
+- State Management
+- Code Examples
+- Patterns & Conventions
+- Testing Strategy
+- Related Areas
+
+---
+
+## Configuration
+
+### Documentation Requirements CSV
+
+**File**: `src/bmm/workflows/document-project/documentation-requirements.csv`
+
+Maps project types to documentation requirements:
+
+```csv
+project_type_id,project_type,framework,required_docs,scan_focus
+react-web,Web Application,React,"components,routes,state,api","src/components,src/pages"
+next-web,Web Application,Next.js,"pages,api-routes,components,data-fetching","src/pages,src/app"
+node-api,Backend API,Express,"routes,controllers,models,middleware","src/routes,src/controllers"
+```
+
+### Workflow Configuration
+
+**File**: `src/bmm/workflows/document-project/workflow.yaml`
+
+**Key Settings**:
+```yaml
+config_source: "{project-root}/_bmad/bmm/config.yaml"
+project_knowledge: "{config_source}:project_knowledge"
+installed_path: "{project-root}/_bmad/bmm/workflows/document-project"
+documentation_requirements_csv: "{installed_path}/documentation-requirements.csv"
+```
+
+---
+
+## Output Files
+
+All documentation is generated in `{project_knowledge}/` directory:
+
+```
+project-knowledge/
+├── index.md                          # Main index
+├── project-overview.md               # Project overview
+├── source-tree.md                    # Folder structure
+├── deep-dive-authentication.md       # Deep dive docs
+├── deep-dive-dashboard.md
+├── project-scan-report.json          # State file
+└── .archive/                         # Old scans
+    └── project-scan-report-2026-02-15.json
+```
+
+---
+
+## Best Practices
+
+### Initial Documentation
+
+1. **Run Initial Scan Early**: Document projects before starting work
+2. **Review Generated Docs**: Verify accuracy, add manual notes
+3. **Deep Dive Key Areas**: Document complex features in detail
+4. **Keep Updated**: Re-scan when major changes occur
+
+### Using Documentation
+
+1. **Load for Context**: AI agents use docs for context
+2. **Reference in Specs**: Link to deep-dive docs in quick specs
+3. **Onboarding**: Share with new team members
+4. **Architecture Decisions**: Use as input for ADRs
+
+### Maintenance
+
+1. **Periodic Rescans**: Run full rescan monthly or after major features
+2. **Deep Dive New Features**: Document new major features
+3. **Archive Old Scans**: Keep history in .archive/
+4. **Manual Additions**: Add notes to generated docs (preserved on rescan)
+
+---
+
+## Integration with BMad Method
+
+Document Project workflow integrates with other BMad workflows:
+
+### For Greenfield Projects
+
+- **After Phase 3**: Document initial architecture
+- **After Each Epic**: Update documentation
+- **Before Handoff**: Generate complete docs
+
+### For Brownfield Projects
+
+- **Start Here**: Document before planning changes
+- **Use in Planning**: Reference in PRD and Architecture
+- **Use in Development**: Provide context for story implementation
+- **Correct Course**: Update docs when changing direction
+
+---
+
+## Source Files
+
+- Main Workflow: `src/bmm/workflows/document-project/workflow.yaml`
+- Instructions: `src/bmm/workflows/document-project/instructions.md`
+- Full Scan: `src/bmm/workflows/document-project/workflows/full-scan.yaml`
+- Deep Dive: `src/bmm/workflows/document-project/workflows/deep-dive.yaml`
+- Templates: `src/bmm/workflows/document-project/templates/`
+- Requirements CSV: `src/bmm/workflows/document-project/documentation-requirements.csv`
+
+---
+
+## Next Steps
+
+- [Overview](/workflows/overview) - All workflows
+- [Phase 1: Analysis](/workflows/phase-1-analysis) - Start planning with documented project context
+- [Quick Flow](/workflows/quick-flow) - Use project docs for quick development

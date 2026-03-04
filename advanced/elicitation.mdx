@@ -1,0 +1,548 @@
+---
+title: "Advanced Elicitation Techniques"
+description: "Push the LLM to rethink its work using structured reasoning methods to surface deeper insights and alternatives"
+---
+
+Make the LLM reconsider what it just generated. You pick a reasoning method, it applies that method to its own output, you decide whether to keep the improvements.
+
+## What is Advanced Elicitation?
+
+A structured second pass over LLM-generated content. Instead of asking the AI to "try again" or "make it better," you select a specific reasoning method and the AI re-examines its own output through that lens.
+
+The difference matters. Vague requests produce vague revisions. A named method forces a particular angle of attack, surfacing insights that a generic retry would miss.
+
+<Note>
+Advanced elicitation is about **structured rethinking**, not random iteration. Each method brings a specific analytical framework that reveals different weaknesses and opportunities.
+</Note>
+
+## When to Use It
+
+Advanced elicitation works best in these scenarios:
+
+- **After workflow content generation** - A workflow produces output and you want alternatives
+- **When output seems okay but shallow** - The result is acceptable but you suspect there's more depth
+- **To stress-test assumptions** - Find weaknesses or blind spots in reasoning
+- **For high-stakes content** - Specs, architecture, critical features where rethinking helps
+- **When stuck on quality plateau** - Normal iteration isn't improving things further
+
+Workflows offer advanced elicitation at decision points - after the LLM has generated something, you'll be asked if you want to run it.
+
+## How It Works
+
+The advanced elicitation process follows this flow:
+
+### 1. Content Generation
+
+The LLM produces initial output - a spec section, architecture decision, implementation approach, or other artifact.
+
+### 2. Method Selection
+
+The LLM suggests 5 relevant reasoning methods based on your content type and context. You can:
+
+- **Pick one** - Select the most promising method
+- **Reshuffle** - Get 5 different method options
+- **Skip** - Accept current output and continue
+
+### 3. Method Application
+
+The selected method is applied systematically to the original output. The LLM works through the reasoning framework, generating insights and alternatives.
+
+### 4. Review Improvements
+
+You see:
+
+- Original output
+- Method-driven analysis
+- Proposed improvements
+- Rationale for changes
+
+### 5. Decision
+
+You choose:
+
+- **Accept** - Keep the improvements, continue workflow
+- **Discard** - Revert to original, continue workflow
+- **Repeat** - Try a different method on the same content
+- **Iterate** - Apply another method to the improved version
+
+## Built-in Reasoning Methods
+
+Advanced elicitation includes dozens of reasoning methods. Here are the most powerful:
+
+### Pre-mortem Analysis
+
+**What it does:** Assume the project already failed, work backward to find why.
+
+**Best for:** Specs, plans, architecture, any forward-looking artifact.
+
+**Example:**
+
+```
+Original: "Users can upload files up to 10MB"
+
+Pre-mortem: "It's 6 months later. File upload is our #1 support complaint. What went wrong?"
+
+Insights:
+- No progress indicator for uploads
+- 10MB limit unclear until after failed upload
+- No resumption for failed uploads
+- Mobile users on slow connections timeout
+- No virus scanning before storage
+
+Improved: "Users can upload files up to 10MB with:
+- Progress indicator showing upload status
+- Client-side size validation before upload
+- Resume capability for failed uploads
+- Timeout handling with retry logic
+- Virus scanning before storage confirmation"
+```
+
+<Tip>
+Pre-mortem Analysis is the highest-value method for specs and plans. It consistently finds gaps that standard review misses.
+</Tip>
+
+### First Principles Thinking
+
+**What it does:** Strip away assumptions, rebuild from ground truth.
+
+**Best for:** Architectural decisions, complex problem-solving, challenging conventional approaches.
+
+**Example:**
+
+```
+Original: "We'll use Redis for caching like we always do"
+
+First Principles: "What problem are we actually solving?"
+- Need: Fast access to frequently-read data
+- Truth: Most requests hit the same 1000 records
+- Truth: Data changes rarely (hourly batch updates)
+- Question: Do we need distributed cache for this?
+
+Insights:
+- In-memory application cache would work
+- Eliminates network hop latency
+- Simpler deployment (no Redis cluster)
+- Trade-off: Cache invalidation per instance
+
+Improved: Consider both approaches based on:
+- Scale: How many app instances?
+- Consistency: How stale can cache be?
+- Complexity: Is Redis overhead justified?
+```
+
+### Inversion
+
+**What it does:** Ask how to guarantee failure, then avoid those things.
+
+**Best for:** Finding hidden risks, validating approaches, improving resilience.
+
+**Example:**
+
+```
+Original: "Automated deployment pipeline for production"
+
+Inversion: "How do we guarantee deployment disasters?"
+- Deploy without testing
+- No rollback mechanism
+- Deploy during peak traffic
+- No deployment notifications
+- Deploy all services simultaneously
+- Ignore failed health checks
+
+Improved deployment process:
+- Required: Pass integration tests
+- Required: Automated rollback on health check failure
+- Schedule: Off-peak hours only
+- Notification: Slack alert on deployment start/success/failure
+- Strategy: Rolling deployment with canary
+- Validation: Health check grace period before proceeding
+```
+
+### Red Team vs Blue Team
+
+**What it does:** Attack your own work (red team), then defend it (blue team).
+
+**Best for:** Security, architecture validation, finding edge cases.
+
+**Example:**
+
+```
+Original: "API key authentication for third-party integrations"
+
+Red Team Attack:
+- API keys in URLs get logged
+- Keys in client-side code are exposed
+- No key rotation mechanism
+- Compromised key = full access
+- No rate limiting per key
+
+Blue Team Defense:
+- Keys transmitted in Authorization header
+- Server-side only, never client-exposed
+- 90-day automatic rotation with warning
+- Scope-limited keys (read-only, specific resources)
+- Per-key rate limiting with burst allowance
+
+Improved: "Scoped API key authentication with:
+- Header-based transmission
+- Server-side validation only
+- Automatic rotation schedule
+- Granular permission scopes
+- Per-key rate limiting"
+```
+
+### Socratic Questioning
+
+**What it does:** Challenge every claim with "why?" and "how do you know?"
+
+**Best for:** Testing assumptions, validating requirements, finding missing justification.
+
+**Example:**
+
+```
+Original: "Users need real-time notifications"
+
+Socratic Questions:
+Q: Why real-time?
+A: So users know immediately when events happen
+
+Q: Why must they know immediately?
+A: To take action quickly
+
+Q: What action? What's the urgency?
+A: Um... actually most actions aren't time-sensitive
+
+Q: How do you know users want real-time?
+A: We assumed... but haven't validated
+
+Insights:
+- "Real-time" might be over-engineering
+- Polling every 30 seconds might suffice
+- Different notification types have different urgency
+- Should validate with user research
+
+Improved: "Notification delivery appropriate to urgency:
+- Critical alerts: Real-time push (security, payment failures)
+- Important updates: 30-second polling (messages, mentions)
+- Low priority: On next page load (recommendations)
+- Validate timing requirements with user testing"
+```
+
+### Constraint Removal
+
+**What it does:** Drop all constraints, see what changes, add them back selectively.
+
+**Best for:** Creative problem-solving, finding innovative approaches, escaping mental ruts.
+
+**Example:**
+
+```
+Original: "Mobile app for iOS and Android using React Native"
+
+Constraint Removal: "What if technology, time, and budget were unlimited?"
+Ideal solution:
+- Native iOS and Android apps (best performance)
+- Shared business logic in Rust (safety + speed)
+- Desktop apps for power users
+- Web app for quick access
+- Backend in Go (performance + simplicity)
+
+Now add constraints back:
+- Team: 3 developers, full-stack JavaScript background
+- Timeline: 6 months to MVP
+- Budget: Startup funding, need to conserve
+
+Insights:
+- React Native makes sense for MVP
+- But: Plan architecture for future native apps
+- Separate business logic from UI now
+- Consider: Web app might reach users faster
+
+Improved: "React Native mobile app with:
+- Abstracted business logic layer (future native migration)
+- Progressive web app for immediate web access
+- Architecture supporting future platform expansion"
+```
+
+### Stakeholder Mapping
+
+**What it does:** Re-evaluate from each stakeholder's perspective.
+
+**Best for:** Requirements validation, UX decisions, finding overlooked users.
+
+**Example:**
+
+```
+Original: "Dashboard shows sales metrics"
+
+Stakeholder Analysis:
+
+Sales Rep perspective:
+- Need: My personal performance vs target
+- Missing: Individual deal pipeline
+
+Sales Manager perspective:
+- Need: Team performance comparison
+- Missing: Trend over time, not just current
+
+Executive perspective:
+- Need: High-level revenue vs forecast
+- Missing: Geographic breakdown
+
+Customer Success perspective:
+- Never considered them
+- Would want: Account health tied to sales data
+
+Improved: "Dashboard with role-specific views:
+- Sales Rep: Personal metrics, deal pipeline, target progress
+- Sales Manager: Team comparison, historical trends, coaching insights
+- Executive: Revenue vs forecast, geographic breakdown, key risks
+- Customer Success: Account health correlation with sales activity"
+```
+
+### Analogical Reasoning
+
+**What it does:** Find parallels in other domains and apply their lessons.
+
+**Best for:** Solving novel problems, finding proven patterns, creative approaches.
+
+**Example:**
+
+```
+Original: "Matching algorithm for freelancers and projects"
+
+Analogies from other domains:
+
+Rideshare apps (Uber/Lyft):
+- Match based on proximity + availability
+- Lesson: Consider freelancer timezone + current workload
+
+Dating apps (Tinder/Bumble):
+- Two-way preference required
+- Lesson: Both sides should accept match, not just client picking
+
+Restaurant reservations (OpenTable):
+- Time-based availability windows
+- Lesson: Freelancer calendar integration for availability
+
+Job recruiting:
+- Skills matching + culture fit
+- Lesson: Beyond skills, match communication style + work preferences
+
+Improved matching considers:
+- Skills + experience (baseline)
+- Timezone overlap
+- Current workload + availability
+- Two-way preference (freelancer can decline)
+- Communication style compatibility
+- Past collaboration success rate
+```
+
+## Method Selection Strategy
+
+Different methods excel in different situations:
+
+| Content Type | Recommended Methods |
+|--------------|---------------------|
+| Requirements/Specs | Pre-mortem, Socratic Questioning, Stakeholder Mapping |
+| Architecture | First Principles, Red Team vs Blue Team, Inversion |
+| Implementation Plans | Pre-mortem, Constraint Removal, Analogical Reasoning |
+| Problem Analysis | First Principles, Five Whys, Systems Thinking |
+| Creative Work | Constraint Removal, Analogical Reasoning, SCAMPER |
+| Risk Assessment | Pre-mortem, Inversion, Red Team vs Blue Team |
+
+<Warning>
+Don't apply methods randomly. Match the method to what you're trying to improve. Pre-mortem won't help with creative naming; Analogical Reasoning won't validate security.
+</Warning>
+
+## Best Practices
+
+### When to Use Advanced Elicitation
+
+**Do use it when:**
+
+- Output seems acceptable but not excellent
+- High-stakes content where quality matters
+- You're stuck and need a different perspective
+- Initial generation missed obvious angles
+- You want to validate assumptions
+
+**Don't use it when:**
+
+- Output is clearly wrong (fix the prompt/input instead)
+- You're just fishing for different wording
+- Time pressure requires moving forward
+- Diminishing returns (you've already run 3 methods)
+
+### Maximize Value
+
+**Pick methods intentionally** - Don't just click the first option. Read the descriptions and choose based on what you're trying to improve.
+
+**Apply sequentially, not all at once** - One method, review results, decide next step. Multiple methods in sequence build on each other.
+
+**Accept imperfect improvements** - If a method surfaces 3 good insights and 2 weak ones, keep the good and ignore the weak.
+
+**Know when to stop** - First method often gives 70% of value. Second might give 20%. Third gives 10%. Stop when returns diminish.
+
+### Common Patterns
+
+**The Validation Pattern**
+
+1. Generate initial output
+2. Pre-mortem Analysis (find what could go wrong)
+3. Address critical gaps
+4. Socratic Questioning (validate assumptions)
+5. Accept or iterate
+
+**The Innovation Pattern**
+
+1. Generate initial output
+2. Constraint Removal (think freely)
+3. Analogical Reasoning (borrow from other domains)
+4. First Principles (validate novelty isn't just complexity)
+5. Accept refined approach
+
+**The Security Pattern**
+
+1. Generate initial output
+2. Red Team vs Blue Team (find vulnerabilities)
+3. Address security gaps
+4. Inversion (how would we guarantee breach?)
+5. Accept hardened version
+
+## Integration with Workflows
+
+Advanced elicitation appears at key decision points:
+
+### In `prd-co-write`
+
+After generating each section:
+
+```
+Workflow: User authentication section complete.
+Run advanced elicitation?
+
+You: Yes
+
+Workflow: Recommended methods:
+1. Pre-mortem Analysis
+2. Stakeholder Mapping
+3. Red Team vs Blue Team
+4. Socratic Questioning
+5. First Principles
+
+You: Pre-mortem Analysis
+
+Workflow: [Applies method, shows improvements]
+```
+
+### In `plan-build`
+
+After architecture decisions:
+
+```
+Workflow: State management ADR complete.
+Run advanced elicitation?
+
+You: Yes
+
+Workflow: Recommended methods:
+1. First Principles Thinking
+2. Inversion
+3. Analogical Reasoning
+4. Red Team vs Blue Team
+5. Constraint Removal
+
+You: First Principles Thinking
+```
+
+### In `implement`
+
+After generating implementation approach:
+
+```
+Workflow: Implementation plan complete.
+Run advanced elicitation?
+
+You: Yes
+
+Workflow: Recommended methods:
+1. Pre-mortem Analysis
+2. Inversion
+3. Red Team vs Blue Team
+4. Edge Case Analysis
+5. Simplicity Audit
+```
+
+## Measuring Success
+
+How do you know advanced elicitation worked?
+
+**Good outcomes:**
+
+- Found gaps you genuinely didn't notice
+- Simplified overly complex approaches
+- Added missing resilience or validation
+- Challenged and validated assumptions
+- Generated actionable improvements
+
+**Warning signs:**
+
+- Changes are just rewording
+- Adds complexity without clear benefit
+- Insights you already knew
+- Taking too long relative to value
+- Going in circles with multiple methods
+
+<Tip>
+**Start with Pre-mortem Analysis** for any spec, plan, or architecture. It's the highest-value method for forward-looking content and consistently finds important gaps.
+</Tip>
+
+## Real-World Example
+
+Here's advanced elicitation applied to a feature spec:
+
+**Original Output:**
+
+> Users can export their data as CSV or JSON files. Click the export button, choose format, download begins.
+
+**Pre-mortem Analysis Applied:**
+
+> It's 3 months later. Export feature is broken and users are angry. What went wrong?
+>
+> - Large datasets timeout before export completes
+> - Export format doesn't include relationships/nested data
+> - No way to export subset of data (all or nothing)
+> - Users don't know export is processing (looks frozen)
+> - Failed exports leave no error message
+> - No way to re-download previous exports
+
+**Improved Output:**
+
+> Users can export their data with the following capabilities:
+>
+> **Export Scope:**
+> - Full data export
+> - Date range selection
+> - Filtered subset based on tags/categories
+>
+> **Export Formats:**
+> - CSV (flattened data)
+> - JSON (preserves nested structure)
+> - Excel (multiple sheets for relationships)
+>
+> **Export Process:**
+> - Async processing for large datasets (>1000 records)
+> - Progress indicator showing % complete
+> - Email notification when export ready
+> - Download link valid for 7 days
+> - Error messages with specific failure reason
+>
+> **Export History:**
+> - List of previous exports with re-download capability
+> - Retention: 30 days
+> - Shows: Date, format, scope, file size
+
+One method application transformed a basic feature into a production-ready spec.
+
+Advanced elicitation isn't about endless iteration. It's about applying the right analytical lens at the right time to surface insights that normal thinking misses.

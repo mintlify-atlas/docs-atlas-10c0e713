@@ -1,0 +1,408 @@
+---
+title: Party Mode
+description: Multi-agent collaboration for complex decisions and brainstorming
+---
+
+Party Mode brings multiple AI agents into a single conversation where they collaborate, debate, and build on each other's expertise to help you make better decisions.
+
+## What Is Party Mode?
+
+Run a party mode workflow and you've got your whole AI team in one room — PM, Architect, Dev, UX Designer, QA, whoever you need. The **BMad Master** orchestrates the conversation, selecting relevant agents based on each message. Agents respond in character, agree, disagree, and build on each other's ideas.
+
+**The conversation continues as long as you want.** Ask follow-ups, push back on answers, redirect the discussion — it's a real back-and-forth with your agents until you're done.
+
+### Party Mode vs. Sequential Workflows
+
+| Sequential Workflows | Party Mode |
+|---------------------|------------|
+| One agent at a time | Multiple agents simultaneously |
+| Agent A → produces artifact → Agent B | All agents in same conversation |
+| Linear handoffs | Dynamic collaboration |
+| Structured steps | Free-form discussion |
+| Best for: execution | Best for: decisions and exploration |
+
+## When to Use Party Mode
+
+Party Mode excels at:
+
+**Big Decisions with Tradeoffs**
+- "Should we use microservices or monolith?"
+- "Which state management approach?"
+- "How do we handle this architectural challenge?"
+
+**Brainstorming Sessions**
+- "How do we make onboarding feel magical?"
+- "What features would differentiate us?"
+- "Creative solutions to this UX problem?"
+
+**Post-Mortems and Retrospectives**
+- "Why did the last sprint go wrong?"
+- "What should we do differently?"
+- "Who's responsible for this failure?"
+
+**Complex Problem-Solving**
+- "How do we migrate without downtime?"
+- "What's causing this performance issue?"
+- "How do we balance these competing requirements?"
+
+## How It Works
+
+### 1. Start Party Mode
+
+```bash
+/bmad-bmm-party-mode
+```
+
+Or load the Scrum Master and select:
+```bash
+/bmad-agent-bmm-sm
+> "I want to start party mode"
+> Select: [ER] Epic Retrospective (party mode)
+```
+
+### 2. BMad Master Orchestrates
+
+The **BMad Master** agent:
+- Reads your question/topic
+- Selects relevant agents from the team
+- Manages turn-taking
+- Ensures productive discussion
+
+### 3. Agents Collaborate
+
+Each agent responds in character:
+- **PM (John)** focuses on user value and business impact
+- **Architect (Winston)** considers technical tradeoffs
+- **Dev (Amelia)** thinks about implementation reality  
+- **UX (Sally)** advocates for user experience
+- **QA (Quinn)** raises testing and quality concerns
+
+They can:
+- Agree and build on each other's ideas
+- Disagree and propose alternatives
+- Ask clarifying questions
+- Reference previous points
+
+### 4. You Guide the Discussion
+
+- Ask follow-up questions
+- Challenge agent responses
+- Request specific agent input
+- Redirect to new topics
+- Conclude when satisfied
+
+## Example Scenarios
+
+### Scenario 1: Architectural Decision
+
+**You:** "Our authentication service keeps failing under load. Monolith or microservices?"
+
+**Winston (Architect):** "Let's look at the data. What's your current user count and growth rate?"
+
+**You:** "1000 daily active users, growing 10% monthly"
+
+**Winston:** "At that scale, a monolith with proper module boundaries makes sense. Microservices add operational complexity you don't need yet."
+
+**Amelia (Dev):** "Agree. We can design clean interfaces now and extract services later if we hit scale issues. Microservices would slow us down today."
+
+**PM (John):** "From a product perspective, time-to-market matters more than theoretical scalability. Let's ship fast with the monolith."
+
+**Quinn (QA):** "Just make sure we load test the auth module. If it's a bottleneck, we can optimize within the monolith before considering services."
+
+**Decision:** Monolith with clear module boundaries, load testing planned.
+
+### Scenario 2: Post-Mortem
+
+**You:** "Last sprint was a disaster. Authentication went down three times in production. Who screwed this up?"
+
+**Winston (Architect):** "The design was sound — distributed auth with proper fallbacks. If implementation deviated from the spec..."
+
+**Amelia (Dev):** "I followed the architecture doc exactly. The spec didn't account for concurrent session invalidation race conditions."
+
+**PM (John):** "Both of you are missing the bigger issue. We didn't validate session management requirements in the PRD. I should have caught this during requirements."
+
+**Quinn (QA):** "And I should've caught it in testing. My test scenarios didn't cover concurrent invalidation because it wasn't in the test strategy."
+
+**Winston:** "So root cause: incomplete requirements led to incomplete architecture, which led to incomplete tests. Not a single-person failure."
+
+**Action Items:**
+- Update PRD template to include session management checklist
+- Add concurrent operation patterns to architecture template
+- Expand test strategy to cover race conditions
+
+### Scenario 3: Creative Brainstorming
+
+**You:** "How do we make onboarding feel magical instead of boring?"
+
+**Sally (UX):** "Start with progressive disclosure — reveal features as users need them, not all at once in a tutorial."
+
+**Sophia (Storyteller, if CIS module installed):** "What if onboarding was a story? Each step reveals a character's journey — the user IS the hero."
+
+**Winston (Architect):** "Technically, we'd need a state machine to track user progress and trigger contextual reveals. Adds complexity but it's doable."
+
+**PM (John):** "I like this, but let's validate the assumption. What if we mock up two versions and show them to 10 users? See which one they prefer before we build the complex solution."
+
+**Sally:** "Great idea. I can prototype both approaches in Figma for user testing."
+
+**Next Steps:**
+1. Sally creates two onboarding prototypes
+2. John conducts user testing with 10 people
+3. Team reconvenes to decide based on feedback
+
+### Scenario 4: Technical Problem-Solving
+
+**You:** "Our API response times are hitting 3 seconds under load. How do we fix this?"
+
+**Amelia (Dev):** "First question: where's the bottleneck? Database, API logic, network, or external services?"
+
+**You:** "Haven't profiled yet"
+
+**Amelia:** "Start there. Run a profiler under load. My guess is database N+1 queries or missing indexes."
+
+**Winston (Architect):** "Once we find the bottleneck, we have options: caching, query optimization, read replicas, or CDN for static assets. The right solution depends on what's slow."
+
+**Quinn (QA):** "Make sure we have baseline performance metrics before any changes. Otherwise we won't know if optimizations worked."
+
+**PM (John):** "How long can we tolerate 3-second responses? Are we losing users?"
+
+**You:** "Analytics show 30% drop-off on slow pages"
+
+**PM:** "That's urgent. Dev, what's the fastest path to 1-second responses?"
+
+**Amelia:** "If it's database queries: add indexes (hours). If it's API logic: optimize hot paths (1-2 days). If it's external services: add caching (1 day)."
+
+**Winston:** "Profile first, then we reconvene with data and pick the right fix."
+
+**Action:** Profile API under load, reconvene with findings.
+
+## Party Mode Configuration
+
+### Default Team
+
+The default party includes core BMM agents:
+
+**File:** `_bmad/bmm/teams/default-party.csv`
+
+```csv
+name,displayName,title,icon,role,identity,module,path
+analyst,Mary,Business Analyst,📊,Strategic Analyst,...,bmm,bmad/bmm/agents/analyst.md
+architect,Winston,Architect,🏗️,System Architect,...,bmm,bmad/bmm/agents/architect.md
+dev,Amelia,Developer Agent,💻,Senior Engineer,...,bmm,bmad/bmm/agents/dev.md
+pm,John,Product Manager,📋,Product Strategist,...,bmm,bmad/bmm/agents/pm.md
+sm,Bob,Scrum Master,🏃,Technical SM,...,bmm,bmad/bmm/agents/sm.md
+ux-designer,Sally,UX Designer,🎨,UX Specialist,...,bmm,bmad/bmm/agents/ux-designer.md
+```
+
+### Custom Teams
+
+You can create custom party configurations:
+
+**Example:** Technical Team Only
+
+```csv
+name,displayName,title,icon,role,identity,module,path  
+architect,Winston,Architect,🏗️,System Architect,...,bmm,bmad/bmm/agents/architect.md
+dev,Amelia,Developer Agent,💻,Senior Engineer,...,bmm,bmad/bmm/agents/dev.md
+qa,Quinn,QA Engineer,🧪,QA Specialist,...,bmm,bmad/bmm/agents/qa.md
+```
+
+Save as `_bmad/bmm/teams/technical-team.csv` and reference in workflow.
+
+### Multi-Module Parties
+
+If you have multiple modules installed (BMM + CIS), you can include agents from both:
+
+```csv
+pm,John,Product Manager,📋,Product Strategist,...,bmm,bmad/bmm/agents/pm.md
+ux-designer,Sally,UX Designer,🎨,UX Specialist,...,bmm,bmad/bmm/agents/ux-designer.md
+brainstorming-coach,Carson,Brainstorming Specialist,🧠,Innovation Facilitator,...,cis,bmad/cis/agents/brainstorming-coach.md
+storyteller,Sophia,Master Storyteller,📖,Narrative Strategist,...,cis,bmad/cis/agents/storyteller.md
+```
+
+This creates a **creative product team** for innovation sessions.
+
+## Best Practices
+
+### Frame Your Question Clearly
+
+Good framing gets better responses:
+
+```
+✗ Weak: "What should we do about the auth system?"
+✓ Strong: "Our auth system has 3-second latency under load, causing 30% user drop-off. 
+          Should we optimize queries, add caching, or redesign the architecture?"
+```
+
+Provide:
+- Context (what's happening)
+- Constraints (time, resources, requirements)
+- Specific question or decision needed
+
+### Let Agents Disagree
+
+Disagreement surfaces tradeoffs:
+
+```
+Architect: "Use PostgreSQL — mature, reliable, well-understood."
+Dev: "MongoDB gives us schema flexibility we need for rapid iteration."
+PM: "What matters is time-to-market. Which gets us to beta faster?"
+```
+
+Don't force consensus — tension reveals what matters.
+
+### Guide, Don't Dictate
+
+Let agents contribute freely:
+
+```
+✗ "I want to use GraphQL. Tell me why it's good."
+✓ "What's the best API approach for our mobile app? REST, GraphQL, or something else?"
+```
+
+You're facilitating a discussion, not seeking validation.
+
+### Know When to End
+
+Party Mode is open-ended. Conclude when:
+- Decision is clear
+- Action items are defined
+- All perspectives heard
+- Diminishing returns set in
+
+You can always start a new party mode session later.
+
+### Document Outcomes
+
+Capture decisions and action items:
+
+```
+Decision: Use monolith with module boundaries
+
+Rationale:
+- Current scale (1K users) doesn't need microservices
+- Faster development velocity  
+- Can extract services later if needed
+
+Action Items:
+- [ ] Design clean module interfaces (Winston)
+- [ ] Document module boundaries in architecture (Winston)
+- [ ] Set up load testing (Quinn)
+- [ ] Plan extraction strategy for future (Winston)
+
+Next Review: After hitting 10K users
+```
+
+## Advanced Patterns
+
+### Rotating Focus
+
+Ask each agent in sequence:
+
+```
+You: "I want each agent's perspective on this API design."
+     
+     PM, what's the business case?
+     Architect, what are the technical tradeoffs?
+     Dev, what's the implementation reality?
+     QA, what are the testing concerns?
+```
+
+Ensures every voice is heard.
+
+### Devil's Advocate
+
+```
+You: "We've decided on approach X. Now I want someone to argue AGAINST it. 
+     What could go wrong? What are we missing?"
+```
+
+Stress-tests decisions before committing.
+
+### Scenario Planning
+
+```
+You: "Let's explore three scenarios:
+     1. We ship in 2 weeks with limited features
+     2. We ship in 6 weeks with full features
+     3. We do a phased rollout starting in 3 weeks
+     
+     Agents, what are the pros/cons of each?"
+```
+
+Explores decision space systematically.
+
+## Technical Implementation
+
+### How BMad Master Orchestrates
+
+1. **Analyze Topic** — Understand the question domain
+2. **Select Agents** — Choose relevant experts from team config
+3. **Manage Turns** — Ensure each agent contributes
+4. **Facilitate Flow** — Prompt follow-ups, prevent tangents
+5. **Synthesize** — Help you extract decisions and next steps
+
+### Agent Personas in Party Mode
+
+Agents maintain their distinct personas:
+- Communication style stays in character
+- Expertise domain determines contributions
+- Principles guide positions taken
+- Can reference other agents' points
+
+### Context Management
+
+Party Mode agents can access:
+- All project artifacts (PRD, Architecture, etc.)
+- Previous party mode discussions (if saved)
+- Codebase context
+- Configuration settings
+
+This ensures informed, contextual responses.
+
+## Limitations and Considerations
+
+### Context Window
+
+Long party mode sessions consume context:
+- Monitor conversation length
+- Summarize periodically
+- Start fresh session if context limits hit
+
+### Agent Consistency
+
+Agents aren't perfect:
+- May occasionally contradict themselves
+- Can miss points from earlier in conversation
+- Benefit from user guidance and redirection
+
+### Decision Authority
+
+Agents advise, you decide:
+- Agents provide perspectives, not orders
+- Final call is always yours
+- Use party mode to inform decisions, not make them
+
+## Party Mode vs. Other Features
+
+**vs. Sequential Workflows:**
+- Workflows: Structured execution for producing artifacts
+- Party Mode: Collaborative exploration for decisions
+
+**vs. Single Agent Conversation:**
+- Single agent: Deep dive into one domain
+- Party Mode: Multi-domain perspective
+
+**vs. Advanced Elicitation:**
+- Elicitation: Rethink existing content with reasoning methods
+- Party Mode: Generate new insights through collaboration
+
+**vs. Brainstorming Workflow:**
+- Brainstorming: Facilitated creative technique application
+- Party Mode: Free-form multi-agent discussion
+
+## Next Steps
+
+- Learn about [Agents](./agents) — Meet the party mode participants
+- Explore [Workflows](./workflows) — Understand structured processes
+- Read [Framework Overview](./framework-overview) — See how party mode fits the bigger picture
+- Try the [Getting Started Tutorial](/tutorials/getting-started) — Experience BMad in action
