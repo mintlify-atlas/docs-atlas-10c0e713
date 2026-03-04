@@ -1,0 +1,165 @@
+{
+  "projectType": "framework",
+  "projectName": "BMad Method",
+  "projectDescription": "AI-driven agile development framework with specialized agents, guided workflows, and scale-adaptive intelligence for building software from ideation to implementation.",
+  "theme": "aspen",
+  "primaryColor": "#6366f1",
+  "lightColor": "#818cf8",
+  "darkColor": "#4f46e5",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "quickstart",
+              "installation"
+            ]
+          },
+          {
+            "group": "Tutorials",
+            "pages": [
+              "tutorials/getting-started",
+              "tutorials/first-project",
+              "tutorials/working-with-agents"
+            ]
+          },
+          {
+            "group": "Core Concepts",
+            "pages": [
+              "concepts/framework-overview",
+              "concepts/agents",
+              "concepts/workflows",
+              "concepts/modules",
+              "concepts/party-mode",
+              "concepts/scale-adaptive-planning"
+            ]
+          },
+          {
+            "group": "How-To Guides",
+            "pages": [
+              "guides/install-bmad",
+              "guides/non-interactive-installation",
+              "guides/customize-bmad",
+              "guides/project-context",
+              "guides/quick-fixes",
+              "guides/upgrade-to-v6",
+              "guides/established-projects",
+              "guides/get-answers"
+            ]
+          },
+          {
+            "group": "Workflows",
+            "pages": [
+              "workflows/overview",
+              "workflows/phase-1-analysis",
+              "workflows/phase-2-planning",
+              "workflows/phase-3-solutioning",
+              "workflows/phase-4-implementation",
+              "workflows/quick-flow",
+              "workflows/document-project"
+            ]
+          },
+          {
+            "group": "Advanced Topics",
+            "pages": [
+              "advanced/brainstorming",
+              "advanced/adversarial-review",
+              "advanced/elicitation",
+              "advanced/preventing-conflicts",
+              "advanced/shard-documents"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Reference",
+        "groups": [
+          {
+            "group": "API Reference",
+            "pages": [
+              "reference/cli-commands",
+              "reference/configuration",
+              "reference/workflow-map"
+            ]
+          },
+          {
+            "group": "Agents",
+            "pages": [
+              "reference/agents/overview",
+              "reference/agents/product-manager",
+              "reference/agents/architect",
+              "reference/agents/developer",
+              "reference/agents/qa-engineer",
+              "reference/agents/scrum-master",
+              "reference/agents/ux-designer",
+              "reference/agents/analyst",
+              "reference/agents/tech-writer"
+            ]
+          },
+          {
+            "group": "Modules",
+            "pages": [
+              "reference/modules/overview",
+              "reference/modules/bmad-method",
+              "reference/modules/bmad-builder",
+              "reference/modules/test-architect",
+              "reference/modules/game-dev-studio",
+              "reference/modules/creative-intelligence"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Community",
+        "groups": [
+          {
+            "group": "Resources",
+            "pages": [
+              "community/overview",
+              "community/contributing",
+              "community/roadmap",
+              "community/changelog",
+              "community/support"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "12+ specialized AI agents (Product Manager, Architect, Developer, QA, Scrum Master, UX Designer, etc.)",
+    "34+ structured workflows across 4 development phases (Analysis, Planning, Solutioning, Implementation)",
+    "Scale-adaptive planning intelligence that adjusts from bug fixes to enterprise systems",
+    "Module ecosystem with official extensions (BMad Builder, Test Architect, Game Dev Studio, Creative Intelligence Suite)",
+    "Party Mode for multi-agent collaboration and discussion",
+    "CLI installer with interactive and non-interactive modes",
+    "Skills architecture for custom agent and workflow extensions",
+    "BMad Help system for intelligent context-aware guidance",
+    "Complete development lifecycle coverage from brainstorming to deployment",
+    "Cross-platform AI IDE integration (Claude Code, Cursor, GitHub Copilot, etc.)"
+  ],
+  "publicApiSurface": [
+    "bmad install - Install BMad Method in a project",
+    "bmad uninstall - Remove BMad Method components",
+    "bmad status - Check installation status",
+    "/bmad-help - Get intelligent context-aware guidance",
+    "Product Manager Agent (John) - PRD creation, requirements discovery",
+    "Architect Agent - Solution architecture and technical design",
+    "Developer Agent - Implementation guidance and code review",
+    "QA Engineer Agent - Test strategy and quality assurance",
+    "Scrum Master Agent - Sprint planning and agile ceremonies",
+    "UX Designer Agent - User experience and interface design",
+    "Analyst Agent - Business analysis and requirements",
+    "Tech Writer Agent - Documentation creation",
+    "Phase 1 Workflows - Analysis (brainstorming, user research, competitive analysis)",
+    "Phase 2 Workflows - Planning (PRD creation, UX design, architecture)",
+    "Phase 3 Workflows - Solutioning (epics/stories, implementation readiness)",
+    "Phase 4 Workflows - Implementation (sprint planning, reviews, retrospectives)",
+    "Quick Flow - Rapid development for small features and fixes",
+    "Document Project - Generate comprehensive project documentation"
+  ]
+}
