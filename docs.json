@@ -116,7 +116,8 @@
               "reference/agents/scrum-master",
               "reference/agents/ux-designer",
               "reference/agents/analyst",
-              "reference/agents/tech-writer"
+              "reference/agents/tech-writer",
+              "reference/agents/quick-flow-solo-dev"
             ]
           },
           {
